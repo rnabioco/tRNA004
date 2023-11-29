@@ -35,7 +35,7 @@ parse_fasta <- function(file_path) {
     parsed_headers <- do.call(rbind, lapply(headers, parse_header))
 
     # Assign column names
-    colnames(parsed_headers) <- c("ID", "Name", "SOterm", "Type", "Subtype", "Feature", "Cellular_Localization", "Species")
+    colnames(parsed_headers) <- c("ID", "Name", "SOterm", "Type", "AA", "Anticodon", "Cellular_Localization", "Species")
 
     # Combine headers and sequences
     final_data <- data.frame(parsed_headers, Sequence = sequences)
@@ -61,4 +61,39 @@ parse_fasta(here("Modomics/modified_hsapiens_trna_sequences.fasta")) -> human_mo
 ```
 
 Then the next thing we want to do is get from these to a bed file like `https://github.com/novoalab/Nano-tRNAseq/blob/c14dcaaf4e59164d5dc43716019b8d39f2d554da/ref/yeast.tRNA.modomics.tsv.bed#L4`
-To do this, one of the things we'll need to do is convert the unicode symbols out of the sequence.
+After we do this, we'll need to do is convert the unicode symbols into the Modomics short names to make the modifications more human-readable.
+
+```{r}
+generate_bed_data <- function(df) {
+  bed_data_list <- lapply(1:nrow(df), function(i) {
+    seq_name <- df$Name[i]
+    aa <- df$AA[i]
+    anticodon <- df$Anticodon[i]
+    cellular_location <- df$Cellular_Localization[i]
+    species <- df$Species[i]
+    sequence <- df$Sequence[i]
+    special_chars <- str_locate_all(sequence, "[^A-Za-z]")[[1]]  # Adjust regex for your needs
+    if (is.null(special_chars) || nrow(special_chars) == 0) {
+      return(NULL)  # No special characters found
+    }
+    special_chars_df <- as.data.frame(special_chars)
+    special_chars_df$Name <- seq_name
+    special_chars_df$AA <- aa
+    special_chars_df$Anticodon <- anticodon
+    special_chars_df$Cellular_Localization <- cellular_location
+    special_chars_df$Species <- species
+    special_chars_df$ASCII_mod <- str_sub(sequence, special_chars_df$start, special_chars_df$end)
+    colnames(special_chars_df) <- c("Start", "End", "Name", "AA", "Anticodon", "Cellular_Localization", "Species", "ASCII_mod")
+    return(special_chars_df)
+  })
+  do.call("rbind", bed_data_list)
+}
+
+bed_data <- generate_bed_data(yeast_modified)
+
+# test write to bed file
+output_file_path <- here("ref", "yeast_tRNA_modifications.bed")
+write.table(bed_data, output_file_path, sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+
+```
+
