@@ -1,0 +1,156 @@
+>id:50|Name:tdbR00000012|SOterm:SO:0000254|Type:tRNA|Subtype:Ala|Feature:AGC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGGCGUGUGGCGUAGUCGGUAGCGCGCUCCCUUAGCAUGGGAGAGGUCUCCGGUUCGAUUCCGGACUCGUCCACCA
+>id:54|Name:tdbR00000370|SOterm:SO:0001036|Type:tRNA|Subtype:Arg|Feature:UCU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCUCGCGUGGCGUAAUGGCAACGCGUCUGACUUCUAAUCAGAAGAUUAUGGGUUCGACCCCCAUCGUGAGUGCCA
+>id:56|Name:tdbR00000369|SOterm:SO:0001036|Type:tRNA|Subtype:Arg|Feature:ICG|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+UUCCUCGUGGCCCAAUGGUCACGGCGUCUGGCUACGAACCAGAAGAUUCCAGGUUCAAGUCCUGGCGGGGAAGCCA
+>id:60|Name:tdbR00000300|SOterm:SO:0000256|Type:tRNA|Subtype:Asn|Feature:GUU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GACUCCAUGGCCAAGUUGGUUAAGGCGUGCGACUGUUAAUCGCAAGAUCGUGAGUUCAACCCUCACUGGGGUCGCCA
+>id:62|Name:tdbR00000035|SOterm:SO:0000257|Type:tRNA|Subtype:Asp|Feature:GUC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+UCCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGAGCCA
+>id:64|Name:tdbR00000021|SOterm:SO:0000258|Type:tRNA|Subtype:Cys|Feature:GCA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCUCGUAUGGCGCAGUGGUAGCGCAGCAGAUUGCAAAUCUGUUGGUCCUUAGUUCGAUCCUGAGUGCGAGCUCCA
+>id:70|Name:tdbR00000054|SOterm:SO:0000260|Type:tRNA|Subtype:Glu|Feature:UUC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+UCCGAUAUAGUGUAACGGCUAUCACAUCACGCUUUCACCGUGGAGACCGGGGUUCGACUCCCCGUAUCGGAGCCA
+>id:74|Name:tdbR00000129|SOterm:SO:0000261|Type:tRNA|Subtype:Gly|Feature:GCC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCGCAAGUGGUUUAGUGGUAAAAUCCAACGUUGCCAUCGUUGGGCCCCGGUUCGAUUCCGGGCUUGCGCACCA
+>id:76|Name:tdbD00005348|SOterm:SO:0000261|Type:tRNA|Subtype:Gly|Feature:UCC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGGCGGUUAGUGUAGUGGUUAUCAUCCCACCCUUCCAAGGUGGGGACACGGGUUCGAUUCUCGUACCGCUCACCA
+>id:78|Name:tdbR00000144|SOterm:SO:0000262|Type:tRNA|Subtype:His|Feature:GUG|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGCCAUCUUAGUAUAGUGGUUAGUACACAACAUUGUGGCUGUUGAAACCCUGGUUCGAUUCUAGGAGGUGGCACCA
+>id:80|Name:tdbR00000145|SOterm:SO:0000262|Type:tRNA|Subtype:His|Feature:GUG|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGCCAUCUUAGUAUAGUGGUUAGUACACAUCGUUGUGGCCGAUGAAACCCUGGUUCGAUUCUAGGAGAUGGCACCA
+>id:82|Name:tdbR00000170|SOterm:SO:0000258|Type:tRNA|Subtype:Ile|Feature:AAU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGUCUCUUGGCCCAGUUGGUUAAGGCACCGUGCUAAUAACGCGGGGAUCAGCGGUUCGAUCCCGCUAGAGACCACCA
+>id:84|Name:tdbD00005935|SOterm:SO:0000258|Type:tRNA|Subtype:Ile|Feature:UAU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCUCGUGUAGCUCAGUGGUUAGAGCUUCGUGCUUAUAACGCGACCGUCGUGGGUUCAAUCCCCACCUCGAGCACCA
+>id:89|Name:tdbR00000250|SOterm:SO:0000264|Type:tRNA|Subtype:Leu|Feature:UAG|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGGAGUUUGGCCGAGUGGUUUAAGGCGUCAGAUUUAGGCUCUGAUAUCUUCGGAUGCAAGGGUUCGAAUCCCUUAGCUCUCACCA
+>id:91|Name:tdbR00000249|SOterm:SO:0000264|Type:tRNA|Subtype:Leu|Feature:CAA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGUUGUUUGGCCGAGCGGUCUAAGGCGCCUGAUUCAAGCUCAGGUAUCGUAAGAUGCAAGAGUUCGAAUCUCUUAGCAACCACCA
+>id:93|Name:tdbR00000251|SOterm:SO:0000264|Type:tRNA|Subtype:Leu|Feature:UAA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGAGGGUUGGCCGAGUGGUCUAAGGCGGCAGACUUAAGAUCUGUUGGACGGUUGUCCGCGCGAGUUCGAACCUCGCAUCCUUCACCA
+>id:95|Name:tdbR00000192|SOterm:SO:0000265|Type:tRNA|Subtype:Lys|Feature:CUU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCCUUGUUGGCGCAAUCGGUAGCGCGUAUGACUCUUAAUCAUAAGGUUAGGGGUUCGAGCCCCCUACAGGGCUCCA
+>id:97|Name:tdbR00000193|SOterm:SO:0000265|Type:tRNA|Subtype:Lys|Feature:3UU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+UCCUUGUUAGCUCAGUUGGUAGAGCGUUCGGCUUUUAACCGAAAUGUCAGGGGUUCGAGCCCCCUAUGAGGAGCCA
+>id:99|Name:tdbR00000284|SOterm:SO:0000266|Type:tRNA|Subtype:Met|Feature:CAU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCUUCAGUAGCUCAGUAGGAAGAGCGUCAGUCUCAUAAUCUGAAGGUCGAGAGUUCGAACCUCUCCUGGAGCACCA
+>id:101|Name:tdbR00000083|SOterm:SO:0000267|Type:tRNA|Subtype:Phe|Feature:GAA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:103|Name:tdbR00000084|SOterm:SO:0000267|Type:tRNA|Subtype:Phe|Feature:GAA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCGGACUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAGUUCGCACCA
+>id:105|Name:tdbR00000323|SOterm:SO:0000268|Type:tRNA|Subtype:Pro|Feature:UGG|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGGCGUGUGGUCUAGUGGUAUGAUUCUCGCUUUGGGUGCGAGAGGCCCUGGGUUCAAUUCCCAGCUCGCCCCCCA
+>id:108|Name:tdbD00009888|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:CGA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGCACUAUGGCCGAGUGGUUAAGGCGAGAGACUCGAAAUCUCUUGGGCUCUGCCCGCGCUGGUUCAAAUCCUGCUGGUGUCGCCA
+>id:110|Name:tdbR00000406|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:UGA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGCACUAUGGCCGAGUGGUUAAGGCGACAGACUUGAAAUCUGUUGGGCUCUGCCCGCGCUGGUUCAAAUCCUGCUGGUGUCGCCA
+>id:112|Name:tdbR00000407|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:IGA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGCAACUUGGCCGAGUGGUUAAGGCGAAAGAUUAGAAAUCUUUUGGGCUCUGCCCGCGCAGGUUCAAAUCCUGCAGUUGUCGCCA
+>id:114|Name:tdbR00000408|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:IGA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGCAACUUGGCCGAGUGGUUAAGGCGAAAGAUUAGAAAUCUUUUGGGCUUUGCCCGCGCAGGUUCGAGUCCUGCAGUUGUCGCCA
+>id:116|Name:tdbD00009889|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:GCU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GUCCCAGUGGCCGAGUGGUUAAGGCGAUGCCCUGCUAAGGCAUUGGGUUUUACCUGCGCAGGUUCGAAUCCUGUCUGUGACGCCA
+>id:118|Name:tdbR00000443|SOterm:SO:0000270|Type:tRNA|Subtype:Thr|Feature:AGU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCUUCUAUGGCCAAGUUGGUAAGGCGCCACACUAGUAAUGUGGAGAUCAUCGGUUCAAAUCCGAUUGGAAGCACCA
+>id:120|Name:tdbR00000444|SOterm:SO:0000270|Type:tRNA|Subtype:Thr|Feature:AGU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GCUUCUAUGGCCAAGUUGGUAAGGCGCCACACUAGUAAUGUGGAGAUCGUCGGUUCAAAUCCGACUGGAAGCACCA
+>id:122|Name:tdbR00000494|SOterm:SO:0000271|Type:tRNA|Subtype:Trp|Feature:CCA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GAAGCGGUGGCUCAAUGGUAGAGCUUUCGACUCCAAAUCGAAGGGUUGCAGGUUCAAUUCCUGUCCGUUUCACCA
+>id:124|Name:tdbR00000555|SOterm:SO:0000272|Type:tRNA|Subtype:Tyr|Feature:GUA|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+CUCUCGGUAGCCAAGUUGGUUUAAGGCGCAAGACUGUAAAUCUUGAGAUCGGGCGUUCGACUCGCCCCCGGGAGACCA
+>id:126|Name:tdbR00000466|SOterm:SO:0000273|Type:tRNA|Subtype:Val|Feature:UAC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGUCCAAUGGUCCAGUGGUUCAAGACGUCGCCUUUACACGGCGAAGAUCCCGAGUUCGAACCUCGGUUGGAUCACCA
+>id:128|Name:tdbR00000465|SOterm:SO:0000273|Type:tRNA|Subtype:Val|Feature:CAC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GUUCCAAUAGUGUAGCGGCUAUCACGUUGCCUUCACACGGCAAAGGUCCCGAGUUCGAUCCUCGGUUGGAACACCA
+>id:130|Name:tdbR00000464|SOterm:SO:0000273|Type:tRNA|Subtype:Val|Feature:AAC|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+GGUUUCGUGGUCUAGUCGGUUAUGGCAUCUGCUUAACACGCAGAACGUCCCCAGUUCGAUCCUGGGCGAAAUCACCA
+>id:132|Name:tdbR00000526|SOterm:SO:0000266|Type:tRNA|Subtype:Ini|Feature:CAU|Cellular_Localization:eukaryotic cytosol |Species:Saccharomyces cerevisiae
+AGCGCCGUGGCGCAGUGGAAGCGCGCAGGGCUCAUAACCCUGAUGUCCUCGGAUCGAAACCGAGCGGCGCUACCA
+>id:146|Name:tdbR00000164|SOterm:SO:0000258|Type:tRNA|Subtype:Ile|Feature:GAU|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GAAACUAUAAUUCAAUUGGUUAGAAUAGUAUUUUGAUAAGGUACAAAUAUAGGUUCAAUCCCUGUUAGUUUCACCA
+>id:147|Name:tdbR00000237|SOterm:SO:0000264|Type:tRNA|Subtype:Leu|Feature:!AA|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GCUAUUUUGGUGGAAUUGGUAGACACGAUACUCUUAAGAUGUAUUACUUUACAGUAUGAAGGUUCAAGUCCUUUAAAUAGCACCA
+>id:148|Name:tdbR00000183|SOterm:SO:0000265|Type:tRNA|Subtype:Lys|Feature:$UU|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GAGAAUAUUGUUUAAUGGUAAAACAGUUGUCUUUUAAGCAACCCAUGCUUGGUUCAACUCCAGCUAUUCUCACCA
+>id:149|Name:tdbR00000280|SOterm:SO:0000266|Type:tRNA|Subtype:Met|Feature:CAU|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GCUUGUAUAGUUUAAUUGGUUAAAACAUUUGUCUCAUAAAUAAAUAAUGUAAGGUUCAAUUCCUUCUACAAGUACCA
+>id:153|Name:tdbR00000395|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:GCU|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GGAAAAUUAACUAUAGGUAAAGUGGAUUAUUUGCUAAGUAAUUGAAUUGUAAAUUCUUAUGAGUUCGAAUCUCAUAUUUUCCGCCA
+>id:157|Name:tdbR00000551|SOterm:SO:0000272|Type:tRNA|Subtype:Tyr|Feature:GUA|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GGAGGGAUUUUCAAUGUUGGUAGUUGGAGUUGAGCUGUAAACUCAAUGACUUAGGUCUUCAUAGGUUCAAUUCCUAUUCCCUUCACCA
+>id:159|Name:tdbR00000518|SOterm:SO:0000266|Type:tRNA|Subtype:Ini|Feature:CAU|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+UGCAAUAUGAUGUAAUUGGUUAACAUUUUAGGGUCAUGACCUAAUUAUAUACGUUCAAAUCGUAUUAUUGCUACCA
+>id:727|Name:tdbR00000075|SOterm:SO:0000267|Type:tRNA|Subtype:Phe|Feature:GAA|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GCUUUUAUAGCUUAGUGGUAAAGCGAUAAAUUGAAGAUUUAUUUACAUGUAGUUCGAUUCUCAUUAAGGGCACCA
+>id:734|Name:tdbR00000123|SOterm:SO:0000261|Type:tRNA|Subtype:Gly|Feature:NCC|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+AUAGAUAUAAGUUAAUUGGUAAACUGGAUGUCUUCCAAACAUUGAAUGCGAGUUCGAUUCUCGCUAUCUAUACCA
+>id:740|Name:tdbR00000142|SOterm:SO:0000262|Type:tRNA|Subtype:His|Feature:GUG|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GGUGAAUAUAUUUCAAUGGUAGAAAAUACGCUUGUGGUGCGUUAAAUCUGAGUUCGAUUCUCAGUAUUCACCCCA
+>id:792|Name:tdbR00000321|SOterm:SO:0000268|Type:tRNA|Subtype:Pro|Feature:UGG|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+CAGAUAGAAGCCAAAAGGUCAGGCGCUUUCUUUGGGAGAAAGACCUAGUUAGUUCGAGUCUAUCCUAUCUGACCA
+>id:798|Name:tdbR00000361|SOterm:SO:0001036|Type:tRNA|Subtype:Arg|Feature:ACG|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+AUAUCUUUAAUUUAAUGGUAAAAUAUUAGAAUACGAAUCUAAUUAUAUAGGUUCAAAUCCUAUAAGAUAUUCCA
+>id:799|Name:tdbR00000362|SOterm:SO:0001036|Type:tRNA|Subtype:Arg|Feature:NCU|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GCUCUCUUAGCUUAAUGGUUAAAGCAUAAUACUUCUAAUAUUAAUAUUCCAUGUUCAAAUCAUGGAGAGAGUACCA
+>id:806|Name:tdbR00000396|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:UGA|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GGAUGGUUGACUGAGUGGUUUAAAGUGUGAUAUUUGAGCUAUCAUUAGUCUUUAUUGGCUACGUAGGUUCAAAUCCUACAUCAUCCGCCA
+>id:807|Name:tdbR00000397|SOterm:SO:0000269|Type:tRNA|Subtype:Ser|Feature:UGA|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GGAUGGUUGACUGAGUGGUUUAAAGUGUGAUAUUUGAGCUAUCAUUAGUCUUUAUUGGCUACGUAGGUUCAAAUCCUACAUCAUCCGCCA
+>id:818|Name:tdbR00000441|SOterm:SO:0000270|Type:tRNA|Subtype:Thr|Feature:UAG|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+GUAAAUAUAAUUUAAUGGUAAAAUGUAUGUUUUUAGGUGCAUAUUAUCUAAGUUCAAAUCUUAGUAUUUACACCA
+>id:831|Name:tdbR00000490|SOterm:SO:0000271|Type:tRNA|Subtype:Trp|Feature:!CA|Cellular_Localization:mitochondrion|Species:Saccharomyces cerevisiae
+AAGGAUAUAGUUUAAUGGUAAAACAGUUGAUUUCAAAUCAAUCAUUAGGAGUUCGAAUCUCUUUAUCCUUGCCA
+>id:1132|Name:1IL2_C|SOterm:None|Type:tRNA|Subtype:None|Feature:GUC|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+UCCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGAGCCA
+>id:1133|Name:1IL2_D|SOterm:None|Type:tRNA|Subtype:None|Feature:GUC|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+CCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGA
+>id:1139|Name:2TRA_A|SOterm:None|Type:tRNA|Subtype:None|Feature:GUC|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+UCCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGAGC
+>id:1140|Name:3TRA_A|SOterm:None|Type:tRNA|Subtype:None|Feature:GUC|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+UCCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGAG
+>id:1152|Name:3JAQ_1|SOterm:None|Type:tRNA|Subtype:|Feature:CAU|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+AGCGCCGUGGCGCAGUGGAAGCGCGCAGGGCUCAUAACCCUGAUGUCCUCGGAUCGAAACCGAGCGGCGCUACCA
+>id:1158|Name:1YFG_A|SOterm:None|Type:tRNA|Subtype:|Feature:CAU|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+AGCGCCGUGGCGCAGUGGAAGCGCGCAGGGCUCAUAACCCUGAUGUCCUCGGAUCGAAACCGAGCGGCGCUACCA
+>id:1161|Name:1I9V_A|SOterm:None|Type:tRNA|Subtype:Phe|Feature:GAA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1164|Name:1EHZ_A|SOterm:None|Type:tRNA|Subtype:|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1165|Name:1EVV_A|SOterm:None|Type:tRNA|Subtype:|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1166|Name:1FCW_A|SOterm:None|Type:tRNA|Subtype:|Feature:|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1167|Name:1FCW_B|SOterm:None|Type:tRNA|Subtype:|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1168|Name:1FCW_C|SOterm:None|Type:tRNA|Subtype:|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1169|Name:1FCW_D|SOterm:None|Type:tRNA|Subtype:|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1170|Name:1FCW_E|SOterm:None|Type:tRNA|Subtype:|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1180|Name:1TN1_A|SOterm:None|Type:tRNA|Subtype:|Feature:UUU|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1181|Name:1TN2_A|SOterm:None|Type:tRNA|Subtype:None|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1182|Name:1TRA_A|SOterm:None|Type:tRNA|Subtype:None|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1184|Name:4TNA_A|SOterm:None|Type:tRNA|Subtype:None|Feature:GAA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1185|Name:4TRA_A|SOterm:None|Type:tRNA|Subtype:None|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1186|Name:6TNA_A|SOterm:None|Type:tRNA|Subtype:None|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA
+>id:1189|Name:6LVR_B|SOterm:None|Type:tRNA|Subtype:None|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGC
+>id:1190|Name:6LVR_D|SOterm:None|Type:tRNA|Subtype:None|Feature:#AA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGC
+>id:1196|Name:486D_C|SOterm:None|Type:tRNA|Subtype:None|Feature:UCU|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCCGCUUGUCGCGUGGGAGGUCCUGUGUUCGAUCCACAGAAUUCGC
+>id:1203|Name:6ZU9_1|SOterm:None|Type:tRNA|Subtype:None|Feature:AUA|Cellular_Localization:eukaryotic cytosol|Species:Saccharomyces cerevisiae
+AGCGCCGUGGCGCAGUGGAAGCGCGCAGGGCUCAUAACCCUGAUGUCCUCGGAUCGAAACCGAGCGGCGCUACCA
+>id:1260|Name:1ASZ_A|SOterm:None|Type:tRNA|Subtype:Asp|Feature:QUC|Cellular_Localization:Cytoplasm|Species:Saccharomyces cerevisiae
+UCCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGAGCCA
+>id:1261|Name:1ASZ_B|SOterm:None|Type:tRNA|Subtype:Asp|Feature:QUC|Cellular_Localization:Cytoplasm|Species:Saccharomyces cerevisiae
+UCCGUGAUAGUUUAAUGGUCAGAAUGGGCGCUUGUCGCGUGCCAGAUCGGGGUUCAAUUCCCCGUCGCGGAGCCA

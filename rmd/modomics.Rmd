@@ -1,0 +1,64 @@
+---
+title: "modomics"
+author: "Laura White"
+date: "2023-11-29"
+output: html_document
+---
+```{r}
+knitr::opts_chunk$set(echo = F)
+library(tidyverse)
+library(cowplot)
+library(stringr)
+library(here)
+
+here::i_am("rmd/modomics.Rmd")
+```
+
+Here's function to read in fasta files of tRNA sequences from Modomics database (http://modomics.genesilico.pl/) and parse their headers so that we can make a clean table of tRNA sequences with modifications and their metadata.
+```{r}
+# to parse a single FASTA file with headers from Modomics.org
+parse_fasta <- function(file_path) {
+    fasta_lines <- read_lines(file_path)
+
+    # Split lines into headers and sequences
+    headers <- fasta_lines[str_detect(fasta_lines, "^>")]
+    sequences <- fasta_lines[!str_detect(fasta_lines, "^>")]
+
+    # Function to parse headers
+    parse_header <- function(header) {
+        key_value_pairs <- str_split(str_remove_all(header, "^>"), "\\|", simplify = FALSE)[[1]]
+        key_value_pairs <- lapply(key_value_pairs, function(x) str_split(x, ":", simplify = TRUE)[1, 2])
+        return(as.data.frame(t(key_value_pairs), stringsAsFactors = FALSE))
+    }
+
+    # Parse all headers
+    parsed_headers <- do.call(rbind, lapply(headers, parse_header))
+
+    # Assign column names
+    colnames(parsed_headers) <- c("ID", "Name", "SOterm", "Type", "Subtype", "Feature", "Cellular_Localization", "Species")
+
+    # Combine headers and sequences
+    final_data <- data.frame(parsed_headers, Sequence = sequences)
+
+    # Tidy up the data
+    final_data <- final_data %>%
+        mutate(across(everything(), ~str_trim(.))) %>% 
+        mutate(across(where(is.character), ~str_remove_all(., pattern = "^[^:]+:"))) %>%
+        select(-ID, -SOterm, -Type)
+
+    return(final_data)
+}
+```
+Use this function to read in the files from Modomics for the 3 species of interest
+```{r}
+parse_fasta(here("Modomics/unmodified_ecoli_trna_sequences.fasta")) -> ecoli_unmodified
+parse_fasta(here("Modomics/unmodified_scerevisiae_trna_sequences.fasta")) -> yeast_unmodified
+parse_fasta(here("Modomics/unmodified_hsapiens_trna_sequences.fasta")) -> human_unmodified
+
+parse_fasta(here("Modomics/modified_ecoli_trna_sequences.fasta")) -> ecoli_modified
+parse_fasta(here("Modomics/modified_scerevisiae_trna_sequences.fasta")) -> yeast_modified
+parse_fasta(here("Modomics/modified_hsapiens_trna_sequences.fasta")) -> human_modified
+```
+
+Then the next thing we want to do is get from these to a bed file like `https://github.com/novoalab/Nano-tRNAseq/blob/c14dcaaf4e59164d5dc43716019b8d39f2d554da/ref/yeast.tRNA.modomics.tsv.bed#L4`
+To do this, one of the things we'll need to do is convert the unicode symbols out of the sequence.

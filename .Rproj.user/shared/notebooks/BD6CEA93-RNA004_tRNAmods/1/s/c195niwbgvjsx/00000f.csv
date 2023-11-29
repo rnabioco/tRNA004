@@ -1,0 +1,9 @@
+"0","knitr::opts_chunk$set(echo = F)"
+"0","library(tidyverse)"
+"0","library(cowplot)"
+"0","library(reshape2)"
+"0","library(here)"
+"0",""
+"0","here::i_am(""rmd/RNA004_tRNAmods.Rmd"")"
+"2","here() starts at /Users/laurakwhite/Library/CloudStorage/Dropbox/Laura - UC Denver/2023/RNA002_004_comparison
+"
