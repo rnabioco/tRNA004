@@ -1,5 +1,6 @@
 # tRNA004
 Nanopore direct tRNA sequencing method refinement and benchmarking of RNA modification detection between old (RNA002) and new (RNA004) chemistry.
+
 Goal: generate data from tRNAseq workshop & write up a short manuscript describing:
 * our method improvements to nanopore tRNA sequencing protocols (use of beads, optimizing molar ratios of ligations to reduce free adapter)
 * the yield and basecalling accuracy improvements that result from adapting the protocol to RNA004 chemistry
