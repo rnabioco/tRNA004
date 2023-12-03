@@ -1,7 +1,0 @@
-"0","parse_fasta(here(""Modomics/unmodified_ecoli_trna_sequences.fasta"")) -> ecoli_unmodified"
-"0","parse_fasta(here(""Modomics/unmodified_scerevisiae_trna_sequences.fasta"")) -> yeast_unmodified"
-"0","parse_fasta(here(""Modomics/unmodified_hsapiens_trna_sequences.fasta"")) -> human_unmodified"
-"0",""
-"0","parse_fasta(here(""Modomics/modified_ecoli_trna_sequences.fasta"")) -> ecoli_modified"
-"0","parse_fasta(here(""Modomics/modified_scerevisiae_trna_sequences.fasta"")) -> yeast_modified"
-"0","parse_fasta(here(""Modomics/modified_hsapiens_trna_sequences.fasta"")) -> human_modified"
