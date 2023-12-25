@@ -13,7 +13,10 @@ library(here)
 
 here::i_am("rmd/basecall_compare.Rmd")
 ```
-We want to compare alignment rates and other key stats from our tRNA sequencing runs across multiple organisms, looking at various basecalling models for both chemistries. I have two metafiles from parsing lines in the fastq files, and from running samtools stats on the bam files. Can pull both of these in here now.
+We want to compare alignment rates and other key stats from our tRNA sequencing runs across multiple organisms, looking at various basecalling models for both chemistries. There's some previous data processing that goes into this:
+* Count reads from all fastq files from all runs with `count_reads.sh`, generating `fastq_read_counts.txt`
+* Count mapped reads from all bam files from all runs with `extract_stats.sh`, generating `samtools_stats_summary.txt`
+These can then be read in here, joined together by file names, and mutated to get a new column with the percent of reads aligned.
 ```{r}
 stats <- read_tsv(here("samtools_stats_summary.txt")) %>%
   mutate(Filename = gsub("\\.bwa\\.bam$", "", Filename))

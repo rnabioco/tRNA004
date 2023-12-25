@@ -12,3 +12,16 @@ library(cowplot)
 library(here)
 here::i_am("Rmd/RPPPMs.Rmd")
 ```
+RPPPM (reads per pore per minute) is a rough metric for evaluating the throughput of Nanopore sequencing libraries that may be run on different platforms, at different points in a flow cell's lifetime (e.g., first run, after several washes & reruns, etc.), or for different lengths of time. It enables an _approximate_ apples to apples comparison between nanopore seqeuncing runs and libraries. However, while RPPPM is a better choice for comparison than raw library read numbers, is subject to confounding factors. Specifically, this metric may become less meaningful when comparing sequencing runs with a short acquisition time (where pore loss over the run is minimal) to longer runs where pore attrition has a higher impact.
+
+To calculate RPPPM, there's some previous data acquisition that goes into this script:
+* Count raw reads from the run's live basecalling from `throughput_*.csv`. Or, if desired, rebasecall and calculate this from the fastq files.
+* grep the first value of `total_pores` out of the `report_._*.md` file. This is the total number of available pores across all channels identified during the initial MUX scan at the start of the run.
+
+The total pores value is also in the `.json` version of this report, but not as directly greppable from the `.html` version. Weirdly, POD5 files do not contain a field that directly tracks this value. It's possible one could back into it with the information in the [RunInfo class]([)https://pod5-file-format.readthedocs.io/en/latest/reference/api/pod5.html#pod5.RunInfo), but I haven't worked out how to do so yet.
+
+Meanwhile, my crude solution is to grab all those manually and dump them into a .csv file, which I pull in here.
+```{r}
+read_csv(here("RPPPMs.csv")) -> RPPPM
+```
+
