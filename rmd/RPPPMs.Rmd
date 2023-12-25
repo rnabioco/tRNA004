@@ -22,6 +22,23 @@ The total pores value is also in the `.json` version of this report, but not as 
 
 Meanwhile, my crude solution is to grab all those manually and dump them into a .csv file, which I pull in here.
 ```{r}
-read_csv(here("RPPPMs.csv")) -> RPPPM
+read_csv(here("RPPPMs.csv")) -> yields
+
+yields$SpeciesSample <- factor(paste(yields$Species, yields$Sample), 
+                               levels = c("Yeast pus4del", "Yeast S288C", 
+                                          "Drosophila S2", "Human HS27", 
+                                          "Tetrahymena thermophila", "Zebrafish D_rerio"))
+
+```
+And then we plot.
+```{r}
+yields %>%
+  ggplot(aes(x = SpeciesSample, y = RPPPM, fill = Chemistry)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  labs(x = "Species and Sample", y = "RPPPM", fill = "Chemistry") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_OkabeIto()
+
 ```
 
