@@ -1,0 +1,58 @@
+---
+title: "Basecalling comparison"
+author: "Laura White"
+date: "2023-12-21"
+output: html_document
+---
+```{r}
+knitr::opts_chunk$set(echo = F)
+library(tidyverse)
+library(cowplot)
+library(colorblindr)
+library(here)
+
+here::i_am("rmd/basecall_compare.Rmd")
+```
+We want to compare alignment rates and other key stats from our tRNA sequencing runs across multiple organisms, looking at various basecalling models for both chemistries. I have two metafiles from parsing lines in the fastq files, and from running samtools stats on the bam files. Can pull both of these in here now.
+```{r}
+stats <- read_tsv(here("samtools_stats_summary.txt")) %>%
+  mutate(Filename = gsub("\\.bwa\\.bam$", "", Filename))
+
+counts <- read_tsv(here("fastq_read_counts.txt")) %>%
+  mutate(Filename = gsub("\\.fastq$", "", Filename))
+
+all <- left_join(counts, stats) %>%
+  rename("TotalReads" = "Total Reads") %>%
+  mutate(PercentAligned = (ReadsMapped / TotalReads * 100)) %>%
+  separate(Filename, into = c("Sample", "Date", "Something", "Instrument", "Flowcell", "SomethingAndChemistry", "HelicaseSpeed", "BasecallingModel"), sep = "_", extra = "merge") %>%
+  select(-Something) %>%
+  separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
+  select(-Something, -HelicaseSpeed) %>%
+  separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
+  select(-Version) %>%
+  mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
+  mutate(Species = case_when(
+    grepl("^Drosophila", Sample) ~ "D_melanogaster",
+    grepl("^(HumanFibroblast|Trub1doxH295R|Trub1untrH295R)", Sample) ~ "H_sapiens",
+    grepl("^(Pus4yeast|WTyeast)", Sample) ~ "S_cerevisiae",
+    grepl("^Tetrahymena", Sample) ~ "T_thermophila",
+    grepl("^Zebrafish", Sample) ~ "D_rerio",
+    TRUE ~ NA_character_  # Default case if none of the above conditions are met
+  ))
+  
+```
+Try some plotting
+```{r}
+all %>%
+  filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast")) %>% # wildtypes only
+  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry))) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  labs(title = "tRNA alignment rates",
+       x = "",
+       y = "% Aligned",
+       fill = "Chemistry &\nbasecalling model") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
+  scale_fill_OkabeIto(order = c(1,6,2,5,3)) #order = c(3,7)
+```
+

@@ -1,0 +1,199 @@
+---
+title: "tRNA abundance exploration"
+author: "Laura White"
+date: "2023-12-22"
+output: html_document
+---
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(colorblindr)
+library(cowplot)
+library(ggrepel)
+library(scales)
+library(patchwork)
+library(forcats)
+library(here)
+here::i_am("Rmd/tRNAabundance_all.Rmd")
+```
+
+```{r}
+read_tRNA <- function(x, species, chemistry, model) {
+  df <- readr::read_tsv(x, col_names = c("chrom", "start", "pos", "score"), show_col_types = FALSE)
+  
+  df <- df %>%
+    dplyr::mutate(species = species, chemistry = chemistry, model = model) # easiest is add these by hand for now
+  
+  return(df)
+}
+# yeast
+read_tRNA(here("rebasecalling/bedgraphs/allreads/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.bg"), "S. cerevisiae", "RNA002", "hac") -> hac2_Scer
+read_tRNA(here("rebasecalling/bedgraphs/allreads/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.bg"), "S. cerevisiae", "RNA004", "sup") -> sup4_Scer
+
+# tetrahymena
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Tetrahymena002_20231207_1743_MN35252_FAX30455_c9f80979.rna002_70bps_hac@v3.bg"), "T. thermophila", "RNA002", "hac") -> hac2_Ttherm
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v3.0.1.bg"), "T. thermophila", "RNA004", "sup") -> sup4_Ttherm
+
+# fly
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.bg"), "D. melanogaster", "RNA002", "hac") -> hac2_Dmelo
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1.bg"), "D. melanogaster", "RNA004", "sup") -> sup4_Dmelo
+
+# zebrafish
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Zebrafish002_20231207_1528_P2S-00519-A_PAS44221_7e583c4c.rna002_70bps_hac@v3.bg"), "D. rerio", "RNA002", "hac") -> hac2_Drer
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v3.0.1.bg"), "D. rerio", "RNA004", "sup") -> sup4_Drer
+
+# human
+read_tRNA(here("rebasecalling/bedgraphs/allreads/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.bg"), "H. sapiens", "RNA002", "hac") -> hac2_Hsapi
+read_tRNA(here("rebasecalling/bedgraphs/allreads/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1.bg"), "H. sapiens", "RNA004", "sup") -> sup4_Hsapi
+
+
+combined <- list(
+  hac2_Scer, sup4_Scer,
+  hac2_Ttherm, sup4_Ttherm,
+  hac2_Dmelo, sup4_Dmelo,
+  hac2_Drer, sup4_Drer,
+  hac2_Hsapi, sup4_Hsapi)
+
+bind_rows(combined) %>%
+  mutate(pos = as.numeric(pos)) %>%
+  mutate(score = as.numeric(score)) %>%
+  separate(chrom, c("tRNA", "AA", "anticodon", "family", "isotype")) %>%
+  select(-tRNA) -> tRNAcov
+
+# this produces some NAs for t thermophila isotypes
+
+rm(hac2_Scer, sup4_Scer,
+   hac2_Ttherm, sup4_Ttherm,
+   hac2_Dmelo, sup4_Dmelo,
+   hac2_Drer, sup4_Drer,
+   hac2_Hsapi, sup4_Hsapi, combined)
+```
+
+The above gives us a tidy tibble with coverage x position for each tRNA in each sample.
+I then make the assumption that the maximum coverage score for each gene is a better proxy coverage value than (for example) the mean coverage on that reference, because per-nucleotide coverage is being depressed by Nanopore error rates and mismatches/indels due to tRNA modifications.
+```{r}
+tRNAcov %>%
+  group_by(species, chemistry, model, AA, anticodon, family, isotype) %>%
+  slice_max(score, with_ties = F) %>%
+  ungroup() %>%
+  unite(tRNA, AA, anticodon, sep = "-") %>%
+  select(-pos) -> rollup
+```
+
+The code below adds up max scores for family & gene number info so that we have summary scores for each isodecoder.
+```{r}
+rollup %>%
+  separate(tRNA, c("AA", "anticodon"), extra = "drop") %>%
+  group_by(AA, anticodon, species, chemistry, model) %>%
+  summarize(score = sum(score)) %>%
+  unite(tRNA, AA, anticodon, sep = "-") %>%
+  ungroup() %>%
+  group_by(species, chemistry, model) %>%
+  mutate(total_score = sum(score)) %>%
+  mutate(CPM = score/total_score*1000000) -> isodecoder_scores
+```
+
+Now we reshape the data to compare the best available basecalling model for RNA002 vs. the same for RNA004 (so hac vs sup respectively), given a nt threshold dictated in the code below.
+```{r}
+isodecoder_scores %>%
+  ungroup() %>%
+  mutate(chemistry_model = paste(chemistry, model, sep = "_")) %>%
+  select(species, tRNA, CPM, chemistry_model) %>%
+  filter(chemistry_model %in% c("RNA002_hac", "RNA004_sup")) -> subset_scores
+
+# Reshape the data
+cpm_comparison <- subset_scores %>%
+  pivot_wider(names_from = chemistry_model, values_from = CPM) %>%
+  separate(tRNA, into = c("isoacceptor", "tRNA"), sep = "-", remove = FALSE)
+
+```
+
+Some species don't have certain isoacceptors (mostly SeC), and this is messing up my plots. Here we just add anything that's missing into the dataset so that everything plays nicely together.
+```{r}
+# Make every species have an entry for every isodecoder
+all_isoacceptors <- unique(cpm_comparison$isoacceptor)
+all_species <- unique(cpm_comparison$species)
+
+cpm_comparison$isoacceptor <- factor(cpm_comparison$isoacceptor, levels = all_isoacceptors)
+
+complete_grid <- expand.grid(species = all_species, isoacceptor = all_isoacceptors)
+
+cpm_comparison_complete <- merge(complete_grid, cpm_comparison, by = c("species", "isoacceptor"), all = TRUE)
+```
+
+Plotting function
+```{r}
+plot_species <- function(data, species_name) {
+  # Filter data for the specified species
+  species_data <- data %>% filter(species == species_name)
+
+  # Calculate Pearson's correlation coefficient for the species
+  cor_coefficient <- cor(species_data$RNA002_hac, species_data$RNA004_sup, method = "pearson", use = "complete.obs")
+  
+  tol_rainbow_colors <- pals::tol.rainbow(23)
+  
+  # Create the plot
+  plot <- ggplot(species_data, aes(x = RNA002_hac, y = RNA004_sup, color = isoacceptor)) +
+  geom_point() +
+  scale_color_manual(values = tol_rainbow_colors) +
+  geom_text_repel(aes(label = tRNA), size = 3, color = "black") +
+  scale_x_log10(labels = label_scientific()) +
+  scale_y_log10(labels = label_scientific()) +
+  labs(title = bquote(italic(.(species_name))),
+       x = "RNA002",
+       y = "RNA004",
+       subtitle = sprintf("Pearson's ρ: %.2f", cor_coefficient)) +
+  theme_cowplot() +
+  theme(aspect.ratio = 1,
+        plot.margin = margin(5.5, 5.5, 15.5, 5.5, "points"), # Increase bottom margin
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic", color = "black")) +
+  coord_fixed(ratio = 1)
+  
+  return(plot)
+}
+```
+
+
+```{r warning=FALSE}
+# Generate plots for each species
+plots <- lapply(all_species, function(sp) plot_species(cpm_comparison_complete, sp))
+
+# Combine the plots using patchwork
+combined_plot <- wrap_plots(plots) + plot_layout(ncol = 3, guides = "collect")
+combined_plot
+
+# if we retain an odd number of samples, can employ an empty plot that gets combined to put the legend into the final slot of the patched grid
+```
+Let's try using the isodecoder scores data to generate a PCA plot.
+```{r}
+isodecoder_scores %>%
+  ungroup() %>%
+  select(-score, -total_score, -model) %>%
+  pivot_wider(names_from = tRNA, values_from = CPM) %>%
+  mutate(combined_species_chemistry = factor(paste(species, chemistry, sep = "_"))) -> wide_data
+
+numeric_cols <- select(wide_data, where(is.numeric))
+# Replace NA values with zeros
+numeric_cols[is.na(numeric_cols)] <- 0
+pca_result <- prcomp(numeric_cols, scale. = TRUE)
+
+pca_df <- as.data.frame(pca_result$x)
+pca_df$combined_species_chemistry <- wide_data$combined_species_chemistry
+pca_df$species <- wide_data$species
+pca_df$chemistry <- wide_data$chemistry
+
+# Create PCA plot with unique colors for species and shapes for chemistry
+ggplot(pca_df, aes(x = PC1, y = PC2, color = species, shape = chemistry)) +
+  geom_point(size = 4) +
+  labs(title = "",
+       x = "Principal Component 1",
+       y = "Principal Component 2",
+       color = "Species",
+       shape = "Chemistry") +
+  theme_cowplot() +
+  scale_color_OkabeIto() +
+  theme(aspect.ratio = 1)
+
+
+```
+

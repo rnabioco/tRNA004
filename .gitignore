@@ -1,6 +1,12 @@
+.Rproj.user/
+.DS_Store
+.Rhistory
+large_txt_metadata/
+rebasecalling/
 seqsummaries/
 alignments/
 figures/
 nanorms/
 nanotRNAseq_results/
 .Rproj.user
+*.afdesign~lock~

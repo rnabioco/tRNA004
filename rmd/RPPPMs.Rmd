@@ -1,0 +1,14 @@
+---
+title: "RPPPMs"
+author: "Laura White"
+date: "2023-12-23"
+output: html_document
+---
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(colorblindr)
+library(cowplot)
+library(here)
+here::i_am("Rmd/RPPPMs.Rmd")
+```
