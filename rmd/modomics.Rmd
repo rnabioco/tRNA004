@@ -308,5 +308,8 @@ output_file_path <- here("ref", "yeast_tRNA_modifications.bed")
 write.table(bed_data, output_file_path, sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 ```
+
 make the remaining bed files
+
+
 make the remaining bed files, then let's look at how many unique characters are present in each species
