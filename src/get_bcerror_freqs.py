@@ -25,6 +25,10 @@ def calculate_error_frequencies(bam_file, fasta_file):
             if read.is_unmapped:
                 continue
 
+            # skip reads aligned to tRNA antisense
+            if read.is_reverse:
+                continue
+
             ref_pos = read.reference_start
             read_pos = 0
             read_seq = read.query_sequence
