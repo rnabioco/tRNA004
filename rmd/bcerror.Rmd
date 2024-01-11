@@ -32,11 +32,27 @@ bind_rows(wt, pus4) %>%
   mutate(Position = (Position - 24)) -> all # begin counting at the first NT of the tRNA.
 
 rm(wt, pus4)
+
+
 ```
+To decide how to handle isodecoders and coverage issues, look at the data.
+```{r}
+all %>%
+  select(Reference, Position, Coverage, sample) %>%
+  filter(Position > 0) %>%
+  ggplot(aes(x = Position, y = Coverage)) +
+  geom_point(alpha = .1) +
+  scale_y_log10() +
+  theme_cowplot() +
+  facet_wrap(~sample)
+  
+```
+
+
 We can plot these two samples for different tRNAs. But to enforce a minimum coverage threshold for plotting, we need to widen the data.
 ```{r}
 all %>%
-  filter(grepl("^tRNA-Trp-CCA-1-1", Reference)) %>% # look at specific tRNA
+  filter(grepl("^tRNA-Phe-GAA-1-1", Reference)) %>% # look at one specific tRNA
   select(sample, Reference, Position, Coverage, MismatchFreq, InsertionFreq, DeletionFreq, MeanQual) %>%
   pivot_wider(names_from = sample, values_from = c(Coverage, MismatchFreq, InsertionFreq, DeletionFreq, MeanQual)) %>%
   mutate(mincov = pmin(Coverage_WT, Coverage_Pus4del)) %>% # one column containing the lower of the two coverage values
@@ -60,7 +76,7 @@ test %>%
   scale_color_okabe_ito() +
   scale_x_continuous(breaks = seq(-20, 130, by = 5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = .5)) +
-  theme(aspect.ratio = 1/5) 
+  theme(aspect.ratio = 1/5)
 ```
 
 

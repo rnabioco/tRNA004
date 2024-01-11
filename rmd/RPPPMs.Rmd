@@ -24,18 +24,16 @@ Meanwhile, my crude solution is to grab all those manually and dump them into a 
 ```{r}
 read_csv(here("RPPPMs.csv")) -> yields
 
-yields$SpeciesSample <- factor(paste(yields$Species, yields$Sample), 
-                               levels = c("Yeast pus4del", "Yeast S288C", 
-                                          "Drosophila S2", "Human HS27", 
-                                          "Tetrahymena thermophila", "Zebrafish D_rerio"))
+yields$GenusSpecies <- factor(paste(yields$Genus, yields$Species))
+
 
 ```
 And then we plot.
 ```{r}
 yields %>%
-  ggplot(aes(x = SpeciesSample, y = RPPPM, fill = Chemistry)) +
+  ggplot(aes(x = GenusSpecies, y = RPPPM, fill = Chemistry)) +
   geom_bar(stat = "identity", position = position_dodge()) +
-  labs(x = "Species and Sample", y = "RPPPM", fill = "Chemistry") +
+  labs(x = "Species", y = "RPPPM", fill = "Chemistry") +
   theme_cowplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_fill_OkabeIto()

@@ -18,10 +18,10 @@ We want to compare alignment rates and other key stats from our tRNA sequencing 
 * Count mapped reads from all bam files from all runs with `extract_stats.sh`, generating `samtools_stats_summary.txt`
 These can then be read in here, joined together by file names, and mutated to get a new column with the percent of reads aligned.
 ```{r}
-stats <- read_tsv(here("samtools_stats_summary.txt")) %>%
+stats <- read_tsv(here("metadata/samtools_stats_summary.txt")) %>%
   mutate(Filename = gsub("\\.bwa\\.bam$", "", Filename))
 
-counts <- read_tsv(here("fastq_read_counts.txt")) %>%
+counts <- read_tsv(here("metadata/fastq_read_counts.txt")) %>%
   mutate(Filename = gsub("\\.fastq$", "", Filename))
 
 all <- left_join(counts, stats) %>%
@@ -36,6 +36,7 @@ all <- left_join(counts, stats) %>%
   mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
   mutate(Species = case_when(
     grepl("^Drosophila", Sample) ~ "D_melanogaster",
+    grepl("^Ecoli", Sample) ~ "E_coli",
     grepl("^(HumanFibroblast|Trub1doxH295R|Trub1untrH295R)", Sample) ~ "H_sapiens",
     grepl("^(Pus4yeast|WTyeast)", Sample) ~ "S_cerevisiae",
     grepl("^Tetrahymena", Sample) ~ "T_thermophila",
@@ -45,9 +46,11 @@ all <- left_join(counts, stats) %>%
   
 ```
 Try some plotting
+NB: 
 ```{r}
 all %>%
   filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast")) %>% # wildtypes only
+  filter(!is.na(Species)) %>%
   ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry))) +
   geom_bar(stat = "identity", position = position_dodge()) +
   labs(title = "tRNA alignment rates",
@@ -56,6 +59,6 @@ all %>%
        fill = "Chemistry &\nbasecalling model") +
   theme_cowplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
-  scale_fill_OkabeIto(order = c(1,6,2,5,3)) #order = c(3,7)
+  scale_fill_OkabeIto(order = c(1,6,2,5,3), na.translate = FALSE) #order = c(3,7)
 ```
 

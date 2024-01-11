@@ -1,0 +1,106 @@
+---
+title: "Petit yeast candidate"
+author: "Laura White"
+date: "2024-01-10"
+output: html_document
+---
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(colorblindr)
+library(cowplot)
+library(stringr)
+library(here)
+here::i_am("Rmd/petit.Rmd")
+```
+We want to know if our mitochondrial tRNA aligning reads are genuine. So we've seqeunced tRNA from a petit yeast from EtBr treatment vs. its parent grande strain, and aligned these two to a reference containing both the mitochondrial and genomic yeast tRNAs.
+```{r}
+read_tRNA <- function(x, sample, ref) {
+  df <- readr::read_tsv(x, col_names = c("chrom", "start", "pos", "score"), show_col_types = FALSE)
+  
+  df <- df %>%
+    dplyr::mutate(sample = sample, ref = ref)
+  
+  return(df)
+}
+
+# both here is in case we want to compare to nuclear-only ref later
+read_tRNA(here("rebasecalling/bedgraphs/mito_analysis/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1.bg"), "grande", "both") -> grande
+read_tRNA(here("rebasecalling/bedgraphs/mito_analysis/Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1.bg"), "petit", "both") -> petit
+
+combined <- list(grande, petit)
+
+
+bind_rows(combined) %>%
+  mutate(pos = as.numeric(pos)) %>%
+  mutate(score = as.numeric(score)) %>%
+  separate(chrom, c("origin", "tRNA", "AA", "anticodon", "family", "isotype")) %>%
+  select(-tRNA) %>%
+  mutate(anticodon = str_replace_all(anticodon, "U", "T")) -> tRNAcov # if any u and t inconsistency across refs
+
+
+rm(grande, petit, combined)
+```
+
+So now we have normalized coverage on nuclear and mitochondrial tRNAs from the petit & grande strains.
+```{r}
+tRNAcov %>%
+  group_by(sample, ref, origin, AA, anticodon, family, isotype) %>%
+  slice_max(score, with_ties = F) %>%
+  ungroup() %>%
+  unite(tRNA, origin, AA, anticodon, sep = "-") %>%
+  select(-pos) -> rollup
+```
+
+The code below adds up max scores for family & gene number info so that we have summary scores for each isodecoder.
+```{r}
+rollup %>%
+  separate(tRNA, c("origin", "AA", "anticodon"), extra = "drop") %>%
+  group_by(origin, AA, anticodon, sample) %>%
+  summarize(score = sum(score)) %>%
+  unite(tRNA, origin, AA, anticodon, sep = "-") %>%
+  ungroup() %>%
+  group_by(sample) %>%
+  mutate(total_score = sum(score)) %>%
+  mutate(CPM = score/total_score*1000000) -> isodecoder_scores
+```
+
+So one thing we want to ask is do the abundance scores for nuclear tRNAs change when we add the mitochondrial tRNAs to the reference.
+Quick plot of everything aligned to the two references.
+```{r}
+isodecoder_scores %>%
+  separate(tRNA, c("origin", "tRNA", extra="merge")) %>%
+  filter(origin=="mito") %>%
+  ggplot(., aes(y = CPM, x = tRNA, fill = fct_rev(sample))) +
+  geom_bar(stat = "identity", width=.5, position = "dodge") +
+  scale_fill_OkabeIto(order = c(2, 8)) +
+  theme_cowplot() +
+  theme(legend.position = 'right',
+    legend.title = element_blank(),
+    legend.direction ='vertical') +
+  theme(axis.text.x = element_text(angle = 90, vjust = .35)) +
+  theme(aspect.ratio=1/3) +
+  labs(title = "Mitochondrial tRNA alignment rates",
+       x = "",
+       y = "Counts / Million")
+
+isodecoder_scores %>%
+  separate(tRNA, c("origin", "tRNA", extra="merge")) %>%
+  filter(origin=="nuc") %>%
+  ggplot(., aes(y = CPM, x = tRNA, fill = fct_rev(sample))) +
+  geom_bar(stat = "identity", width=.5, position = "dodge") +
+  scale_fill_OkabeIto(order = c(2, 8)) +
+  theme_cowplot() +
+  theme(legend.position = 'right',
+    legend.title = element_blank(),
+    legend.direction ='vertical') +
+  theme(axis.text.x = element_text(angle = 90, vjust = .35)) +
+  theme(aspect.ratio=1/3) +
+  labs(title = "Nuclear tRNA alignment rates",
+       x = "",
+       y = "Counts / Million")
+```
+Looks great; may want to explore the background alignment rates more, but the proof of principle is there for sure.
+
+Next up, what can we do with the pus mutants and mitochondrial tRNAs?
+

@@ -30,6 +30,10 @@ read_tRNA <- function(x, species, chemistry, model) {
 read_tRNA(here("rebasecalling/bedgraphs/allreads/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.bg"), "S. cerevisiae", "RNA002", "hac") -> hac2_Scer
 read_tRNA(here("rebasecalling/bedgraphs/allreads/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.bg"), "S. cerevisiae", "RNA004", "sup") -> sup4_Scer
 
+# yeast
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.bg"), "E. coli", "RNA002", "hac") -> hac2_Ecoli
+read_tRNA(here("rebasecalling/bedgraphs/allreads/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.bg"), "E. coli", "RNA004", "sup") -> sup4_Ecoli
+
 # tetrahymena
 read_tRNA(here("rebasecalling/bedgraphs/allreads/Tetrahymena002_20231207_1743_MN35252_FAX30455_c9f80979.rna002_70bps_hac@v3.bg"), "T. thermophila", "RNA002", "hac") -> hac2_Ttherm
 read_tRNA(here("rebasecalling/bedgraphs/allreads/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v3.0.1.bg"), "T. thermophila", "RNA004", "sup") -> sup4_Ttherm
@@ -48,6 +52,7 @@ read_tRNA(here("rebasecalling/bedgraphs/allreads/HumanFibroblast004_20231208_135
 
 
 combined <- list(
+  hac2_Ecoli, sup4_Ecoli,
   hac2_Scer, sup4_Scer,
   hac2_Ttherm, sup4_Ttherm,
   hac2_Dmelo, sup4_Dmelo,
@@ -63,6 +68,7 @@ bind_rows(combined) %>%
 # this produces some NAs for t thermophila isotypes
 
 rm(hac2_Scer, sup4_Scer,
+    hac2_Ecoli, sup4_Ecoli,
    hac2_Ttherm, sup4_Ttherm,
    hac2_Dmelo, sup4_Dmelo,
    hac2_Drer, sup4_Drer,
@@ -130,7 +136,7 @@ plot_species <- function(data, species_name) {
   # Calculate Pearson's correlation coefficient for the species
   cor_coefficient <- cor(species_data$RNA002_hac, species_data$RNA004_sup, method = "pearson", use = "complete.obs")
   
-  tol_rainbow_colors <- pals::tol.rainbow(23)
+  tol_rainbow_colors <- pals::tol.rainbow(25)
   
   # Create the plot
   plot <- ggplot(species_data, aes(x = RNA002_hac, y = RNA004_sup, color = isoacceptor)) +

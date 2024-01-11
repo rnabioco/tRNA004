@@ -313,3 +313,12 @@ make the remaining bed files
 
 
 make the remaining bed files, then let's look at how many unique characters are present in each species
+
+
+Coming back to this 1/4, realizing there are NAs in the desired_species_data that contains the stuff we're definitely sequencing
+```{r}
+desired_species_data %>%
+  filter(!is.na(Species))
+```
+
+
