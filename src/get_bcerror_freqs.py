@@ -2,6 +2,30 @@ import argparse
 import pysam
 import pandas as pd
 
+"""
+This script processes a BAM file to calculate per-nucleotide error frequencies, 
+considering only alignments on the positive strand. The script computes metrics 
+such as mismatch, insertion, and deletion frequencies, along with the mean quality score
+for each position in the reference sequence.
+
+The script requires a BAM file and a corresponding FASTA file as input.
+The results are outputted as a TSV file.
+
+Usage:
+    python error_freq_calculator.py [bam_file] [fasta_file] [output_tsv]
+
+Where:
+    bam_file: Path to the input BAM file.
+    fasta_file: Path to the reference FASTA file.
+    output_tsv: Path for the output TSV file containing the error frequencies.
+
+Example:
+    python error_freq_calculator.py sample.bam reference.fasta output.tsv
+
+Requires: pysam and pandas python libraries.
+"""
+
+
 def calculate_error_frequencies(bam_file, fasta_file):
     samfile = pysam.AlignmentFile(bam_file, "rb")
     faidx = pysam.FastaFile(fasta_file)
