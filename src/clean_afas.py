@@ -15,7 +15,7 @@ The output file will contain reference entries in format:
 this anticodon duplication preserves special characters from modomics
 that indicate isodecoder-specific anticodon modifications (with unique structures)
 
-currently the script only handles special characters from yeast tRNA anticodons
+currently the script only handles special characters present in yeast tRNA anticodons
 
 """
 import argparse

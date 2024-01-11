@@ -3,8 +3,8 @@ import argparse
 
 """
 Test script for generating a TSV that maps positions between a FASTA file
-and a structurally annotated FSA file. This script assumes that multiple FASTA
-entries can be mapped to a single FSA entry, allowing us to annotate multiple
+and a structurally annotated FSA (also called AFA) file. This script assumes that multiple FASTA
+entries can be mapped to a single AFA entry, allowing us to annotate multiple
 tRNA isodecoders with their structurally-indexed positions.
 
 The output TSV file has the following columns:
@@ -21,23 +21,31 @@ for this script to work. Recommended format for FSA:
 
 FASTA file names need to match at the start, but can contain additional characters after the
 anticodon sequence (e.g., mito-tRNA-Phe-GAA-1, nuc-tRNA-Phe-GAA-2-1, etc.)
+FSA files names may contain a duplicated anticodon with special characters (e.g., mito-tRNA-Val-AAC-IAC)
 
 Example usage:
 python script_name.py path/to/reference.fasta path/to/annotated.fsa path/to/output.tsv
 """
 
 def read_fasta(file_name):
-    """Read a FASTA file and return a dictionary of sequences."""
+    """Read a FASTA or FSA file and return a dictionary of sequences with full headers.
+    Replace any Us with Ts in the anticodon entry for consistency in matching."""
     sequences = {}
+    full_headers = {}  # Dictionary to store full headers
     with open(file_name, 'r') as file:
         for line in file:
             line = line.strip()
             if line.startswith(">"):
-                seq_id = line[1:]  # Remove the '>'
+                full_header = line[1:]  # Store the full header
+                parts = full_header.split('-')
+                anticodon = parts[3].replace('U', 'T')
+                seq_id = '-'.join(parts[:3] + [anticodon])
                 sequences[seq_id] = ''
+                full_headers[seq_id] = full_header  # Map seq_id to full header
             else:
                 sequences[seq_id] += line.upper()
-    return sequences
+    return sequences, full_headers
+
 
 def create_mapping(ref_seq, ann_seq):
     """Create a mapping from reference to annotated sequence."""
@@ -51,38 +59,30 @@ def create_mapping(ref_seq, ann_seq):
 
 def main(fasta_file, fsa_file, output_file):
     # Load sequences from files
-    ref_seqs = read_fasta(fasta_file)
-    ann_seqs = read_fasta(fsa_file)
-
-    # Create mappings for each annotated sequence
-    pos_maps = {}
-    for ann_id, ann_seq in ann_seqs.items():
-        # Find all matching reference sequences
-        matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(ann_id)]
-        for ref_id in matching_refs:
-            ref_seq = ref_seqs[ref_id]
-            pos_maps[ref_id] = create_mapping(ref_seq, ann_seq)
+    ref_seqs, ref_full_headers = read_fasta(fasta_file)
+    ann_seqs, ann_full_headers = read_fasta(fsa_file)
 
     # Write to TSV
     with open(output_file, 'w', newline='') as file:
         writer = csv.writer(file, delimiter='\t')
-        writer.writerow(['tRNA', 'fsa', 'structure_pos', 'sequence_pos'])
+        writer.writerow(['seq_ref', 'struct_ref', 'tRNA', 'struct_nt', 'struct_pos', 'seq_pos'])
 
         for ann_id, ann_seq in ann_seqs.items():
             matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(ann_id)]
             for ref_id in matching_refs:
-                mapping = pos_maps.get(ref_id, {})
+                mapping = create_mapping(ref_seqs[ref_id], ann_seq)
                 ref_index = 0
                 for ann_index, ann_nuc in enumerate(ann_seq):
                     fasta_pos = mapping.get(ref_index + 1, '')
-                    writer.writerow([ref_id, ann_nuc, ann_index + 1, fasta_pos])
+                    # Include full headers from both FASTA and FSA in the output
+                    writer.writerow([ref_full_headers.get(ref_id, ''), ann_full_headers.get(ann_id, ''), ref_id, ann_nuc, ann_index + 1, fasta_pos])
                     if ann_nuc != '-':
                         ref_index += 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Map positions from a FASTA file to a structurally annotated FSA file.")
-    parser.add_argument("fasta_file", help="Path to the FASTA file")
-    parser.add_argument("fsa_file", help="Path to the annotated FSA file")
+    parser.add_argument("fasta_file", help="Path to the FASTA reference file")
+    parser.add_argument("fsa_file", help="Path to the annotated structure file")
     parser.add_argument("output_file", help="Path to the output TSV file")
     args = parser.parse_args()
 
