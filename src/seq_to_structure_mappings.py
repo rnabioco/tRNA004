@@ -17,10 +17,10 @@ The output TSV file has the following columns:
 FASTA reference names and FSA entry names need to be sanity checked 
 for this script to work. Recommended format for FSA:
 >mito-tRNA-Phe-GAA
->cyto-tRNA-Phe-GAA
+>nuc-tRNA-Phe-GAA
 
 FASTA file names need to match at the start, but can contain additional characters after the
-anticodon sequence (e.g., mito-tRNA-Phe-GAA-1, cyto-tRNA-Phe-GAA-2-1, etc.)
+anticodon sequence (e.g., mito-tRNA-Phe-GAA-1, nuc-tRNA-Phe-GAA-2-1, etc.)
 
 Example usage:
 python script_name.py path/to/reference.fasta path/to/annotated.fsa path/to/output.tsv
