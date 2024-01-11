@@ -8,12 +8,21 @@ example usage:
 
 python clean_afas.py path/to/input.fasta path/to/output.fasta
 
+The output file will contain reference entries in format:
+>nuc-tRNA-Val-TAC-TAC
+>mito-tRNA-Trp-TCA-!CA
+
+this anticodon duplication preserves special characters from modomics
+that indicate isodecoder-specific anticodon modifications (with unique structures)
+
+currently the script only handles special characters from yeast tRNA anticodons
+
 """
 import argparse
 
 # convert special characters in anticodon to match ref format but retain modomics anticodon
 def convert_anticodon(anticodon):
-    # Dictionary for special character conversion
+    # Dictionary for special character conversion (yeast only)
     conversion = {'I': 'A', '3': 'T', '!': 'T', '$': 'T', 'N': 'T'}
     
     # Convert special characters
@@ -50,7 +59,6 @@ def clean_fasta_header(input_file, intermediate_file):
                 outfile.write(new_header)
             else:
                 outfile.write(line)
-
 
 # remove entries with missing info; add tRNA splint adapter sequences to all entries
 def clean_and_modify_sequences(intermediate_file, output_file):
