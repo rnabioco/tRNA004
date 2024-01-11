@@ -11,6 +11,17 @@ python clean_afas.py path/to/input.fasta path/to/output.fasta
 """
 import argparse
 
+# convert special characters in anticodon to match ref format but retain modomics anticodon
+def convert_anticodon(anticodon):
+    # Dictionary for special character conversion
+    conversion = {'I': 'A', '3': 'T', '!': 'T', '$': 'T', 'N': 'T'}
+    
+    # Convert special characters
+    converted_anticodon = ''.join(conversion.get(char, char) for char in anticodon)
+    
+    # Return the duplicated anticodon
+    return f'{converted_anticodon}-{anticodon}'
+
 # clean up afa headers so that they match sequence alignment reference formats
 def clean_fasta_header(input_file, intermediate_file):
     with open(input_file, 'r') as infile, open(intermediate_file, 'w') as outfile:
@@ -19,23 +30,27 @@ def clean_fasta_header(input_file, intermediate_file):
                 parts = line.split('|')
                 type_ = parts[1]
                 amino_acid = parts[2]
-                codon = parts[3]
+                anticodon = parts[3].replace('U', 'T')  # convert U to T
                 location = parts[5].strip()
 
                 # Rename initiator methionines
                 if amino_acid == "Ini":
                     amino_acid = "iMet"
 
+                # Use convert_anticodon function to deal with special characters
+                anticodon_converted = convert_anticodon(anticodon.strip())
+
                 if 'cytosol' in location:
-                    new_header = f'>nuc-{type_}-{amino_acid}-{codon}\n'
+                    new_header = f'>nuc-{type_}-{amino_acid}-{anticodon_converted}\n'
                 elif 'mitochondrion' in location:
-                    new_header = f'>mito-{type_}-{amino_acid}-{codon}\n'
+                    new_header = f'>mito-{type_}-{amino_acid}-{anticodon_converted}\n'
                 else:
                     new_header = line
 
                 outfile.write(new_header)
             else:
                 outfile.write(line)
+
 
 # remove entries with missing info; add tRNA splint adapter sequences to all entries
 def clean_and_modify_sequences(intermediate_file, output_file):
