@@ -12,7 +12,7 @@ The script requires a BAM file and a corresponding FASTA file as input.
 The results are outputted as a TSV file.
 
 Usage:
-    python error_freq_calculator.py [bam_file] [fasta_file] [output_tsv]
+    python get_bcerror_freqs.py [bam_file] [fasta_file] [output_tsv]
 
 Where:
     bam_file: Path to the input BAM file.
