@@ -21,7 +21,10 @@ for this script to work. Recommended format for FSA:
 
 FASTA file names need to match at the start, but can contain additional characters after the
 anticodon sequence (e.g., mito-tRNA-Phe-GAA-1, nuc-tRNA-Phe-GAA-2-1, etc.)
-FSA files names may contain a duplicated anticodon with special characters (e.g., mito-tRNA-Val-AAC-IAC)
+
+FSA files should be processed with clean_afas.py for naming consistency between the two files.
+Afterwards, names will contain duplicated anticodons to retain special characters
+(e.g., mito-tRNA-Val-AAC-IAC) but still permit matching to the FASTA file.
 
 Example usage:
 python script_name.py path/to/reference.fasta path/to/annotated.fsa path/to/output.tsv
