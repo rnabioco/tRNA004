@@ -20,7 +20,7 @@ Where:
     output_tsv: Path for the output TSV file containing the error frequencies.
 
 Example:
-    python error_freq_calculator.py sample.bam reference.fasta output.tsv
+    python get_bcerror_freqs.py sample.bam reference.fasta output.tsv
 
 Requires: pysam and pandas python libraries.
 """
