@@ -27,7 +27,7 @@ Afterwards, names will contain duplicated anticodons to retain special character
 (e.g., mito-tRNA-Val-AAC-IAC) but still permit matching to the FASTA file.
 
 Example usage:
-python script_name.py path/to/reference.fasta path/to/annotated.fsa path/to/output.tsv
+python seq_to_structure_mappings.py path/to/reference.fasta path/to/annotated.fsa path/to/output.tsv
 """
 
 def read_fasta(file_name):
@@ -72,13 +72,21 @@ def main(fasta_file, fsa_file, output_file):
         writer.writerow(['seq_ref', 'struct_ref', 'tRNA', 'struct_nt', 'struct_pos', 'seq_pos'])
 
         for ann_id in ann_seqs:
-            # Split the AFA header at the anticodon and use the base for matching
-            base_ann_id = '-'.join(ann_id.split('-')[:-1])
-            matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(base_ann_id)]
-            print(f"Matches for {ann_id}: {matching_refs}")
+            if ann_id.startswith('mito'):
+
+                # Split the header to extract the amino acid and the first anticodon
+                parts = ann_id.split('-')
+                amino_acid = parts[2]  # e.g., 'Ile'
+                # Convert 'T' to 'U' in the anticodon for now since yeast ref is inconsistent btwn nuc & mito
+                anticodon_fsa = parts[3].replace('T', 'U')  
+                
+                matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(f'mito-tRNA-{amino_acid}-{anticodon_fsa}')]
+            else:
+                # For nuclear tRNAs, match based on the base part of the header
+                base_ann_id = '-'.join(ann_id.split('-')[:-1])
+                matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(base_ann_id)]
 
             for ref_id in matching_refs:
-                print(f"Processing {ref_id}")
                 mapping = create_mapping(ref_seqs[ref_id], ann_seqs[ann_id])
                 for ann_index, ann_nuc in enumerate(ann_seqs[ann_id]):
                     fasta_pos = mapping.get(ann_index + 1, '')
