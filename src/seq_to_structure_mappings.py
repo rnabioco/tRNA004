@@ -49,15 +49,18 @@ def read_fasta(file_name):
                 sequences[seq_id] += line.upper()
     return sequences, full_headers
 
-
 def create_mapping(ref_seq, ann_seq):
     """Create a mapping from reference to annotated sequence."""
     mapping = {}
     ref_index = 0
     for ann_index, ann_nuc in enumerate(ann_seq):
         if ann_nuc != '-':  # If not a gap
-            mapping[ref_index + 1] = ann_index + 1
+            mapping[ann_index + 1] = ref_index + 1
             ref_index += 1
+        else:
+            # If it's a gap, there's no corresponding sequence position
+            mapping[ann_index + 1] = None
+
     return mapping
 
 def main(fasta_file, fsa_file, output_file):
@@ -74,13 +77,10 @@ def main(fasta_file, fsa_file, output_file):
             matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(ann_id)]
             for ref_id in matching_refs:
                 mapping = create_mapping(ref_seqs[ref_id], ann_seq)
-                ref_index = 0
                 for ann_index, ann_nuc in enumerate(ann_seq):
-                    fasta_pos = mapping.get(ref_index + 1, '')
-                    # Include full headers from both FASTA and FSA in the output
+                    # Use ann_index + 1 to get the correct sequence position from the mapping
+                    fasta_pos = mapping.get(ann_index + 1, '')
                     writer.writerow([ref_full_headers.get(ref_id, ''), ann_full_headers.get(ann_id, ''), ref_id, ann_nuc, ann_index + 1, fasta_pos])
-                    if ann_nuc != '-':
-                        ref_index += 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Map positions from a FASTA file to a structurally annotated FSA file.")
