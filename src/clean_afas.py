@@ -19,6 +19,7 @@ currently the script only handles special characters present in yeast tRNA antic
 
 """
 import argparse
+import tempfile
 
 # convert special characters in anticodon to match ref format but retain modomics anticodon
 def convert_anticodon(anticodon):
@@ -97,9 +98,11 @@ def main():
 
     args = parser.parse_args()
 
-    intermediate_file = 'intermediate.fasta'
-    clean_fasta_header(args.input_file, intermediate_file)
-    clean_and_modify_sequences(intermediate_file, args.output_file)
+    # Use a temporary file
+    with tempfile.NamedTemporaryFile(mode='w+', delete=True) as temp_file:
+        clean_fasta_header(args.input_file, temp_file.name)
+        temp_file.seek(0)  # Reset file pointer to the beginning of the file
+        clean_and_modify_sequences(temp_file.name, args.output_file)
 
 if __name__ == "__main__":
     main()
