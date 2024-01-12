@@ -143,12 +143,12 @@ left_join(mito_long_data, mito_mappings, by = c("Reference", "Position")) %>%
   mutate(Reference = str_replace(Reference, "mito-tRNA-", "")) %>%
   mutate(Ref_Delta = paste(Reference, Delta_Type, sep = "_")) -> test 
 ```
-
+make new structure anchored heat map
 ```{r}
 test %>%
   filter(!is.na(struct_pos)) %>%
   filter(struct_pos >= 1, struct_pos <= 99) %>%  # Filter to keep only positions 1 to 99
-  filter(Delta_Type == "Pus1_delta") %>%
+  filter(Delta_Type == "Pus4_delta") %>%
   group_by(Reference) %>%
   filter(any(Delta_Value != 0)) %>%
   ungroup() %>%
@@ -159,13 +159,55 @@ test %>%
     scale_x_continuous(breaks = seq(0, 100, by = 10)) +
     theme_cowplot() +
     labs(fill = "∆ basecalling error \n(WT - MT)",
-         title = "Basecalling error changes on mt-tRNAs upon Pus1 synthase deletion",
+         title = "Basecalling error changes on mt-tRNAs upon Pus4 synthase deletion",
          x = "Position",
          y = "tRNA reference") +
-    theme(axis.text.y = element_text(angle = 0, hjust = 1, vjust = 0.5, size = 14)) +
+    theme(axis.text.y = element_text(angle = 0, hjust = 1, vjust = 0.5, size = 12)) +
     coord_fixed(ratio = 1)
+```
+
+```{r}
+library(forcats)
+
+# Filter the dataset
+filtered_test <- test %>%
+  filter(!is.na(struct_pos), struct_pos >= 1, struct_pos <= 99, Delta_Type == "Pus1_delta") %>%
+  group_by(Reference) %>%
+  filter(any(Delta_Value != 0)) %>%
+  ungroup() %>%
+  mutate(Reference = fct_rev(as.factor(Reference)))
+
+# Creating a complete grid of struct_pos for each Reference
+complete_grid <- expand.grid(struct_pos = 1:99, Reference = unique(filtered_test$Reference))
+
+# Left join with the filtered dataset
+full_data <- complete_grid %>%
+  left_join(filtered_test, by = c("struct_pos", "Reference"))
+
+# plot
+ggplot(full_data, aes(x = struct_pos, y = Reference, fill = Delta_Value)) +
+  geom_tile(color = "white", size = 0.1) +
+  scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white", midpoint = 0, 
+                       limits = c(-1, 1), na.value = "#D3D3D3") +
+  scale_x_continuous(breaks = 1:99, labels = rep("", 99)) +
+  theme_cowplot() +
+  labs(fill = "∆ basecalling error \n(WT - MT)",
+       title = "Basecalling error changes on mt-tRNAs upon Pus1 synthase deletion",
+       x = "",
+       y = "") +
+  theme(
+    axis.text.y = element_text(angle = 0, hjust = 1, vjust = 0.3, size = 10),
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.title.align = 0.5,
+    legend.text = element_text(size = 9),
+    legend.title = element_text(size = 10)
+  ) +
+  coord_fixed(ratio = 1)
+
 
 
 ```
+
 
 
