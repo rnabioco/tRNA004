@@ -31,23 +31,21 @@ python script_name.py path/to/reference.fasta path/to/annotated.fsa path/to/outp
 """
 
 def read_fasta(file_name):
-    """Read a FASTA or FSA file and return a dictionary of sequences with full headers.
-    Replace any Us with Ts in the anticodon entry for consistency in matching."""
+    """Read a FASTA or FSA file and return a dictionary of sequences with full headers, and the headers separately."""
     sequences = {}
-    full_headers = {}  # Dictionary to store full headers
+    headers = []
     with open(file_name, 'r') as file:
+        seq_id = None
         for line in file:
             line = line.strip()
             if line.startswith(">"):
-                full_header = line[1:]  # Store the full header
-                parts = full_header.split('-')
-                anticodon = parts[3].replace('U', 'T')
-                seq_id = '-'.join(parts[:3] + [anticodon])
+                seq_id = line[1:]  # Use the full header as the key
+                headers.append(seq_id)
                 sequences[seq_id] = ''
-                full_headers[seq_id] = full_header  # Map seq_id to full header
             else:
                 sequences[seq_id] += line.upper()
-    return sequences, full_headers
+    return sequences, headers
+
 
 def create_mapping(ref_seq, ann_seq):
     """Create a mapping from reference to annotated sequence."""
@@ -64,23 +62,27 @@ def create_mapping(ref_seq, ann_seq):
     return mapping
 
 def main(fasta_file, fsa_file, output_file):
-    # Load sequences from files
-    ref_seqs, ref_full_headers = read_fasta(fasta_file)
-    ann_seqs, ann_full_headers = read_fasta(fsa_file)
+    # Load sequences and headers from files
+    ref_seqs, ref_headers = read_fasta(fasta_file)
+    ann_seqs, ann_headers = read_fasta(fsa_file)
 
     # Write to TSV
     with open(output_file, 'w', newline='') as file:
         writer = csv.writer(file, delimiter='\t')
         writer.writerow(['seq_ref', 'struct_ref', 'tRNA', 'struct_nt', 'struct_pos', 'seq_pos'])
 
-        for ann_id, ann_seq in ann_seqs.items():
-            matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(ann_id)]
+        for ann_id in ann_seqs:
+            # Split the AFA header at the anticodon and use the base for matching
+            base_ann_id = '-'.join(ann_id.split('-')[:-1])
+            matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(base_ann_id)]
+            print(f"Matches for {ann_id}: {matching_refs}")
+
             for ref_id in matching_refs:
-                mapping = create_mapping(ref_seqs[ref_id], ann_seq)
-                for ann_index, ann_nuc in enumerate(ann_seq):
-                    # Use ann_index + 1 to get the correct sequence position from the mapping
+                print(f"Processing {ref_id}")
+                mapping = create_mapping(ref_seqs[ref_id], ann_seqs[ann_id])
+                for ann_index, ann_nuc in enumerate(ann_seqs[ann_id]):
                     fasta_pos = mapping.get(ann_index + 1, '')
-                    writer.writerow([ref_full_headers.get(ref_id, ''), ann_full_headers.get(ann_id, ''), ref_id, ann_nuc, ann_index + 1, fasta_pos])
+                    writer.writerow([ref_id, ann_id, ann_nuc, ann_index + 1, fasta_pos])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Map positions from a FASTA file to a structurally annotated FSA file.")
