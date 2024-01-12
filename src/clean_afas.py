@@ -60,25 +60,35 @@ def clean_fasta_header(input_file, intermediate_file):
             else:
                 outfile.write(line)
 
-# remove entries with missing info; add tRNA splint adapter sequences to all entries
+# remove entries with missing info
+# add tRNA splint adapter sequences to all entries
+# deduplicate entries after cleanup
 def clean_and_modify_sequences(intermediate_file, output_file):
+    unique_entries = set()  # Set to store unique entries
+    current_header = None
+    skip_next_line = False  # Flag to skip lines with missing info
+
     with open(intermediate_file, 'r') as infile, open(output_file, 'w') as outfile:
-        skip_next_line = False
         for line in infile:
             if line.startswith('>'):
                 # Check for missing amino acid or anticodon
                 parts = line.split('-')
                 if parts[2] == '' or parts[2] == 'None' or parts[3] == '\n':
                     skip_next_line = True
-                    continue
                 else:
                     skip_next_line = False
-                    outfile.write(line)
+                    current_header = line.strip()  # Store the header for the current entry
             else:
                 if not skip_next_line:
                     # Replace U with T and append/prepend adapter sequences
-                    modified_sequence = 'CCTAAGAGCAAGAAGAAGCCTGGN' + line.strip().replace('U', 'T') + 'GGCTTCTTCTTGCTCTTAGGAAAAAAAAAA\n'
-                    outfile.write(modified_sequence)
+                    modified_sequence = 'CCTAAGAGCAAGAAGAAGCCTGGN' + line.strip().replace('U', 'T') + 'GGCTTCTTCTTGCTCTTAGGAAAAAAAAAA'
+                    entry = (current_header, modified_sequence)  # Create a tuple of header and sequence
+
+                    # Write to file only if this entry is unique
+                    if entry not in unique_entries:
+                        unique_entries.add(entry)  # Add the entry to the set
+                        outfile.write(current_header + '\n')  # Write the header
+                        outfile.write(modified_sequence + '\n')  # Write the sequence
 
 def main():
     parser = argparse.ArgumentParser(description='Clean and modify FASTA file sequences.')
