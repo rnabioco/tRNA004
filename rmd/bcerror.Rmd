@@ -259,4 +259,89 @@ p1
 p2
 p4
 ```
+Alright. Now: can we aggregate not just by isodecoder, but across all tRNAs for mito & nuclear to do some comparison?
+```{r}
+# the problem with doing this at this point is they're not lined up yet on the structure, are they?
+# shit, this is a problem collapsing the nuclear tRNAs, too.
+# the answer has to be to pull the mappings in BEFORE we start collapsing things.
+read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+  mutate(struct_pos = (struct_pos - 24)) %>%
+  rename(Position = seq_pos, Reference = seq_ref) %>%
+  mutate(Position = (Position - 24)) -> mappings
+
+all %>%
+  left_join(., mappings, by = c("Reference", "Position")) %>%
+  select(Reference, Coverage, Sample, BCerror, struct_pos) %>%
+  rename(Position = struct_pos) %>%
+  separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon", "Family", "Species"), sep = "-") %>%
+  group_by(Location, Position, Sample) %>%
+  summarise(
+    TotalCoverage = sum(Coverage),
+    WeightedBCerror = sum(pmin(BCerror, 1) * Coverage) / sum(Coverage),  # Revised weighted average calculation
+    .groups = "drop"
+  ) %>%
+  mutate(
+    BCerror = ifelse(TotalCoverage > 0, WeightedBCerror, 0)
+  ) %>%
+  ungroup() %>%
+  select(Sample, Location, Position, TotalCoverage, BCerror) %>%
+  pivot_wider(
+    names_from = Sample,
+    names_sep = "_",
+    values_from = c(TotalCoverage, BCerror)
+  ) %>%
+  mutate(
+    MinCov = pmin(TotalCoverage_WT, TotalCoverage_Pus4del, TotalCoverage_Pus2del, TotalCoverage_Pus1del, na.rm = TRUE),
+    BCerror_WT = replace(BCerror_WT, MinCov < 29, 0),
+    BCerror_Pus4del = replace(BCerror_Pus4del, MinCov < 29, 0),
+    BCerror_Pus2del = replace(BCerror_Pus2del, MinCov < 29, 0),
+    BCerror_Pus1del = replace(BCerror_Pus1del, MinCov < 29, 0),
+    Pus4_delta = BCerror_Pus4del - BCerror_WT,
+    Pus2_delta = BCerror_Pus2del - BCerror_WT,
+    Pus1_delta = BCerror_Pus1del - BCerror_WT
+  ) -> diffs
+```
+
+
+Data reshaping.
+```{r}
+# Reshape the data into a long format
+long_data <- diffs %>%
+  select(Location, Position, Pus4_delta, Pus2_delta, Pus1_delta) %>%
+  filter(Position %in% c(1:96)) %>% # no variable loop
+  pivot_longer(
+    cols = c(Pus4_delta, Pus2_delta, Pus1_delta),
+    names_to = "Delta_Type",
+    values_to = "Delta_Value"
+  )
+
+  # 99 custom x-axis labels for consensus tRNA secondary structure
+  x_labels <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", 
+                "17a", "18", "19", "20", "20a", "20b", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", 
+                "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", 
+                "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73")
+  
+  # Adjusting the Position values
+long_data <- long_data %>%
+  mutate(AdjustedPosition = ifelse(Position > 71, Position - 19, Position)) %>%
+  filter(Position != 53:71)  # Remove variable loops from tRNA metaplot
+
+# Plotting
+ggplot(long_data, aes(y = Location, x = AdjustedPosition)) +
+  geom_tile(aes(fill = ifelse(abs(Delta_Value) < 0.05, NA, Delta_Value)), color = "white", size = 0.1) +
+  scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white", midpoint = 0, 
+                       limits = c(-.6, .6), na.value = "white") +
+  scale_x_continuous(breaks = c(1:77), labels = x_labels) +
+  theme_minimal() +
+  labs(fill = "∆ BC error \n(WT - MT)",
+       y = "",
+       x = "") +
+  facet_wrap(~Delta_Type, ncol = 1) + 
+  theme(
+    axis.text.y = element_text(angle = 0, hjust = 1, vjust = 0.3, size = 10),
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3, size = 10),
+  ) + coord_fixed(ratio = 1)
+```
+
+
 
