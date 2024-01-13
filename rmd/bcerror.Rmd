@@ -89,48 +89,10 @@ left_join(mito_long_data, mito_mappings, by = c("Reference", "Position")) %>%
   mutate(Ref_Delta = paste(Reference, Delta_Type, sep = "_")) -> test
 ```
 
-```{r}
-# Filter the dataset
-filtered_test <- test %>%
-  filter(!is.na(struct_pos), struct_pos >= 1, struct_pos <= 99, Delta_Type == "Pus1_delta") %>%
-  group_by(Reference) %>%
-  filter(any(Delta_Value != 0)) %>%
-  ungroup() %>%
-  mutate(Reference = fct_rev(as.factor(Reference)))
-
-# Creating a complete grid of struct_pos for each Reference
-complete_grid <- expand.grid(struct_pos = 1:99, Reference = unique(filtered_test$Reference))
-
-# Left join with the filtered dataset
-full_data <- complete_grid %>%
-  left_join(filtered_test, by = c("struct_pos", "Reference"))
-
-# plot
-ggplot(full_data, aes(x = struct_pos, y = Reference, fill = Delta_Value)) +
-  geom_tile(color = "white", size = 0.1) +
-  scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white", midpoint = 0, 
-                       limits = c(-1, 1), na.value = "#D3D3D3") +
-  scale_x_continuous(breaks = 1:99, labels = rep("", 99)) +
-  theme_cowplot() +
-  labs(fill = "∆ basecalling error \n(WT - MT)",
-       title = "Basecalling error changes on mt-tRNAs upon Pus1 synthase deletion",
-       x = "",
-       y = "") +
-  theme(
-    axis.text.y = element_text(angle = 0, hjust = 1, vjust = 0.3, size = 10),
-    legend.position = "bottom",
-    legend.box = "horizontal",
-    legend.title.align = 0.5,
-    legend.text = element_text(size = 9),
-    legend.title = element_text(size = 10)
-  ) +
-  coord_fixed(ratio = 1)
-
-```
-Try the above as a plotting function instead.
+Plotting function for basecalling error given a filtered set of sequences (here, mito tRNAs).
 ```{r}
 plot_basecalling_error <- function(data, delta_type, title_suffix, include_legend = TRUE) {
-  # Custom x-axis labels
+  # 99 custom x-axis labels for consensus tRNA secondary structure
   x_labels <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", 
                 "17a", "18", "19", "20", "20a", "20b", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", 
                 "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", 
@@ -153,15 +115,24 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
   full_data <- complete_grid %>%
     left_join(filtered_data, by = c("struct_pos", "Reference"))
 
+  # Define a custom function for conditional fill
+  conditional_fill <- function(delta_value) {
+    ifelse(is.na(delta_value), NA, ifelse(abs(delta_value) < 0.1, NA, delta_value))
+  }
+
   # plot
-  p <- ggplot(full_data, aes(x = struct_pos, y = Reference, fill = Delta_Value)) +
-    geom_tile(color = "white", size = 0.1) +
+  p <- ggplot(full_data, aes(x = struct_pos, y = Reference)) +
+    # First geom_tile for main data
+    geom_tile(aes(fill = Delta_Value), color = "white", size = 0.1) +
+    # Second geom_tile for Delta_Value < 0.1
+    geom_tile(data = subset(full_data, abs(Delta_Value) < 0.1), aes(x = struct_pos, y = Reference), 
+              fill = "white", color = "white", size = 0.1) +
     scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white", midpoint = 0, 
                          limits = c(-1, 1), na.value = "#D3D3D3") +
     scale_x_continuous(breaks = 1:99, labels = x_labels) +
     theme_cowplot() +
     labs(fill = "∆ BC error \n(WT - MT)",
-         title = paste("Basecalling error changes on mt-tRNAs upon", title_suffix),
+         title = paste("BC error changes", title_suffix),
          x = "",
          y = "")
 
@@ -195,9 +166,9 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
 ```
 
 ```{r}
-plot_basecalling_error(test, "Pus1_delta", "Pus1 synthase deletion", T) -> p1
-plot_basecalling_error(test, "Pus2_delta", "Pus2 synthase deletion", T) -> p2
-plot_basecalling_error(test, "Pus4_delta", "Pus4 synthase deletion", T) -> p4
+plot_basecalling_error(test, "Pus1_delta", "on mt-tRNAs upon Pus1 synthase deletion", T) -> p1
+plot_basecalling_error(test, "Pus2_delta", "on mt-tRNAs upon Pus2 synthase deletion", T) -> p2
+plot_basecalling_error(test, "Pus4_delta", "on mt-tRNAs upon Pus4 synthase deletion", T) -> p4
 
 library(gridExtra)
 # Arrange the plots vertically
@@ -205,5 +176,87 @@ composite_plot <- grid.arrange(p1, p2, p4, ncol = 1)
 
 # Print or save the composite plot
 composite_plot
+```
+Okay, so now how do we handle the nuclear tRNAs?
+We need to go back to our original dataset and roll up the values for each tRNA by isodecoder family.
+Then widen the data as before, with enforced coverage threshold and error difference calculations.
+```{r}
+all %>%
+  filter(str_starts(Reference, "nuc")) %>%
+  separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon", "Family", "Species"), sep = "-") %>%
+  mutate(
+    BCerror = pmin(BCerror, 1)  # Ensuring BCerror values are between 0 and 1
+  ) %>%
+  group_by(Location, tRNA, AA, Anticodon, Family, Position, Sample) %>%
+  summarise(
+    TotalCoverage = sum(Coverage),
+    WeightedBCerror = sum(pmin(BCerror, 1) * Coverage) / sum(Coverage),  # Revised weighted average calculation
+    .groups = "drop"
+  ) %>%
+  mutate(
+    BCerror = ifelse(TotalCoverage > 0, WeightedBCerror, 0)
+  ) %>%
+  ungroup() %>%
+  unite(Reference, c("Location", "tRNA", "AA", "Anticodon", "Family"), sep = "-") %>%
+  select(Sample, Reference, Position, TotalCoverage, BCerror) %>%
+  pivot_wider(
+    names_from = Sample,
+    names_sep = "_",
+    values_from = c(TotalCoverage, BCerror)
+  ) %>%
+  mutate(
+    MinCov = pmin(TotalCoverage_WT, TotalCoverage_Pus4del, TotalCoverage_Pus2del, TotalCoverage_Pus1del, na.rm = TRUE),
+    BCerror_WT = replace(BCerror_WT, MinCov < 29, 0),
+    BCerror_Pus4del = replace(BCerror_Pus4del, MinCov < 29, 0),
+    BCerror_Pus2del = replace(BCerror_Pus2del, MinCov < 29, 0),
+    BCerror_Pus1del = replace(BCerror_Pus1del, MinCov < 29, 0),
+    Pus4_delta = BCerror_Pus4del - BCerror_WT,
+    Pus2_delta = BCerror_Pus2del - BCerror_WT,
+    Pus1_delta = BCerror_Pus1del - BCerror_WT
+  ) -> diffs
+```
+
+
+Data reshaping.
+```{r}
+# Reshape the data into a long format
+long_data <- diffs %>%
+  select(Reference, Position, Pus4_delta, Pus2_delta, Pus1_delta) %>%
+  pivot_longer(
+    cols = c(Pus4_delta, Pus2_delta, Pus1_delta),
+    names_to = "Delta_Type",
+    values_to = "Delta_Value"
+  )
+```
+
+
+```{r}
+# redundant I think.
+long_data %>%
+  filter(str_starts(Reference, "nuc")) -> nuc_long_data
+
+
+read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+  filter(str_starts(seq_ref, "nuc"))  %>% 
+  mutate(struct_pos = (struct_pos - 24)) %>%
+  mutate(Position = (seq_pos - 24)) %>%
+  rename(Reference = seq_ref) %>%
+  # remove species from Ref? maybe awkward
+  mutate(Reference = sub("-[^-]*$", "", Reference)) -> nuc_mappings
+
+left_join(nuc_long_data, nuc_mappings, by = c("Reference", "Position")) %>%
+  select(-seq_pos) %>%
+  mutate(Reference = str_replace(Reference, "nuc-tRNA-", "")) %>%
+  mutate(Ref_Delta = paste(Reference, Delta_Type, sep = "_")) -> nuc_mapped
+
+plot_basecalling_error(nuc_mapped, "Pus1_delta", "on nuclear-encoded tRNAs upon Pus1 synthase deletion", T) -> p1
+plot_basecalling_error(nuc_mapped, "Pus2_delta", "on nuclear-encoded tRNAs upon Pus2 synthase deletion", T) -> p2
+plot_basecalling_error(nuc_mapped, "Pus4_delta", "on nuclear-encoded tRNAs upon Pus4 synthase deletion", T) -> p4
+
+composite_plot <- grid.arrange(p1, p2, p4, ncol = 1)
+
+p1
+p2
+p4
 ```
 
