@@ -342,6 +342,15 @@ ggplot(long_data, aes(y = Location, x = AdjustedPosition)) +
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3, size = 10),
   ) + coord_fixed(ratio = 1)
 ```
+```{r}
+long_data %>%
+  filter(Position==27 | Position==28 | Position==29 | Position == 54| Position == 55| Position == 56) %>%
+  ggplot(aes(y = Delta_Value, x = Delta_Type, fill = Location)) +
+  geom_col(position = "dodge") +
+  facet_grid(~Position) +
+  theme_cowplot()
+    
+```
 
 
 
