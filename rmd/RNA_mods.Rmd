@@ -71,13 +71,40 @@ left_join(wt, mappings, by = c("Reference", "Position")) %>%
   mutate(kmer_context = create_rolling_string(struct_nt)) %>%
   mutate(mod_context = create_rolling_string(mod_nt)) %>%
   filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U')) %>% # only keep positions with modifications
-  filter(Coverage >29) -> mapped # enforce coverage threshold
+  filter(Coverage >29) %>% # enforce coverage threshold
+  mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> mapped 
 
-# how many unique mod sequence contexts? 267 for 27 modifications
+# how many unique mod sequence contexts? 267 for 27 modifications over almost 3k tRNA sites.
 n_distinct(mapped$mod_context)
 n_distinct(mapped$mod_nt)
+```
+So now, what can we say about these 27 different modifications?
+```{r}
+# Creating a violin plot
+ggplot(mapped, aes(x = mod_nt, y = BCerror)) +
+  geom_violin(trim = FALSE) +
+  theme_bw() +
+  labs(title = "Basecalling error for modified nucleotides in budding yeast tRNAs",
+       x = "mod_nt",
+       y = "BCerror")
+```
+To look more in depth at the flavor of basecalling errors, tidy dataset before plotting
 
+```{r}
+# Converting data to long format
+long_data <- mapped %>%
+  pivot_longer(cols = c(MismatchFreq, InsertionFreq, DeletionFreq), 
+               names_to = "attribute", 
+               values_to = "attribute_value")
+
+# Creating faceted violin plot
+ggplot(long_data, aes(x = attribute_value, y = attribute)) +
+  geom_violin(trim = FALSE) +
+  facet_wrap(~mod_nt, nrow =4) +
+  theme_bw() +
+  labs(title = "Basecalling error frequencies at yeast tRNA modifications",
+       x = "",
+       y = "Frequency")
 
 ```
-
 
