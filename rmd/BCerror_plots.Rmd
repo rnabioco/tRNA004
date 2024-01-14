@@ -49,7 +49,7 @@ read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) 
   rename(Reference = seq_ref) -> mappings
 
 left_join(all, mappings, by = c("Reference", "Position")) %>%
-  select(-N_freq, -Position, ) %>%
+  select(-N_freq, -Position) %>%
   rename(Position = struct_pos) %>%
   filter(!is.na(Position)) %>% # this removes tRNAs that do not have structural info in the mappings df
   mutate(Position = Position -24) -> mapped # begin counting at the first nt of the tRNA body, not the adapter

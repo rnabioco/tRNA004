@@ -10,6 +10,7 @@ library(tidyverse)
 library(colorblindr)
 library(ggokabeito)
 library(cowplot)
+library(ggbeeswarm)
 library(gridExtra)
 library(here)
 here::i_am("Rmd/RNA_mods.Rmd")
@@ -78,16 +79,81 @@ left_join(wt, mappings, by = c("Reference", "Position")) %>%
 n_distinct(mapped$mod_context)
 n_distinct(mapped$mod_nt)
 ```
-So now, what can we say about these 27 different modifications?
+
+We also pull in the database of Modomics codes in order to convert single character codes to short names.
 ```{r}
-# Creating a violin plot
-ggplot(mapped, aes(x = mod_nt, y = BCerror)) +
-  geom_violin(trim = FALSE) +
-  theme_bw() +
-  labs(title = "Basecalling error for modified nucleotides in budding yeast tRNAs",
-       x = "mod_nt",
-       y = "BCerror")
+read_csv(here("Modomics/modomicscodes.csv")) %>%
+  select(Name, `Short Name`, `RNAMods code (2023)`) %>%
+  rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) -> modomics
+
+left_join(mapped, modomics) -> mapped
 ```
+
+```{r}
+ggplot(mapped, aes(x = shortname, y = MismatchFreq)) +
+  geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
+  geom_boxplot(width = 0.2, alpha = 0.5, outlier.shape = NA, fill = "#56B4E9") +
+  theme_bw() +
+  labs(title = "Mismatch frequency at modified nucleotides in budding yeast tRNAs",
+       x = "",
+       y = "Mismatch frequency") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3))
+
+```
+
+Do that, but as a plotting function.
+```{r}
+plot_modification_data <- function(mapped, shortname) {
+  # Filter for the specified modification using an explicit environment
+  filtered_data <- mapped %>%
+    filter(shortname == !!shortname)
+  
+ # Retrieve the corresponding mod_nt (they are 1 to 1, so just grab the first instance)
+  mod_nt_value <- filtered_data$mod_nt[1]
+
+  # Mismatch Frequency Plot
+  plot_mismatch <- ggplot(filtered_data, aes(x = mod_context, y = MismatchFreq)) +
+    geom_jitter(cex = 0.5, alpha = 1, size = 0.5, width = 0.25) +
+    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#56B4E9") +
+    theme_bw() +
+    labs(title = paste("Mismatch frequencies in different nucleotide contexts,", shortname, "(",mod_nt_value,")"),
+         x = "5mer nucleotide context",
+         x = "5mer nucleotide context",
+         y = "Mismatch frequency") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+  # Normalized Nucleotide Frequencies Plot
+  normalized_data <- filtered_data %>%
+    pivot_longer(cols = c(A_Freq, T_Freq, G_Freq, C_Freq), 
+                 names_to = "Nucleotide", 
+                 values_to = "Frequency") %>%
+    group_by(mod_context) %>%
+    mutate(Total_Freq = sum(Frequency, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(Normalized_Freq = Frequency / Total_Freq)
+
+  plot_normalized <- ggplot(normalized_data, aes(x = mod_context, y = Normalized_Freq, fill = Nucleotide)) +
+    geom_bar(stat = "identity", position = "fill") +
+    theme_bw() +
+    labs(title = paste("Normalized mismatch frequencies,", shortname, "modification", "(",mod_nt_value,")"),
+         x = "5mer nucleotide context",
+         x = "5mer nucleotide context",
+         y = "Normalized nucleotide frequency") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442"))
+
+  # Combine the plots side by side
+  grid.arrange(plot_mismatch, plot_normalized, ncol = 2)
+}
+
+# Example usage of the function
+plot_modification_data(mapped, "m1A")
+
+
+```
+
+
+
 To look more in depth at the flavor of basecalling errors, tidy dataset before plotting
 
 ```{r}
@@ -100,7 +166,7 @@ long_data <- mapped %>%
 # Creating faceted violin plot
 ggplot(long_data, aes(x = attribute_value, y = attribute)) +
   geom_violin(trim = FALSE) +
-  facet_wrap(~mod_nt, nrow =4) +
+  facet_wrap(~shortname, nrow =4) +
   theme_bw() +
   labs(title = "Basecalling error frequencies at yeast tRNA modifications",
        x = "",
