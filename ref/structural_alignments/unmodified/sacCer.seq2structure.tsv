@@ -1,4 +1,4 @@
-seq_ref	struct_ref	tRNA	struct_nt	struct_pos	seq_pos
+seq_ref	struct_ref	struct_nt	struct_pos	seq_pos
 nuc-tRNA-Ala-AGC-1-1	nuc-tRNA-Ala-AGC-AGC	C	1	1
 nuc-tRNA-Ala-AGC-1-1	nuc-tRNA-Ala-AGC-AGC	C	2	2
 nuc-tRNA-Ala-AGC-1-1	nuc-tRNA-Ala-AGC-AGC	T	3	3

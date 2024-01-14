@@ -10,7 +10,6 @@ library(tidyverse)
 library(colorblindr)
 library(ggokabeito)
 library(cowplot)
-library(stringr)
 library(gridExtra)
 library(here)
 here::i_am("Rmd/BCerror_plots.Rmd")
@@ -27,10 +26,17 @@ read_bcerr <- function(x, Sample, ref) {
   return(df)
 }
 
-read_bcerr(here("bcerror/WTyeast004_20231111.tsv"), "WT") -> wt
-read_bcerr(here("bcerror/Pus4yeast004_20231208.tsv"), "Pus4del") -> pus4
-read_bcerr(here("bcerror/Pus2yeast004_20240105.tsv"), "Pus2del") -> pus2
-read_bcerr(here("bcerror/Pus1yeast004_20240105.tsv"), "Pus1del") -> pus1
+# all reads
+#read_bcerr(here("bcerror/WTyeast004_20231111.tsv"), "WT") -> wt
+#read_bcerr(here("bcerror/Pus4yeast004_20231208.tsv"), "Pus4del") -> pus4
+#read_bcerr(here("bcerror/Pus2yeast004_20240105.tsv"), "Pus2del") -> pus2
+#read_bcerr(here("bcerror/Pus1yeast004_20240105.tsv"), "Pus1del") -> pus1
+
+# 70nt+ read lengths only
+read_bcerr(here("bcerror/70plus/WTyeast004.70plusnts.tsv"), "WT") -> wt
+read_bcerr(here("bcerror/70plus/Pus4yeast004.70plusnts.tsv"), "Pus4del") -> pus4
+read_bcerr(here("bcerror/70plus/Pus2yeast004.70plusnts.tsv"), "Pus2del") -> pus2
+read_bcerr(here("bcerror/70plus/Pus1yeast004.70plusnts.tsv"), "Pus1del") -> pus1
 
 bind_rows(wt, pus4, pus2, pus1) %>%
   mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> all 
@@ -49,10 +55,12 @@ left_join(all, mappings, by = c("Reference", "Position")) %>%
   mutate(Position = Position -24) -> mapped # begin counting at the first nt of the tRNA body, not the adapter
 
 # we can then optionally roll up some of this nuclear tRNA data by isodecoder family.
+# or even to anticodon leve
 mapped %>%
   filter(str_starts(Reference, "mito")) %>%
   select(Reference, Coverage, Sample, BCerror, struct_nt, Position) %>%
   separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon"), sep = "-") %>%
+  mutate(Anticodon = str_replace_all(Anticodon, "U", "T")) %>% # because our ref names are inconsistent
   unite(Reference, c("Location", "AA", "Anticodon"), sep = "-") %>%
   select(-tRNA) -> mito_mapped
 
@@ -60,7 +68,7 @@ mapped %>%
   filter(str_starts(Reference, "nuc")) %>%
   select(Reference, Coverage, Sample, BCerror, struct_nt, Position) %>%
   separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon", "Family", "Species"), sep = "-") %>%
-  group_by(Location, tRNA, AA, Anticodon, Family, Position, Sample) %>%
+  group_by(Location, tRNA, AA, Anticodon, Position, Sample) %>% # roll up to anticodon if not grouped by Family
   summarise(
     TotalCoverage = sum(Coverage),
     WeightedBCerror = sum(pmin(BCerror, 1) * Coverage) / sum(Coverage),  # Revised weighted average calculation
@@ -72,7 +80,7 @@ mapped %>%
   ungroup() %>%
   select(-BCerror) %>%
   rename(Coverage = TotalCoverage, BCerror = WeightedBCerror) %>%
-  unite(Reference, c("Location", "AA", "Anticodon", "Family"), sep = "-") %>%
+  unite(Reference, c("Location", "AA", "Anticodon"), sep = "-") %>%
   select(-tRNA) -> nuc_mapped
 
 bind_rows(nuc_mapped, mito_mapped) -> test
@@ -109,13 +117,15 @@ long_data <- diffs %>%
 A plotting function for this structurally annotated basecalling error data.
 ```{r}
 plot_basecalling_error <- function(data, delta_type, title_suffix, include_legend = TRUE) {
-  # 99 custom x-axis labels for consensus tRNA secondary structure
+
+    # 99 custom x-axis labels for consensus tRNA secondary structure
   x_labels <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", 
                 "17a", "18", "19", "20", "20a", "20b", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", 
                 "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", 
                 "e11", "e12", "e13", "e14", "e15", "e16", "e17", "e1", "e2", "e3", "e4", "e5", 
                 "e27", "e26", "e25", "e24", "e23", "e22", "e21", "49", "50", "51", "52", "53", "54", "55", "56", "57", 
                 "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73")
+
 
   # Filter the dataset
   filtered_data <- data %>%
@@ -125,6 +135,9 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
     ungroup() %>%
     mutate(Reference = fct_rev(as.factor(Reference)))
 
+  # conditional colors for Y axis
+  label_colors <- ifelse(grepl("^nuc", levels(filtered_data$Reference)), "black", "#009E73")
+  
   # Creating a complete grid of Positions for each Reference
   complete_grid <- expand.grid(Position = 1:96, Reference = unique(filtered_data$Reference))
 
@@ -156,10 +169,11 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
   # Conditional legend settings
   if (include_legend) {
     p <- p + theme(
-      legend.position = c(1, 1),
-      legend.justification = c(1, 1),
-      legend.box.just = "right",
-      legend.margin = margin(0, 0, 0, 0),
+      legend.position = "bottom",
+#      legend.position = c(0, 1),
+#      legend.justification = c(1, 1),
+#      legend.box.just = "right",
+#      legend.margin = margin(0, 0, 0, 0),
       legend.background = element_rect(fill = "transparent", color = NA),
       legend.box.background = element_rect(fill = "transparent", color = NA),
       legend.key = element_rect(fill = "transparent", color = NA),
@@ -172,7 +186,7 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
 
   
   p <- p + theme(
-    axis.text.y = element_text(angle = 0, hjust = 1, vjust = 0.3, size = 10),
+    axis.text.y = element_text(color = label_colors, angle = 0, hjust = 1, vjust = 0.3, size = 10),
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3, size = 10),
   ) +
   coord_fixed(ratio = 1)

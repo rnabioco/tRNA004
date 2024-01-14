@@ -69,7 +69,7 @@ def main(fasta_file, fsa_file, output_file):
     # Write to TSV
     with open(output_file, 'w', newline='') as file:
         writer = csv.writer(file, delimiter='\t')
-        writer.writerow(['seq_ref', 'struct_ref', 'tRNA', 'struct_nt', 'struct_pos', 'seq_pos'])
+        writer.writerow(['seq_ref', 'struct_ref', 'struct_nt', 'struct_pos', 'seq_pos'])
 
         for ann_id in ann_seqs:
             if ann_id.startswith('mito'):
