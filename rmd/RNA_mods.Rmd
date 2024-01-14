@@ -1,0 +1,83 @@
+---
+title: "RNA_mods"
+author: "Laura White"
+date: "2024-01-14"
+output: html_document
+---
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(colorblindr)
+library(ggokabeito)
+library(cowplot)
+library(gridExtra)
+library(here)
+here::i_am("Rmd/RNA_mods.Rmd")
+```
+We can take our tRNA basecalling error data and ask questions about how well we can detect different RNA modifications in multiple sequence contexts across multiple organisms. This is enabled by (a) abundant LC/MS data about tRNA modifications from Modomics and (b) our ability to pin our basecalling error data onto structure files and line them up with modification info.
+
+Below, bring in the mapping information for budding yeast.
+```{r}
+read_tsv(here("ref/structural_alignments/modified/sacCer.mods.seq2structure.tsv")) %>%
+  rename(Position = seq_pos, mod_nt = struct_nt) %>%
+  select(-struct_ref) %>%
+  rename(Reference = seq_ref) -> mod_mappings
+
+read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+  rename(Position = seq_pos) %>%
+  select(-struct_ref) %>%
+  rename(Reference = seq_ref) -> nomod_mappings
+
+left_join(nomod_mappings, mod_mappings) -> mappings
+remove(mod_mappings, nomod_mappings)
+```
+Then bring in tsv that contains the error frequencies for budding yeast.
+```{r}
+read_bcerr <- function(x, Sample, ref) {
+  df <- readr::read_tsv(x, show_col_types = FALSE)
+  
+  df <- df %>%
+    dplyr::mutate(Sample = Sample)
+  
+  return(df)
+}
+
+# Function to create rolling strings of kmers
+create_rolling_string <- function(nt_vec) {
+  sapply(seq_along(nt_vec), function(i) {
+    if (i < 3 | i > length(nt_vec) - 2) {
+      return(NA)
+    }
+    
+    rolling_elems <- c(lag(nt_vec, 2)[i], lag(nt_vec, 1)[i], nt_vec[i], lead(nt_vec, 1)[i], lead(nt_vec, 2)[i])
+    
+    if (any(is.na(rolling_elems))) {
+      return(NA)
+    } else {
+      return(paste0(rolling_elems, collapse = ""))
+    }
+  })
+}
+
+read_bcerr(here("bcerror/WTyeast004_20231111.tsv"), "WT") -> wt
+
+left_join(wt, mappings, by = c("Reference", "Position")) %>%
+  select(-N_freq, -Position) %>%
+  rename(Position = struct_pos) %>%
+  filter(!is.na(Position)) %>% # this removes tRNAs that do not have structural info in the mappings df
+  mutate(Position = Position -24) %>%
+  group_by(Reference) %>%
+  arrange(Position) %>%
+  mutate(kmer_context = create_rolling_string(struct_nt)) %>%
+  mutate(mod_context = create_rolling_string(mod_nt)) %>%
+  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U')) %>% # only keep positions with modifications
+  filter(Coverage >29) -> mapped # enforce coverage threshold
+
+# how many unique mod sequence contexts? 267 for 27 modifications
+n_distinct(mapped$mod_context)
+n_distinct(mapped$mod_nt)
+
+
+```
+
+
