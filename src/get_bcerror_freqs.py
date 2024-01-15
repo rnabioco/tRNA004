@@ -8,6 +8,11 @@ considering only alignments on the positive strand. The script computes metrics
 such as mismatch, insertion, and deletion frequencies, along with the mean quality score
 for each position in the reference sequence.
 
+Note that this script defines Coverage as number of reads spanning a position.
+Consequently, the calculation of basecalling error frequencies are based
+on the total number of reads spanning each position, whether there is a base
+aligned to that exact position or not. This prevents deletion frequencies >1.
+
 The script requires a BAM file and a corresponding FASTA file as input.
 The results are outputted as a TSV file.
 
@@ -34,69 +39,57 @@ def calculate_error_frequencies(bam_file, fasta_file):
 
     for ref in faidx.references:
         ref_len = faidx.get_reference_length(ref)
-        # initialize arrays to store this data with as many 0s as the length of the ref
         coverage = [0] * ref_len
         base_counts = {'A': [0] * ref_len, 'T': [0] * ref_len, 
                        'G': [0] * ref_len, 'C': [0] * ref_len, 'N': [0] * ref_len}
         mismatches = [0] * ref_len
         insertions = [0] * ref_len
         deletions = [0] * ref_len
-        quality_scores = [0] * ref_len # get the Phreds
-        quality_counts = [0] * ref_len  # for averaging later
-
+        quality_scores = [0] * ref_len
+        quality_counts = [0] * ref_len
 
         for read in samfile.fetch(ref):
-            if read.is_unmapped:
-                continue
-
-            # skip reads aligned to tRNA antisense
-            if read.is_reverse:
+            if read.is_unmapped or read.is_reverse:
                 continue
 
             ref_pos = read.reference_start
             read_pos = 0
             read_seq = read.query_sequence
-            read_qual = read.query_qualities 
+            read_qual = read.query_qualities
 
             for cigar_op, cigar_len in read.cigartuples:
-            # integers fed to read.cigartuples are defined by pysam
-            # cigar_len is the length of each CIGAR operation
-                if cigar_op == 0 or cigar_op == 7 or cigar_op == 8:  # handle all match/mismatch options, including X and =
-                    for i in range(cigar_len): # differentiate matches from mismatches
+                if cigar_op in [0, 7, 8]:  # Matches and mismatches
+                    for i in range(cigar_len):
                         coverage[ref_pos + i] += 1
-                        ref_base = faidx.fetch(ref, ref_pos + i, ref_pos + i + 1)
-                        read_base = read_seq[read_pos + i]
+                        ref_base = faidx.fetch(ref, ref_pos + i, ref_pos + i + 1).upper()
+                        read_base = read_seq[read_pos + i].upper()
                         qual = read_qual[read_pos + i]
 
-                        # update quality scores
                         quality_scores[ref_pos + i] += qual
                         quality_counts[ref_pos + i] += 1
 
-                        # update base counts
                         if read_base in base_counts:
                             base_counts[read_base][ref_pos + i] += 1
 
-                        # update mismatches
                         if read_base != ref_base or cigar_op == 8:
                             mismatches[ref_pos + i] += 1
 
-                    # increment positions
                     ref_pos += cigar_len
                     read_pos += cigar_len
                 elif cigar_op == 1:  # Insertions
-                    insertions[ref_pos] += cigar_len
+                    insertions[ref_pos] += 1
+                    coverage[ref_pos] += 1  # Increment coverage at the position preceding the insertion
                     read_pos += cigar_len
                 elif cigar_op == 2:  # Deletions
-                    deletions[ref_pos:ref_pos + cigar_len] = [x + 1 for x in deletions[ref_pos:ref_pos + cigar_len]]
+                    for i in range(cigar_len):
+                        coverage[ref_pos + i] += 1
+                        deletions[ref_pos + i] += 1
                     ref_pos += cigar_len
-                elif cigar_op == 3: # Skips
-                    ref_pos += cigar_len
-                elif cigar_op == 4:  #  Soft clips
-                    read_pos += cigar_len
-                else:  # 5 and 6 = Hard clipped bases, padding
-                    pass
+                elif cigar_op in [3, 4]:  # Skips and soft clips
+                    ref_pos += cigar_len if cigar_op == 3 else 0
+                    read_pos += cigar_len if cigar_op == 4 else 0
+                # Hard clipped bases and padding (5 and 6) are ignored
 
-        # Calculate error frequencies and other metrics
         for pos in range(ref_len):
             pos_data = {
                 "Reference": ref,
@@ -111,27 +104,20 @@ def calculate_error_frequencies(bam_file, fasta_file):
                 "InsertionFreq": insertions[pos] / coverage[pos] if coverage[pos] > 0 else 0,
                 "DeletionFreq": deletions[pos] / coverage[pos] if coverage[pos] > 0 else 0,
                 "MeanQual": quality_scores[pos] / quality_counts[pos] if quality_counts[pos] > 0 else 0
-
             }
             error_data.append(pos_data)
 
     samfile.close()
     faidx.close()
 
-    # Convert the results to a DataFrame
-    err_df = pd.DataFrame(error_data)
-    return err_df
+    return pd.DataFrame(error_data)
 
 if __name__ == "__main__":
-    # Setup for command-line argument parsing
     parser = argparse.ArgumentParser(description="Calculate Basecalling Error Frequencies")
     parser.add_argument("bam_file", help="Path to the BAM file")
     parser.add_argument("fasta_file", help="Path to the FASTA file")
     parser.add_argument("output_tsv", help="Path for the output TSV file")
     args = parser.parse_args()
 
-    # Call the function with provided arguments
     error_freq_df = calculate_error_frequencies(args.bam_file, args.fasta_file)
-
-    # Save the DataFrame to a TSV file
     error_freq_df.to_csv(args.output_tsv, sep="\t", index=False)
