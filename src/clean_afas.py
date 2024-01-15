@@ -16,7 +16,7 @@ this anticodon duplication preserves special characters from modomics
 that indicate isodecoder-specific anticodon modifications (with unique structures)
 
 currently handles special characters present in tRNA anticodons from:
-yeast, drosophila, ecoli, t. thermophilus, 
+s cerevisiae, drosophila, e coli, t. thermophilus, h sapiens
 for more lookups, see here: https://genesilico.pl/modomics/modifications
 
 """
@@ -49,7 +49,9 @@ def convert_anticodon(anticodon):
                    '.': 'A',
                    'ʭ': 'T',
                    'ƕ': 'T',
-                   '>': 'C'}
+                   '>': 'C',
+                   '*': 'A'
+                   }
     
     # Convert special characters
     converted_anticodon = ''.join(conversion.get(char, char) for char in anticodon)
@@ -97,11 +99,8 @@ def clean_and_modify_sequences(intermediate_file, output_file):
     with open(intermediate_file, 'r') as infile, open(output_file, 'w') as outfile:
         for line in infile:
             if line.startswith('>'):
-                print("Header before split:", line.strip())  # Diagnostic print
                 parts = line.split('-')
-                print("Header parts after split:", parts)  # Diagnostic print
                 # Check if the line is missing necessary information
-                # Adjust this condition based on what constitutes a 'problematic' line
                 if len(parts) < 4 or parts[2].strip() in ['', 'None']:
                     print("Skipping line due to missing info:", line.strip())
                     skip_next_line = True
