@@ -11,7 +11,7 @@ library(colorblindr)
 library(ggokabeito)
 library(cowplot)
 library(ggbeeswarm)
-library(gridExtra)
+library(patchwork)
 library(ggtext)
 library(here)
 here::i_am("Rmd/RNA_mods.Rmd")
@@ -61,7 +61,7 @@ create_rolling_string <- function(nt_vec) {
   })
 }
 
-read_bcerr(here("bcerror/WTyeast004_20231111.tsv"), "WT") -> wt
+read_bcerr(here("bcerror/test.bcerr.tsv"), "WT") -> wt
 
 left_join(wt, mappings, by = c("Reference", "Position")) %>%
   select(-N_freq, -Position) %>%
@@ -114,18 +114,52 @@ plot_modification_data <- function(mapped, shortname) {
   filtered_data <- mapped %>%
     filter(shortname == !!shortname)
 
-  # Retrieve the corresponding mod_nt
+  # Retrieve the corresponding mod_nt and long name
   mod_nt_value <- filtered_data$mod_nt[1]
+  mod_name_value <- filtered_data$modname[1]
 
+  # MeanQual Plot
+  plot_quals <- ggplot(filtered_data, aes(x = mod_context, y = MeanQual)) +
+    geom_jitter(alpha = 1, width = .25) +
+    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
+    theme_bw() +
+    labs(title = paste("Basecalling quality score in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "",
+         y = "Mean Qscore") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
+          axis.ticks.x = element_blank())
+  
+    # Insertion Frequency Plot
+  plot_insertions <- ggplot(filtered_data, aes(x = mod_context, y = InsertionFreq)) +
+    geom_jitter(alpha = 1, width = .25) +
+    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
+    theme_bw() +
+    labs(title = paste("Insertion frequencies in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "",
+         y = "Insertion freq") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
+          axis.ticks.x = element_blank())
+
+# Deletion Frequency Plot
+  plot_deletions <- ggplot(filtered_data, aes(x = mod_context, y = DeletionFreq)) +
+    geom_jitter(alpha = 1, width = .25) +
+    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
+    theme_bw() +
+    labs(title = paste("Deletion frequencies in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "",
+         y = "Deletion freq") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
+          axis.ticks.x = element_blank())
+  
   # Mismatch Frequency Plot
   plot_mismatch <- ggplot(filtered_data, aes(x = mod_context, y = MismatchFreq)) +
-    geom_jitter(alpha = 1, width = 0.25) +
-    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#56B4E9") +
+    geom_jitter(alpha = 1, width = .25) +
+    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
     theme_bw() +
-    labs(title = paste("Mismatch frequencies in different nucleotide contexts,", shortname, "(", mod_nt_value, ")"),
-         x = "5mer nucleotide context",
-         y = "Mismatch frequency") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), face = "bold", color = "black", size = 10),
+    labs(title = paste("Mismatch frequencies in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "",
+         y = "Mismatch freq") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
           axis.ticks.x = element_blank())
 
   # Normalized Nucleotide Frequencies Plot
@@ -138,29 +172,61 @@ plot_modification_data <- function(mapped, shortname) {
     ungroup() %>%
     mutate(Normalized_Freq = Frequency / Total_Freq)
 
+  # Prepare the plot_normalized without a legend
   plot_normalized <- ggplot(normalized_data, aes(x = mod_context, y = Normalized_Freq, fill = Nucleotide)) +
     geom_bar(stat = "identity", position = "fill") +
     theme_bw() +
-    labs(title = paste("Normalized mismatch frequencies,", shortname, "modification", "(", mod_nt_value, ")"),
+    labs(title = paste("Normalized nucleotide frequencies,", shortname, "/", mod_nt_value, "/", mod_name_value),
          x = "5mer nucleotide context",
-         y = "Normalized nucleotide frequency") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), face = "bold", color = "black", size = 10),
+         y = "Nucleotide freq") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
           axis.ticks.x = element_blank()) +
-    scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442"))
-  
-  # Combine the plots side by side
-  grid.arrange(plot_mismatch, plot_normalized, ncol = 2)
-}
+    scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442")) +
+    theme(legend.position = "none")  # Remove legend from the plot
 
-# Example usage of the function
-plot_modification_data(mapped, "m1A")
-plot_modification_data(mapped, "Y")
-plot_modification_data(mapped, "t6A")
+# Extract the legend as a separate object
+  legend <- cowplot::get_legend(plot_normalized + theme(legend.position = "right"))
+
+# Create a blank plot that would be the legend for the top plot, forcing the legend to align with the bottom plot
+  blank_plot <- ggplot() + theme_void() + theme(plot.background = element_rect(fill = "transparent", colour = NA))
+
+  # Stack the plots vertically
+  plot_stacked <- plot_quals /plot_deletions /plot_insertions / plot_mismatch / plot_normalized
+
+  # Combine the stacked plots with the blank plot and the legend
+  plot_combined <- cowplot::plot_grid(
+    plot_stacked, 
+    cowplot::plot_grid(blank_plot, legend, ncol = 1, rel_heights = c(1, 1)),
+    ncol = 2, 
+    rel_widths = c(1, 0.2),
+    align = 'v'
+  )
+
+# Define the name of the output file based on the shortname
+  output_filename <- paste0(shortname, ".png")
+  
+  # Define the output path using the here package
+  output_path <- here("modplots", output_filename)
+
+  
+  # Save the combined plot to a file
+  ggsave(output_path, plot_combined, height = 10, width = 11, units = "in")
+
+  return(plot_combined)
+}
+```
+Iterate through every modification shortname and make plots.
+```{r}
+# Loop through each value in the shortname column
+for (shortname in allshortname$shortname) {
+  # Call the plotting function for each shortname
+  plot_modification_data(mapped, shortname)
+}
 ```
 
 
 
-To look more in depth at the flavor of basecalling errors, tidy dataset before plotting
+and/or look at some of this stuff next to each other
 
 ```{r}
 # Converting data to long format
@@ -177,6 +243,8 @@ ggplot(long_data, aes(x = attribute_value, y = attribute)) +
   labs(title = "Basecalling error frequencies at yeast tRNA modifications",
        x = "",
        y = "Frequency")
+
+ggsave(here("modplots/frequencies.png"))
 
 ```
 
