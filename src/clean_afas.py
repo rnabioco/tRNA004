@@ -15,7 +15,9 @@ The output file will contain reference entries in format:
 this anticodon duplication preserves special characters from modomics
 that indicate isodecoder-specific anticodon modifications (with unique structures)
 
-currently the script only handles special characters present in yeast tRNA anticodons
+currently handles special characters present in tRNA anticodons from:
+yeast, drosophila, ecoli, t. thermophilus, 
+for more lookups, see here: https://genesilico.pl/modomics/modifications
 
 """
 import argparse
@@ -24,7 +26,30 @@ import tempfile
 # convert special characters in anticodon to match ref format but retain modomics anticodon
 def convert_anticodon(anticodon):
     # Dictionary for special character conversion (yeast only)
-    conversion = {'I': 'A', '3': 'T', '!': 'T', '$': 'T', 'N': 'T'}
+    conversion = {'I': 'A',
+                   '3': 'T',
+                   '!': 'T',
+                   '$': 'T',
+                   'N': 'T',
+                   '2': 'T',
+                   '#': 'G',
+                   ')': 'T',
+                   'Q': 'G',
+                   '1': 'T',
+                   'P': 'T',
+                   'V': 'T',
+                   '⊄': 'G',
+                   'S': 'T',
+                   '{': 'T',
+                   'B': 'C',
+                   'M': 'C',
+                   'ʆ': 'G',
+                   'J': 'T',
+                   '9': 'G',
+                   '.': 'A',
+                   'ʭ': 'T',
+                   'ƕ': 'T',
+                   '>': 'C'}
     
     # Convert special characters
     converted_anticodon = ''.join(conversion.get(char, char) for char in anticodon)
@@ -40,14 +65,12 @@ def clean_fasta_header(input_file, intermediate_file):
                 parts = line.split('|')
                 type_ = parts[1]
                 amino_acid = parts[2]
-                anticodon = parts[3].replace('U', 'T')  # convert U to T
-                location = parts[5].strip()
+                anticodon = parts[3].replace('U', 'T') if parts[3] != 'None' else 'Unknown'
+                location = parts[5].strip().lower()  # Convert to lowercase for consistent comparison
 
-                # Rename initiator methionines
                 if amino_acid == "Ini":
                     amino_acid = "iMet"
 
-                # Use convert_anticodon function to deal with special characters
                 anticodon_converted = convert_anticodon(anticodon.strip())
 
                 if 'cytosol' in location:
@@ -61,6 +84,8 @@ def clean_fasta_header(input_file, intermediate_file):
             else:
                 outfile.write(line)
 
+
+
 # remove entries with missing info
 # add tRNA splint adapter sequences to all entries
 # deduplicate entries after cleanup
@@ -72,24 +97,29 @@ def clean_and_modify_sequences(intermediate_file, output_file):
     with open(intermediate_file, 'r') as infile, open(output_file, 'w') as outfile:
         for line in infile:
             if line.startswith('>'):
-                # Check for missing amino acid or anticodon
+                print("Header before split:", line.strip())  # Diagnostic print
                 parts = line.split('-')
-                if parts[2] == '' or parts[2] == 'None' or parts[3] == '\n':
+                print("Header parts after split:", parts)  # Diagnostic print
+                # Check if the line is missing necessary information
+                # Adjust this condition based on what constitutes a 'problematic' line
+                if len(parts) < 4 or parts[2].strip() in ['', 'None']:
+                    print("Skipping line due to missing info:", line.strip())
                     skip_next_line = True
                 else:
                     skip_next_line = False
-                    current_header = line.strip()  # Store the header for the current entry
+                    current_header = line.strip()
             else:
                 if not skip_next_line:
                     # Replace U with T and append/prepend adapter sequences
                     modified_sequence = 'CCTAAGAGCAAGAAGAAGCCTGGN' + line.strip().replace('U', 'T') + 'GGCTTCTTCTTGCTCTTAGGAAAAAAAAAA'
-                    entry = (current_header, modified_sequence)  # Create a tuple of header and sequence
+                    entry = (current_header, modified_sequence)
 
                     # Write to file only if this entry is unique
                     if entry not in unique_entries:
-                        unique_entries.add(entry)  # Add the entry to the set
-                        outfile.write(current_header + '\n')  # Write the header
-                        outfile.write(modified_sequence + '\n')  # Write the sequence
+                        unique_entries.add(entry)
+                        outfile.write(current_header + '\n')
+                        outfile.write(modified_sequence + '\n')
+
 
 def main():
     parser = argparse.ArgumentParser(description='Clean and modify FASTA file sequences.')
