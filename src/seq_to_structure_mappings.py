@@ -19,6 +19,7 @@ for this script to work. Recommended format for FSA:
 >mito-tRNA-Phe-GAA
 >nuc-tRNA-Phe-GAA
 
+If FASTA entries don't have a prefix, all tRNAs will be assumed to be from the nuclear genome.
 FASTA file names need to match at the start, but can contain additional characters after the
 anticodon sequence (e.g., mito-tRNA-Phe-GAA-1, nuc-tRNA-Phe-GAA-2-1, etc.)
 
@@ -46,7 +47,6 @@ def read_fasta(file_name):
                 sequences[seq_id] += line.upper()
     return sequences, headers
 
-
 def create_mapping(ref_seq, ann_seq):
     """Create a mapping from reference to annotated sequence."""
     mapping = {}
@@ -58,7 +58,6 @@ def create_mapping(ref_seq, ann_seq):
         else:
             # If it's a gap, there's no corresponding sequence position
             mapping[ann_index + 1] = None
-
     return mapping
 
 def main(fasta_file, fsa_file, output_file):
@@ -72,19 +71,21 @@ def main(fasta_file, fsa_file, output_file):
         writer.writerow(['seq_ref', 'struct_ref', 'struct_nt', 'struct_pos', 'seq_pos'])
 
         for ann_id in ann_seqs:
+            matching_refs = []
             if ann_id.startswith('mito'):
-
-                # Split the header to extract the amino acid and the first anticodon
+                # Logic for mitochondrial tRNAs
                 parts = ann_id.split('-')
-                amino_acid = parts[2]  # e.g., 'Ile'
-                # Convert 'T' to 'U' in the anticodon for now since yeast ref is inconsistent btwn nuc & mito
-                anticodon_fsa = parts[3].replace('T', 'U')  
-                
+                amino_acid = parts[2]
+                anticodon_fsa = parts[3].replace('T', 'U')
                 matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(f'mito-tRNA-{amino_acid}-{anticodon_fsa}')]
             else:
-                # For nuclear tRNAs, match based on the base part of the header
-                base_ann_id = '-'.join(ann_id.split('-')[:-1])
-                matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(base_ann_id)]
+                # Flexible matching for nuclear tRNAs
+                # Extract key parts of the header for comparison
+                ann_key_parts = ann_id.split('-')[1:4]  # e.g., ['tRNA', 'Tyr', 'GTA']
+                for ref_id in ref_seqs:
+                    ref_key_parts = ref_id.split('-')[:3]  # e.g., ['tRNA', 'Tyr', 'GTA']
+                    if ann_key_parts == ref_key_parts:
+                        matching_refs.append(ref_id)
 
             for ref_id in matching_refs:
                 mapping = create_mapping(ref_seqs[ref_id], ann_seqs[ann_id])
