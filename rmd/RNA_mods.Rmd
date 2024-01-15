@@ -12,6 +12,7 @@ library(ggokabeito)
 library(cowplot)
 library(ggbeeswarm)
 library(gridExtra)
+library(ggtext)
 library(here)
 here::i_am("Rmd/RNA_mods.Rmd")
 ```
@@ -84,7 +85,12 @@ We also pull in the database of Modomics codes in order to convert single charac
 ```{r}
 read_csv(here("Modomics/modomicscodes.csv")) %>%
   select(Name, `Short Name`, `RNAMods code (2023)`) %>%
-  rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) -> modomics
+  rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) %>%
+  group_by(mod_nt) %>%
+  arrange(mod_nt, shortname) %>%
+  # filter 5'-monophosphate containing duplicate shortnames
+  filter(!(startsWith(shortname, "p") & (mod_nt %in% lag(mod_nt) | mod_nt %in% lead(mod_nt)))) -> modomics
+
 
 left_join(mapped, modomics) -> mapped
 ```
@@ -107,20 +113,20 @@ plot_modification_data <- function(mapped, shortname) {
   # Filter for the specified modification using an explicit environment
   filtered_data <- mapped %>%
     filter(shortname == !!shortname)
-  
- # Retrieve the corresponding mod_nt (they are 1 to 1, so just grab the first instance)
+
+  # Retrieve the corresponding mod_nt
   mod_nt_value <- filtered_data$mod_nt[1]
 
   # Mismatch Frequency Plot
   plot_mismatch <- ggplot(filtered_data, aes(x = mod_context, y = MismatchFreq)) +
-    geom_jitter(cex = 0.5, alpha = 1, size = 0.5, width = 0.25) +
+    geom_jitter(alpha = 1, width = 0.25) +
     geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#56B4E9") +
     theme_bw() +
-    labs(title = paste("Mismatch frequencies in different nucleotide contexts,", shortname, "(",mod_nt_value,")"),
-         x = "5mer nucleotide context",
+    labs(title = paste("Mismatch frequencies in different nucleotide contexts,", shortname, "(", mod_nt_value, ")"),
          x = "5mer nucleotide context",
          y = "Mismatch frequency") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), face = "bold", color = "black", size = 10),
+          axis.ticks.x = element_blank())
 
   # Normalized Nucleotide Frequencies Plot
   normalized_data <- filtered_data %>%
@@ -135,21 +141,21 @@ plot_modification_data <- function(mapped, shortname) {
   plot_normalized <- ggplot(normalized_data, aes(x = mod_context, y = Normalized_Freq, fill = Nucleotide)) +
     geom_bar(stat = "identity", position = "fill") +
     theme_bw() +
-    labs(title = paste("Normalized mismatch frequencies,", shortname, "modification", "(",mod_nt_value,")"),
-         x = "5mer nucleotide context",
+    labs(title = paste("Normalized mismatch frequencies,", shortname, "modification", "(", mod_nt_value, ")"),
          x = "5mer nucleotide context",
          y = "Normalized nucleotide frequency") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), face = "bold", color = "black", size = 10),
+          axis.ticks.x = element_blank()) +
     scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442"))
-
+  
   # Combine the plots side by side
   grid.arrange(plot_mismatch, plot_normalized, ncol = 2)
 }
 
 # Example usage of the function
 plot_modification_data(mapped, "m1A")
-
-
+plot_modification_data(mapped, "Y")
+plot_modification_data(mapped, "t6A")
 ```
 
 
