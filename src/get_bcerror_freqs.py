@@ -16,9 +16,6 @@ aligned to that exact position or not. This prevents deletion frequencies >1.
 The script requires a BAM file and a corresponding FASTA file as input.
 The results are outputted as a TSV file.
 
-Usage:
-    python get_bcerror_freqs.py [bam_file] [fasta_file] [output_tsv]
-
 Where:
     bam_file: Path to the input BAM file.
     fasta_file: Path to the reference FASTA file.
@@ -26,10 +23,7 @@ Where:
 
 Example:
     python get_bcerror_freqs.py sample.bam reference.fasta output.tsv
-
-Requires: pysam and pandas python libraries.
 """
-
 
 def calculate_error_frequencies(bam_file, fasta_file):
     samfile = pysam.AlignmentFile(bam_file, "rb")
@@ -76,9 +70,8 @@ def calculate_error_frequencies(bam_file, fasta_file):
 
                     ref_pos += cigar_len
                     read_pos += cigar_len
-                elif cigar_op == 1:  # Insertions
+                elif cigar_op == 1:  # Insertions should not increment coverage
                     insertions[ref_pos] += 1
-                    coverage[ref_pos] += 1  # Increment coverage at the position preceding the insertion
                     read_pos += cigar_len
                 elif cigar_op == 2:  # Deletions
                     for i in range(cigar_len):

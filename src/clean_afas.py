@@ -109,8 +109,9 @@ def clean_and_modify_sequences(intermediate_file, output_file):
                     current_header = line.strip()
             else:
                 if not skip_next_line:
-                    # Replace U with T and append/prepend adapter sequences
-                    modified_sequence = 'CCTAAGAGCAAGAAGAAGCCTGGN' + line.strip().replace('U', 'T') + 'GGCTTCTTCTTGCTCTTAGGAAAAAAAAAA'
+                    # append/prepend adapter sequences
+                    # do not replace U with T, as T is the Modomics symbol for m5U
+                    modified_sequence = 'CCUAAGAGCAAGAAGAAGCCUGGN' + line.strip() + 'GGCUUCUUCUUGCUCUUAGGAAAAAAAAAA'
                     entry = (current_header, modified_sequence)
 
                     # Write to file only if this entry is unique
