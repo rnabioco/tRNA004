@@ -78,6 +78,12 @@ def main(fasta_file, fsa_file, output_file):
                 amino_acid = parts[2]
                 anticodon_fsa = parts[3].replace('T', 'U')
                 matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(f'mito-tRNA-{amino_acid}-{anticodon_fsa}')]
+            elif ann_id.startswith('nuc'):
+                # Logic for nuclear tRNAs
+                parts = ann_id.split('-')
+                amino_acid = parts[2]
+                anticodon_fsa = parts[3].replace('T', 'U')
+                matching_refs = [ref_id for ref_id in ref_seqs if ref_id.startswith(f'nuc-tRNA-{amino_acid}-{anticodon_fsa}')]
             else:
                 # Flexible matching for nuclear tRNAs
                 # Extract key parts of the header for comparison
