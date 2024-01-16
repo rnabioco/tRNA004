@@ -13,8 +13,8 @@ Consequently, the calculation of basecalling error frequencies are based
 on the total number of reads spanning each position, whether there is a base
 aligned to that exact position or not.
 
-Mean quality scores are calculated based on nucleotides aligned at that position,
-not using the coverage value defined above.
+Mismatch, nt frequencies & mean quality scores are calculated based on bases mapped,
+not spanning read coverage.
 
 The script requires a BAM file and a corresponding FASTA file as input.
 The results are outputted as a TSV file.
