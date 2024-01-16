@@ -11,7 +11,10 @@ for each position in the reference sequence.
 Note that this script defines Coverage as number of reads spanning a position.
 Consequently, the calculation of basecalling error frequencies are based
 on the total number of reads spanning each position, whether there is a base
-aligned to that exact position or not. This prevents deletion frequencies >1.
+aligned to that exact position or not.
+
+Mean quality scores are calculated based on nucleotides aligned at that position,
+not using the coverage value defined above.
 
 The script requires a BAM file and a corresponding FASTA file as input.
 The results are outputted as a TSV file.
@@ -40,7 +43,7 @@ def calculate_error_frequencies(bam_file, fasta_file):
         insertions = [0] * ref_len
         deletions = [0] * ref_len
         quality_scores = [0] * ref_len
-        quality_counts = [0] * ref_len
+        bases_mapped = [0] * ref_len # for mismatch & insertion frequency calcs
 
         for read in samfile.fetch(ref):
             if read.is_unmapped or read.is_reverse:
@@ -60,7 +63,7 @@ def calculate_error_frequencies(bam_file, fasta_file):
                         qual = read_qual[read_pos + i]
 
                         quality_scores[ref_pos + i] += qual
-                        quality_counts[ref_pos + i] += 1
+                        bases_mapped[ref_pos + i] += 1
 
                         if read_base in base_counts:
                             base_counts[read_base][ref_pos + i] += 1
@@ -88,15 +91,16 @@ def calculate_error_frequencies(bam_file, fasta_file):
                 "Reference": ref,
                 "Position": pos + 1,
                 "Coverage": coverage[pos],
-                "A_Freq": base_counts['A'][pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "T_Freq": base_counts['T'][pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "G_Freq": base_counts['G'][pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "C_Freq": base_counts['C'][pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "N_freq": base_counts['N'][pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "MismatchFreq": mismatches[pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "InsertionFreq": insertions[pos] / coverage[pos] if coverage[pos] > 0 else 0,
+                "A_Freq": base_counts['A'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
+                "T_Freq": base_counts['T'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
+                "G_Freq": base_counts['G'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
+                "C_Freq": base_counts['C'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
+                "N_freq": base_counts['N'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
+                "MismatchFreq": mismatches[pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
+                "InsertionFreq": insertions[pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
                 "DeletionFreq": deletions[pos] / coverage[pos] if coverage[pos] > 0 else 0,
-                "MeanQual": quality_scores[pos] / quality_counts[pos] if quality_counts[pos] > 0 else 0
+                "BCErrorFreq": (mismatches[pos] + insertions[pos] + deletions[pos]) / coverage[pos] if coverage[pos] > 0 else 0,
+                "MeanQual": quality_scores[pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0
             }
             error_data.append(pos_data)
 
