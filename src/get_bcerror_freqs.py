@@ -90,7 +90,8 @@ def calculate_error_frequencies(bam_file, fasta_file):
             pos_data = {
                 "Reference": ref,
                 "Position": pos + 1,
-                "Coverage": coverage[pos],
+                "Spanning_Reads": coverage[pos],
+                "Bases_Mapped": bases_mapped[pos],
                 "A_Freq": base_counts['A'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
                 "T_Freq": base_counts['T'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
                 "G_Freq": base_counts['G'][pos] / bases_mapped[pos] if bases_mapped[pos] > 0 else 0,
