@@ -18,33 +18,61 @@ here::i_am("Rmd/RNA_mods.Rmd")
 ```
 We can take our tRNA basecalling error data and ask questions about how well we can detect different RNA modifications in multiple sequence contexts across multiple organisms. This is enabled by (a) abundant LC/MS data about tRNA modifications from Modomics and (b) our ability to pin our basecalling error data onto structure files and line them up with modification info.
 
-Below, bring in the mapping information for budding yeast.
+Here's a function to read in the mappings from modified and unmodified tRNA aligned to a consensus sequence, for joining to sequence alignments.
 ```{r}
-read_tsv(here("ref/structural_alignments/modified/sacCer.mods.seq2structure.tsv")) %>%
-  rename(Position = seq_pos, mod_nt = struct_nt) %>%
-  select(-struct_ref) %>%
-  rename(Reference = seq_ref) -> mod_mappings
+process_files <- function(prefix) {
+  # Construct file paths
+  mod_file_path <- here("ref/structural_alignments/modified", paste0(prefix, ".mods.seq2structure.tsv"))
+  nomod_file_path <- here("ref/structural_alignments/unmodified", paste0(prefix, ".seq2structure.tsv"))
 
-read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
-  rename(Position = seq_pos) %>%
-  select(-struct_ref) %>%
-  rename(Reference = seq_ref) -> nomod_mappings
+  # Read and process the modified file
+  mod_map <- read_tsv(mod_file_path) %>%
+    rename(Position = seq_pos, mod_nt = struct_nt) %>%
+    select(-struct_ref) %>%
+    rename(Reference = seq_ref) %>%
+    distinct(Reference, Position, .keep_all = TRUE)
 
-left_join(nomod_mappings, mod_mappings) -> mappings
-remove(mod_mappings, nomod_mappings)
+  # Read and process the unmodified file
+  nomod_map <- read_tsv(nomod_file_path) %>%
+    rename(Position = seq_pos) %>%
+    select(-struct_ref) %>%
+    rename(Reference = seq_ref) %>%
+    distinct(Reference, Position, .keep_all = TRUE)
+
+  # Join the datasets
+  joined_map <- left_join(mod_map, nomod_map, by = c("Reference", "Position", "struct_pos"))
+
+  # Add the 'species' column
+  joined_map <- mutate(joined_map, species = prefix)
+
+  # Assign the joined dataset to the global environment
+  joined_map_name <- paste0(prefix, "_mappings")
+  assign(joined_map_name, joined_map, envir = .GlobalEnv)
+}
 ```
-Then bring in tsv that contains the error frequencies for budding yeast.
+
+Below, bring in the mapping information.
 ```{r}
-read_bcerr <- function(x, Sample, ref) {
+process_files("scerevisiae")
+process_files("hsapiens")
+process_files("tthermophila")
+process_files("ecoli")
+process_files("dmelanogaster")
+bind_rows(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings) -> mappings
+rm(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings)
+```
+Then bring in tsvs that contain the error frequencies for each sample.
+```{r}
+read_bcerr <- function(x, species, ref) {
   df <- readr::read_tsv(x, show_col_types = FALSE)
   
   df <- df %>%
-    dplyr::mutate(Sample = Sample)
+    dplyr::mutate(species = species)
   
   return(df)
 }
 
-# Function to create rolling strings of kmers
+# function to get 5mer sequence context for each mod
 create_rolling_string <- function(nt_vec) {
   sapply(seq_along(nt_vec), function(i) {
     if (i < 3 | i > length(nt_vec) - 2) {
@@ -61,53 +89,86 @@ create_rolling_string <- function(nt_vec) {
   })
 }
 
-read_bcerr(here("bcerror/test.bcerr.tsv"), "WT") -> wt
+read_bcerr(here("bcerror/scerevisiae.bcerror.tsv"), "scerevisiae") -> scerevisiae
+read_bcerr(here("bcerror/hsapiens.bcerror.tsv"), "hsapiens") -> hsapiens
+read_bcerr(here("bcerror/dmelanogaster.bcerror.tsv"), "dmelanogaster") -> dmelanogaster
+read_bcerr(here("bcerror/ecoli.bcerror.tsv"), "ecoli") -> ecoli
+read_bcerr(here("bcerror/tthermophila.bcerror.tsv"), "tthermophila") -> tthermophila
 
-left_join(wt, mappings, by = c("Reference", "Position")) %>%
-  select(-N_freq, -Position) %>%
+# we need to add 1 to His tRNAs only, because the structured fastas have the 5' G & the seqref doesn't.
+bind_rows(hsapiens, dmelanogaster, ecoli, tthermophila, scerevisiae) %>%
+  mutate(Position = ifelse(grepl("His", Reference), Position + 1, Position)) -> allspecies
+
+rm(scerevisiae, hsapiens, dmelanogaster, ecoli, tthermophila)
+
+left_join(allspecies, mappings, by = c("Reference", "Position", "species")) %>%
+  select(-N_freq) %>%
+  rename(seq_pos = Position) %>%
   rename(Position = struct_pos) %>%
-  filter(!is.na(Position)) %>% # this removes tRNAs that do not have structural info in the mappings df
-  mutate(Position = Position -24) %>%
-  group_by(Reference) %>%
+  filter(!is.na(Position))  %>% # this removes tRNAs that do not have structural info in the mappings df
+  mutate(Position = Position - 24) %>%
+  group_by(species, Reference) %>%
   arrange(Position) %>%
   mutate(kmer_context = create_rolling_string(struct_nt)) %>%
   mutate(mod_context = create_rolling_string(mod_nt)) %>%
-  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U')) %>% # only keep positions with modifications
-  filter(Coverage >29) %>% # enforce coverage threshold
-  mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> mapped 
+#  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U')) %>% # only keep positions with modifications 
+  filter(Bases_Mapped >29) -> mapped
 
-# how many unique mod sequence contexts? 267 for 27 modifications over almost 3k tRNA sites.
+# how many unique mod sequence contexts?
+# 267 for 27 modifications over almost 3k tRNA sites in yeast.
+# 2369 for 49 modifications over 6302 sites in 5 species
 n_distinct(mapped$mod_context)
 n_distinct(mapped$mod_nt)
 ```
 
 We also pull in the database of Modomics codes in order to convert single character codes to short names.
 ```{r}
-read_csv(here("Modomics/modomicscodes.csv")) %>%
+modomics <- read_csv(here("Modomics/modomicscodes.csv")) %>%
   select(Name, `Short Name`, `RNAMods code (2023)`) %>%
   rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) %>%
   group_by(mod_nt) %>%
   arrange(mod_nt, shortname) %>%
   # filter 5'-monophosphate containing duplicate shortnames
-  filter(!(startsWith(shortname, "p") & (mod_nt %in% lag(mod_nt) | mod_nt %in% lead(mod_nt)))) -> modomics
+  filter(!(startsWith(shortname, "p") & (mod_nt %in% lag(mod_nt) | mod_nt %in% lead(mod_nt))))
 
+# Replace backslash with "Ħ" in the mapped dataset (old Modomics code usage)
+mapped$mod_nt <- ifelse(mapped$mod_nt == "\\", "Ħ", mapped$mod_nt)
 
 left_join(mapped, modomics) -> mapped
 ```
-
+Revisit this! group by parent nt and compare mm, ins, del freq for all mods vs. parent unmod to rationalize appraoch*******
 ```{r}
-ggplot(mapped, aes(x = shortname, y = MismatchFreq)) +
-  geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
-  geom_boxplot(width = 0.2, alpha = 0.5, outlier.shape = NA, fill = "#56B4E9") +
-  theme_bw() +
-  labs(title = "Mismatch frequency at modified nucleotides in budding yeast tRNAs",
-       x = "",
-       y = "Mismatch frequency") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3))
+mapped %>%
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U')) %>%
+  ggplot(., aes(x = shortname, y = DeletionFreq)) +
+    geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
+    geom_boxplot(width = 0.2, alpha = 0.5, outlier.shape = NA, fill = "#56B4E9") +
+    theme_bw() +
+    labs(title = "Deletion frequency across unique sequence contexts on tRNA isodecoders",
+         x = "",
+         y = "Deletion frequency") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3))
+
+mapped %>%
+  filter(struct_nt == "G") %>%
+  mutate(mod_nt = ifelse(mod_nt == "G", "G", "mod")) %>% # conditionally categorize all mods together 
+  pivot_longer(cols = c(MismatchFreq, InsertionFreq, DeletionFreq), 
+               names_to = "attribute", 
+               values_to = "attribute_value")  %>%
+  ggplot(., aes(x = mod_nt, y = attribute_value)) +
+    geom_jitter(cex = 0.2, alpha = 0.3, size = 0.5, width = 0.25) +  # Jitter plot
+    geom_boxplot(width = 0.2, alpha = .75, outlier.shape = NA, color = "#009E73") +
+    facet_wrap(~attribute) +
+    theme_bw() +
+    labs(title = "", # Mean error frequency across unique sequence contexts on tRNA isodecoders
+         x = "",
+         y = "Frequency")
+# set levels here so that ummod always preceeds mod on x axis
+# add stats
 
 ```
 
-Do that, but as a plotting function.
+Plotting function.
 ```{r}
 plot_modification_data <- function(mapped, shortname) {
   # Filter for the specified modification using an explicit environment
@@ -120,10 +181,10 @@ plot_modification_data <- function(mapped, shortname) {
 
   # MeanQual Plot
   plot_quals <- ggplot(filtered_data, aes(x = mod_context, y = MeanQual)) +
-    geom_jitter(alpha = 1, width = .25) +
+    geom_jitter(alpha = .5, width = .25) +
     geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
     theme_bw() +
-    labs(title = paste("Basecalling quality score in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+    labs(title = paste("Mean basecalling quality score per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
          x = "",
          y = "Mean Qscore") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
@@ -131,10 +192,10 @@ plot_modification_data <- function(mapped, shortname) {
   
     # Insertion Frequency Plot
   plot_insertions <- ggplot(filtered_data, aes(x = mod_context, y = InsertionFreq)) +
-    geom_jitter(alpha = 1, width = .25) +
+    geom_jitter(alpha = .5, width = .25) +
     geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
     theme_bw() +
-    labs(title = paste("Insertion frequencies in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+    labs(title = paste("Mean insertion frequencies per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
          x = "",
          y = "Insertion freq") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
@@ -142,21 +203,21 @@ plot_modification_data <- function(mapped, shortname) {
 
 # Deletion Frequency Plot
   plot_deletions <- ggplot(filtered_data, aes(x = mod_context, y = DeletionFreq)) +
-    geom_jitter(alpha = 1, width = .25) +
+    geom_jitter(alpha = .5, width = .25) +
     geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
     theme_bw() +
-    labs(title = paste("Deletion frequencies in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
-         x = "",
+    labs(title = paste("Mean deletion frequencies per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "5mer nucleotide context",
          y = "Deletion freq") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
           axis.ticks.x = element_blank())
   
   # Mismatch Frequency Plot
   plot_mismatch <- ggplot(filtered_data, aes(x = mod_context, y = MismatchFreq)) +
-    geom_jitter(alpha = 1, width = .25) +
+    geom_jitter(alpha = .5, width = .25) +
     geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA, color = "#009E73") +
     theme_bw() +
-    labs(title = paste("Mismatch frequencies in different nucleotide contexts,", shortname, "/", mod_nt_value, "/", mod_name_value),
+    labs(title = paste("Mean mismatch frequencies per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
          x = "",
          y = "Mismatch freq") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
@@ -176,32 +237,35 @@ plot_modification_data <- function(mapped, shortname) {
   plot_normalized <- ggplot(normalized_data, aes(x = mod_context, y = Normalized_Freq, fill = Nucleotide)) +
     geom_bar(stat = "identity", position = "fill") +
     theme_bw() +
-    labs(title = paste("Normalized nucleotide frequencies,", shortname, "/", mod_nt_value, "/", mod_name_value),
-         x = "5mer nucleotide context",
-         y = "Nucleotide freq") +
+    labs(title = paste("Aggregate nucleotide frequencies across all mapped reads, ", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "5mer nucleotide context", y = "Nucleotide freq") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
           axis.ticks.x = element_blank()) +
-    scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442")) +
-    theme(legend.position = "none")  # Remove legend from the plot
+    scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442"))
 
-# Extract the legend as a separate object
-  legend <- cowplot::get_legend(plot_normalized + theme(legend.position = "right"))
+  # Extract the legend as a separate object from plot_normalized
+  legend <- cowplot::get_legend(plot_normalized)
 
-# Create a blank plot that would be the legend for the top plot, forcing the legend to align with the bottom plot
-  blank_plot <- ggplot() + theme_void() + theme(plot.background = element_rect(fill = "transparent", colour = NA))
+  # Create a combined plot without the legend for plot_normalized
+  plot_normalized_no_legend <- plot_normalized + theme(legend.position = "none")
 
   # Stack the plots vertically
-  plot_stacked <- plot_quals /plot_deletions /plot_insertions / plot_mismatch / plot_normalized
+  plot_stacked <- cowplot::plot_grid(
+    plot_quals, plot_mismatch, plot_normalized_no_legend, plot_deletions, plot_insertions,
+    ncol = 1, align = "v"
+  )
+
+  # Create a blank ggplot for spacing
+  blank_plot <- ggplot() + theme_void()
 
   # Combine the stacked plots with the blank plot and the legend
   plot_combined <- cowplot::plot_grid(
-    plot_stacked, 
-    cowplot::plot_grid(blank_plot, legend, ncol = 1, rel_heights = c(1, 1)),
-    ncol = 2, 
-    rel_widths = c(1, 0.2),
-    align = 'v'
+    plot_stacked, blank_plot, legend,
+    ncol = 3, 
+    rel_widths = c(1, 0.1, 0.2), # Adjust these values as needed for proper alignment
+    align = 'hv'
   )
-
+  
 # Define the name of the output file based on the shortname
   output_filename <- paste0(shortname, ".png")
   
@@ -217,34 +281,13 @@ plot_modification_data <- function(mapped, shortname) {
 ```
 Iterate through every modification shortname and make plots.
 ```{r}
+distinct_shortnames <- unique(mapped$shortname)
+
 # Loop through each value in the shortname column
-for (shortname in allshortname$shortname) {
+for (shortname in distinct_shortnames) {
   # Call the plotting function for each shortname
   plot_modification_data(mapped, shortname)
 }
 ```
 
-
-
-and/or look at some of this stuff next to each other
-
-```{r}
-# Converting data to long format
-long_data <- mapped %>%
-  pivot_longer(cols = c(MismatchFreq, InsertionFreq, DeletionFreq), 
-               names_to = "attribute", 
-               values_to = "attribute_value")
-
-# Creating faceted violin plot
-ggplot(long_data, aes(x = attribute_value, y = attribute)) +
-  geom_violin(trim = FALSE) +
-  facet_wrap(~shortname, nrow =4) +
-  theme_bw() +
-  labs(title = "Basecalling error frequencies at yeast tRNA modifications",
-       x = "",
-       y = "Frequency")
-
-ggsave(here("modplots/frequencies.png"))
-
-```
 
