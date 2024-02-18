@@ -1,0 +1,117 @@
+---
+title: "phage"
+author: "Laura White"
+date: "2024-02-18"
+output: html_document
+---
+
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(colorblindr)
+library(cowplot)
+library(here)
+here::i_am("Rmd/phage.Rmd")
+```
+We want to know if our E. coli T4 & T5 phage tRNA aligning reads are genuine.
+Going to take the same basic approach as looking at mitochondrial reads.
+```{r}
+read_tRNA <- function(x, host, phage, time) {
+  df <- readr::read_tsv(x, col_names = c("chrom", "start", "pos", "score"), show_col_types = FALSE)
+  
+  df <- df %>%
+    dplyr::mutate(host = host, phage = phage, time = time)
+  
+  return(df)
+}
+
+# E. coli with and without T4 infection aligned to host + phage reference
+read_tRNA(here("bedgraphs/full_length/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.T4ref.bg"), "ecoli", "t4", "0_min") -> T4_uninfected
+read_tRNA(here("bedgraphs/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1.T4ref.bg"), "ecoli", "t4", "20_min") -> T4_infected
+
+# E. coli with and without T5 infection aligned to host + phage reference
+read_tRNA(here("bedgraphs/full_length/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.T5ref.bg"), "ecoli", "t5", "0_min") -> T5_uninfected
+read_tRNA(here("bedgraphs/full_length/T5infectedecoli.20240202_1332_P2S-01618-B_PAS25444_31820489.rna004_130bps_sup@v3.0.1.T5ref.bg"), "ecoli", "t5", "20_min") -> T5_infected
+
+combined <- list(T4_uninfected, T4_infected, T5_uninfected, T5_infected)
+
+bind_rows(combined) %>%
+  mutate(pos = as.numeric(pos)) %>%
+  mutate(score = as.numeric(score)) %>%
+  separate(chrom, c("origin", "tRNA", "AA", "anticodon", "family", "isotype")) %>%
+  select(-tRNA) %>%
+  mutate(anticodon = str_replace_all(anticodon, "U", "T")) -> tRNAcov # u and t inconsistency across refs
+
+
+rm(T4_uninfected, T4_infected, T5_uninfected, T5_infected, combined)
+```
+
+```{r}
+tRNAcov %>%
+  group_by(origin, AA, anticodon, family, isotype, host, phage, time) %>%
+  slice_max(score, with_ties = F) %>%
+  ungroup() %>%
+  unite(tRNA, origin, AA, anticodon, sep = "-") %>%
+  select(-pos) -> rollup
+```
+The code below adds up max scores for family & gene number info so that we have summary scores for each isodecoder.
+```{r}
+rollup %>%
+  separate(tRNA, c("origin", "AA", "anticodon"), extra = "drop") %>%
+  group_by(origin, AA, anticodon, host, phage, time) %>%
+  summarize(score = sum(score)) %>%
+  unite(tRNA, origin, AA, anticodon, sep = "-") %>%
+  ungroup() %>%
+  group_by(host, phage, time) %>%
+  mutate(total_score = sum(score)) %>%
+  mutate(CPM = score/total_score*1000000) -> isodecoder_scores
+```
+
+Quick plot of everything aligned to the two references.
+```{r}
+scores <- isodecoder_scores %>%
+  mutate(origin = if_else(str_detect(tRNA, "^host"), "host", "phage"),
+         tRNA = str_remove(tRNA, "^host-|^phage-"))
+
+ggplot(scores, aes(x = tRNA, y = CPM, fill = time)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7), width = 0.6) +
+  scale_fill_OkabeIto(order = c(2, 1)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "tRNA", y = "Counts per Million (CPM)", fill = "Time") +
+  facet_grid(origin~phage, scales = "free_y")
+
+```
+Let's look just at the T4 infection since that appears to be aligning well (and/or working well biologically).
+We can 
+```{r}
+scores %>%
+  filter(phage == "t4") %>%
+  select(-phage, -host) -> t4scores
+
+# Split the data into two parts based on time for easier manipulation
+t4scores_0_min <- t4scores %>%
+  filter(time == "0_min")
+
+t4scores_20_min <- t4scores %>%
+  filter(time == "20_min")
+
+# Calculate fold change
+t4scores_fold_change <- t4scores_20_min %>%
+  left_join(t4scores_0_min %>% select(-time), by = c("tRNA", "origin"), suffix = c("_20_min", "_0_min")) %>%
+  mutate(fold_change = CPM_20_min / CPM_0_min)
+
+# Select relevant columns and adjust names as necessary
+t4scores_fold_change <- t4scores_fold_change %>%
+  select(tRNA, origin, fold_change)
+
+ggplot(t4scores_fold_change, aes(x = fct_reorder(tRNA, fold_change),y = fold_change)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7), width = 0.6) +
+  geom_hline(yintercept = 1, color = "blue", linetype = "dashed", size = .5, alpha = .5) +
+  scale_fill_OkabeIto(order = c(2, 1)) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5)) +
+  labs(x = "tRNA", y = "Fold change", title = "Change in host & phage tRNA expression on \n T4 phage infection of E. coli") +
+  facet_wrap(~origin, ncol = 1, scales = "free_y")
+
+```
