@@ -7,6 +7,6 @@ seqsummaries/
 alignments/
 figures/
 nanorms/
-livebasecalling/
+livebasecalled/
 nanotRNAseq_results/
 .Rproj.user
