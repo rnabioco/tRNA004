@@ -7,8 +7,8 @@
 #BSUB -q rna
 #BSUB -n 1
 
-in="$HOME/tRNAworkshop/rebasecalled/alignedbams/full_length"
-dest="$HOME/tRNAworkshop/rebasecalled/bedgraphs/full_length"
+in="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+dest="$HOME/tRNAworkshop/bedgraphs/allreads"
 
 set -o nounset -o pipefail -o errexit -x
 
@@ -23,6 +23,6 @@ u=${samples[$(( $LSB_JOBINDEX -1 ))]}
 # determined from line counting the length of deduplicated bam files, dividing by 10^6
 # genomecov scale factor is a multiplier, so inverse is calculated in tmpscale
 
-tmpscale=$(samtools view -c ${in}/${u}.bwa_full_length.bam | awk '{print 1000000/$1}')
+tmpscale=$(samtools view -c ${in}/${u}.bwa.bam | awk '{print 1000000/$1}')
 
-bedtools genomecov -ibam ${in}/${u}.bwa_full_length.bam -scale ${tmpscale} -bg > ${dest}/${u}.bg
+bedtools genomecov -ibam ${in}/${u}.bwa.bam -scale ${tmpscale} -bg > ${dest}/${u}.bg
