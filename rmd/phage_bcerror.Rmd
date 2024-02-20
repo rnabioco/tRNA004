@@ -96,46 +96,7 @@ test %>%
 
 
 ```
-A plotting function for this structurally annotated basecalling error data.
-```{r}
-plot_basecalling_error <- function(data, title_suffix, include_legend = TRUE) {
 
-    # 99 custom x-axis labels for consensus tRNA secondary structure
-  x_labels <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", 
-                "17a", "18", "19", "20", "20a", "20b", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", 
-                "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", 
-                "e11", "e12", "e13", "e14", "e15", "e16", "e17", "e1", "e2", "e3", "e4", "e5", 
-                "e27", "e26", "e25", "e24", "e23", "e22", "e21", "49", "50", "51", "52", "53", "54", "55", "56", "57", 
-                "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73")
-
-
- # Adjusted to filter for positions within the x_labels range if necessary
-  max_position <- length(x_labels) # Assuming your positions match the length of x_labels
-  
-  filtered_data <- data %>%
-    filter(Position >= -max_position, Position <= max_position) %>%
-    mutate(Reference = fct_rev(as.factor(Reference)),
-           Position = factor(Position, levels = -max_position:max_position))
-
-  # plot
-  p <- ggplot(filtered_data, aes(x = Position, y = BC_delta, fill = Reference)) +
-    geom_tile(color = "white", size = 0.1) +
-    scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white", midpoint = 0, limits = c(-1, 1), na.value = "#D3D3D3") +
-    scale_x_discrete(labels = x_labels) +
-    labs(fill = "∆ BC error \n(Infected - Uninfected)",
-         title = paste("Basecalling error changes", title_suffix),
-         x = "",
-         y = "BC Delta") +
-    theme_cowplot() +
-    theme(
-      axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3, size = 10),
-      legend.position = ifelse(include_legend, "bottom", "none")
-    ) +
-    coord_fixed(ratio = 1) # Ensure square tiles if that's desired
-
-  return(p)
-}
-```
 Make plots.
 ```{r}
 plot_basecalling_error <- function(data, title_suffix, include_legend = TRUE) {
@@ -179,7 +140,7 @@ plot_basecalling_error <- function(data, title_suffix, include_legend = TRUE) {
 }
 
 diffs %>%
-  filter(str_starts(Reference, "host")) %>%
+  filter(str_starts(Reference, "phage")) %>%
   mutate(Reference = str_replace(Reference, "^host-", "")) -> diffs
 
 plot_basecalling_error(diffs, "for E. coli tRNAs on T4 phage infection")
