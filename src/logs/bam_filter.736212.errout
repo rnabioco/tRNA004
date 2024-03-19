@@ -1,0 +1,12 @@
++ set -o nounset -o pipefail -o errexit -x
++ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/mito_analysis
++ output_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length
++ mkdir -p /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/mito_analysis/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_fast@v3.0.1.bwa.bam .bam
++ base_name=Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_fast@v3.0.1.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_fast@v3.0.1.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/mito_analysis/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_fast@v3.0.1.bwa.bam /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_fast@v3.0.1.bwa_full_length.bam
+/beevol/home/whitel/tRNAworkshop/src/filter_reads.py: line 1: import: command not found
+/beevol/home/whitel/tRNAworkshop/src/filter_reads.py: line 4: syntax error near unexpected token `('
+/beevol/home/whitel/tRNAworkshop/src/filter_reads.py: line 4: `bamfile = pysam.AlignmentFile("your_file.bam", "rb")'

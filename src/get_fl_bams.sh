@@ -10,7 +10,7 @@ set -o nounset -o pipefail -o errexit -x
 set -o nounset -o pipefail -o errexit -x
 
 # Define input and output directories
-input_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads"
+input_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
 output_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length"
 
 # Ensure the output directory exists
@@ -20,5 +20,5 @@ mkdir -p "$output_dir"
 for bam_file in $input_dir/*.bam; do
     base_name=$(basename "$bam_file" .bam)
     output_file="$output_dir/${base_name}_full_length.bam"
-    /beevol/home/whitel/tRNAworkshop/rebasecalled/scripts/filter_reads.py "$bam_file" "$output_file"
+    /beevol/home/whitel/tRNAworkshop/src/filter_reads.py "$bam_file" "$output_file"
  done

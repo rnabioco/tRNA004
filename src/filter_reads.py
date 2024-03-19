@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import pysam
 
 # Open the BAM file
