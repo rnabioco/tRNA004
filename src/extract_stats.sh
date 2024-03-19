@@ -22,11 +22,11 @@ for bam_file in "$bam_dir"/*.bam; do
     # Extract statistics using samtools
     stats=$(samtools stats "$bam_file" | head -n 40)
     
-    # Parse specific statistics
+    # Parse specific statistics, refining to ignore anything after a '#' and trimming whitespace
     reads_mapped=$(echo "$stats" | awk -F":\t" '/reads mapped:/ {print $2}' | cut -d' ' -f1)
-    error_rate=$(echo "$stats" | awk -F":\t" '/error rate:/ {print $2}' | cut -d' ' -f1)
-    average_length=$(echo "$stats" | awk -F":\t" '/average length:/ {print $2}' | cut -d' ' -f1)
-    average_quality=$(echo "$stats" | awk -F":\t" '/average quality:/ {print $2}' | cut -d' ' -f1)
+    error_rate=$(echo "$stats" | awk -F":\t" '/error rate:/ {print $2}' | awk '{print $1}')
+    average_length=$(echo "$stats" | awk -F":\t" '/average length:/ {print $2}' | awk '{print $1}')
+    average_quality=$(echo "$stats" | awk -F":\t" '/average quality:/ {print $2}' | awk '{print $1}')
     
     # Append the extracted statistics to the output file
     echo -e "$filename\t$reads_mapped\t$error_rate\t$average_length\t$average_quality" >> "$bam_dir/$output_file"
