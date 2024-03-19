@@ -10,7 +10,7 @@ set -o nounset -o pipefail -o errexit -x
 set -o nounset -o pipefail -o errexit -x
 
 # Define input and output directories
-input_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+input_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams"
 output_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length"
 
 # Ensure the output directory exists
