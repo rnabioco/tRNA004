@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Output file
-output_file="flfilter_samtools_stats_summary.txt"
+output_file="allreads_samtools_stats_summary.txt"
+
+#output locatoin
+outloc="/beevol/home/whitel/tRNAworkshop/metadata"
 
 # Header for the output file
-echo -e "Filename\tReadsMapped\tErrorRate\tAverageLength\tAverageQuality" > "$output_file"
+echo -e "Filename\tReadsMapped\tErrorRate\tAverageLength\tAverageQuality" > "$outloc/$output_file"
 
 # Directory containing your BAM files
-bam_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length"
+bam_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads"
 
 # Loop through each BAM file in the directory
 for bam_file in "$bam_dir"/*.bam; do
@@ -29,5 +32,5 @@ for bam_file in "$bam_dir"/*.bam; do
     average_quality=$(echo "$stats" | awk -F":\t" '/average quality:/ {print $2}' | awk '{print $1}')
     
     # Append the extracted statistics to the output file
-    echo -e "$filename\t$reads_mapped\t$error_rate\t$average_length\t$average_quality" >> "$bam_dir/$output_file"
+    echo -e "$filename\t$reads_mapped\t$error_rate\t$average_length\t$average_quality" >> "$outloc/$output_file"
 done
