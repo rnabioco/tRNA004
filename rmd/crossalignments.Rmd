@@ -1,0 +1,198 @@
+---
+title: "Crossalignments"
+author: "Laura White"
+date: "2024-03-21"
+output: html_document
+---
+```{r}
+knitr::opts_chunk$set(echo = F)
+library(tidyverse)
+library(cowplot)
+library(colorblindr)
+library(here)
+
+here::i_am("rmd/crossalignments.Rmd")
+```
+To evaluate how well our post-alignment filtering strategy for full length tRNA reads works, we are going to compare tRNA aligned to the correct reference to tRNA aligned to the wrong species tRNA references for RNA004, SUP-basecalled libraries.
+```{r}
+# some janky renaming of things in order to make these joinable
+
+stats <- read_tsv(here("metadata/crossalignments_samtools_stats_summary.txt")) %>%
+  mutate(Filename = gsub("\\.bwa\\.bam$", "", Filename))  %>%
+  separate(Filename, into = c("Filename", "Reference"), sep = "sup@v3\\.0\\.1\\.", extra = "merge")
+
+filtered <- read_tsv(here("metadata/filtered_crossalignments_stats.txt")) %>%
+  mutate(Filename = gsub("\\.bwa\\.bam$", "", Filename))  %>%
+  separate(Filename, into = c("Filename", "Reference"), sep = "sup@v3\\.0\\.1\\.", extra = "merge")
+
+
+# pull only the ones with the right basecalling model 
+counts <- read_tsv(here("metadata/new_fastq_read_counts.txt")) %>%
+  mutate(Filename = gsub("\\.fastq$", "", Filename)) %>%
+  filter(str_detect(Filename, "sup@v3\\.0\\.1")) %>%
+  mutate(Filename = gsub("sup@v3\\.0\\.1", "", Filename))
+  
+
+# FIX ABOVE TO SEPARATE FILENAME FROM REFERENCE
+all <- left_join(counts, stats) %>%
+  filter(complete.cases(.)) %>% # get rid of NAs
+  rename("TotalReads" = "Total Reads") %>%
+  mutate(PercentAligned = (ReadsMapped / TotalReads * 100)) %>%
+  separate(Filename, into = c("Sample", "Date", "Something", "Instrument", "Flowcell", "SomethingAndChemistry", "HelicaseSpeed", "BasecallingModel"), sep = "_", extra = "merge") %>%
+  select(-Something) %>%
+  separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
+  select(-Something, -HelicaseSpeed) %>%
+  separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
+  select(-Version) %>%
+  mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
+  mutate(Species = case_when(
+    grepl("^Drosophila", Sample) ~ "D_melanogaster",
+    grepl("^Ecoli", Sample) ~ "E_coli",
+    grepl("^HumanFibroblast", Sample) ~ "H_sapiens",
+    grepl("^(WTyeast)", Sample) ~ "S_cerevisiae",
+    grepl("^Tetrahymena", Sample) ~ "T_thermophila",
+    grepl("^Zebrafish", Sample) ~ "D_rerio",
+    TRUE ~ NA_character_  # Default case if none of the above conditions are met
+  ))
+
+# FIX ABOVE TO SEPARATE FILENAME FROM REFERENCE
+allfiltered <- left_join(counts, filtered) %>%
+  filter(complete.cases(.)) %>% # get rid of NAs
+  rename("TotalReads" = "Total Reads") %>%
+  mutate(PercentAligned = (ReadsMapped / TotalReads * 100)) %>%
+  separate(Filename, into = c("Sample", "Date", "Something", "Instrument", "Flowcell", "SomethingAndChemistry", "HelicaseSpeed", "BasecallingModel"), sep = "_", extra = "merge") %>%
+  select(-Something) %>%
+  separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
+  select(-Something, -HelicaseSpeed) %>%
+  separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
+  select(-Version) %>%
+  mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
+  mutate(Species = case_when(
+    grepl("^Drosophila", Sample) ~ "D_melanogaster",
+    grepl("^Ecoli", Sample) ~ "E_coli",
+    grepl("^HumanFibroblast", Sample) ~ "H_sapiens",
+    grepl("^(WTyeast)", Sample) ~ "S_cerevisiae",
+    grepl("^Tetrahymena", Sample) ~ "T_thermophila",
+    grepl("^Zebrafish", Sample) ~ "D_rerio",
+    TRUE ~ NA_character_  # Default case if none of the above conditions are met
+  ))
+```
+
+Plot how well this works for the unfiltered reads
+```{r}
+all %>%
+  filter(!is.na(Species)) %>%
+  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(Reference, Chemistry))) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  labs(title = "tRNA alignment rates, before filtering",
+       x = "",
+       y = "% Aligned",
+       fill = "Reference &\nbasecalling model") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
+  scale_fill_OkabeIto(order = c(1,6,2,5,3,4), na.translate = FALSE) #order = c(3,7)
+
+
+allfiltered %>%
+  filter(!is.na(Species)) %>%
+  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(Reference, Chemistry))) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  labs(title = "tRNA alignment rates, after filtering",
+       x = "",
+       y = "% Aligned",
+       fill = "Reference &\nbasecalling model") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
+  scale_fill_OkabeIto(order = c(1,6,2,5,3,4), na.translate = FALSE) #order = c(3,7)
+```
+
+Better stats.
+```{r}
+
+# map names to reference genomes
+flspecies_to_reference <- data.frame(
+  Species = c("D_melanogaster", "E_coli", "H_sapiens", "T_thermophila", "D_rerio", "S_cerevisiae"),
+  CorrectReference = c("dm6-mature-tRNAs.bwa_full_length.bam", 
+                       "ecoliK12MG1655-mature-tRNAs.bwa_full_length.bam",
+                       "hg38-mature-tRNAs.bwa_full_length.bam",
+                       "tthermophila-numbered-mature-tRNAs.bwa_full_length.bam",
+                       "danRer11-mature-tRNAs.bwa_full_length.bam",
+                       "sacCer3-mature-tRNAs.bwa_full_length.bam")
+)
+
+species_to_reference <- data.frame(
+  Species = c("D_melanogaster", "E_coli", "H_sapiens", "T_thermophila", "D_rerio", "S_cerevisiae"),
+  CorrectReference = c("dm6-mature-tRNAs", 
+                       "ecoliK12MG1655-mature-tRNAs",
+                       "hg38-mature-tRNAs",
+                       "tthermophila-numbered-mature-tRNAs",
+                       "danRer11-mature-tRNAs",
+                       "sacCer3-mature-tRNAs")
+)
+
+
+
+all %>%
+  select(Species, Reference, PercentAligned, ErrorRate, AverageQuality) %>%
+  left_join(flspecies_to_reference, by = "Species") %>%
+  mutate(IsCorrectReference = Reference == CorrectReference) -> test
+  
+# Calculate the percent aligned to the true reference for each species
+true_alignment_rates <- test %>%
+  filter(IsCorrectReference) %>%
+  select(Species, PercentAlignedTrue = PercentAligned)
+
+# Join this back to the original dataset
+test_enhanced <- test %>%
+  left_join(true_alignment_rates, by = "Species")
+
+# Calculate the false positive equivalent metric
+test_enhanced <- test_enhanced %>%
+  mutate(FPE_Metric = (PercentAlignedTrue - PercentAligned) / PercentAlignedTrue)
+
+
+#Plot this metric
+test_enhanced$SimpleReference <- gsub("-mature-tRNAs.bwa_full_length.bam", "", test_enhanced$Reference)
+
+# Pivot the data to a wide format suitable for heatmapping
+wide_data <- test_enhanced %>%
+  select(Species, SimpleReference, FPE_Metric) %>%
+  pivot_wider(names_from = SimpleReference, values_from = FPE_Metric)
+
+# Convert back to long format for ggplot
+long_for_plot <- wide_data %>%
+  pivot_longer(-Species, names_to = "Reference", values_to = "FPE_Metric")
+
+# Plotting the heatmap
+ggplot(long_for_plot, aes(x = Reference, y = Species, fill = FPE_Metric)) +
+  geom_tile() + # Use geom_tile for heatmap squares
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0, limit = c(-.5, .5), name = "FPE Metric") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Rotate X axis labels for better readability
+  labs(title = "False positive alignments to incorrect reference, unfiltered reads", x = "Reference", y = "Species")
+
+```
+Directly visualize the values for the average alignmentn quality and error rate across tehse alignments.
+```{r}
+plot_heatmap <- function(data, metric) {
+  # Pivot the data if it's not in long format already
+  data_long <- data %>%
+    pivot_longer(cols = c("AverageQuality", "ErrorRate"), names_to = "Metric", values_to = "Value") %>%
+    filter(Metric == metric)
+  
+  ggplot(data_long, aes(x = Reference, y = Species, fill = Value)) +
+    geom_tile() +
+    scale_fill_gradient(low = "blue", high = "red", name = metric) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("Heatmap of", metric, "for unfiltered reads"), x = "Reference", y = "Species")
+}
+
+# Plot the heatmap for AverageQuality
+plot_heatmap(all, "AverageQuality")
+
+# Plot the heatmap for ErrorRate
+plot_heatmap(all, "ErrorRate")
+
+```
+
