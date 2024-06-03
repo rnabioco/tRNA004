@@ -4,6 +4,7 @@
 large_txt_metadata/
 rebasecalling/
 rebasecalled/
+alignment_evals
 seqsummaries/
 alignments/
 figures/
