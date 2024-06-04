@@ -1,0 +1,288 @@
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q5synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q5synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q5synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100270 sequences (10000019 bp)...
+[M::process] read 97790 sequences (10000093 bp)...
+[M::mem_process_seqs] Processed 100270 reads in 569.390 CPU sec, 569.321 real sec
+[M::process] read 97650 sequences (10000059 bp)...
+[M::mem_process_seqs] Processed 97790 reads in 564.906 CPU sec, 564.700 real sec
+[M::process] read 1290 sequences (130862 bp)...
+[M::mem_process_seqs] Processed 97650 reads in 545.951 CPU sec, 545.801 real sec
+[M::mem_process_seqs] Processed 1290 reads in 7.163 CPU sec, 7.062 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q5synthetic.fasta
+[main] Real time: 1687.087 sec; CPU: 1687.489 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q5synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q6synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q6synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q6synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100212 sequences (10000129 bp)...
+[M::process] read 97770 sequences (10000208 bp)...
+[M::mem_process_seqs] Processed 100212 reads in 521.139 CPU sec, 521.045 real sec
+[M::process] read 97628 sequences (10000051 bp)...
+[M::mem_process_seqs] Processed 97770 reads in 505.627 CPU sec, 505.396 real sec
+[M::process] read 1390 sequences (139598 bp)...
+[M::mem_process_seqs] Processed 97628 reads in 507.186 CPU sec, 507.063 real sec
+[M::mem_process_seqs] Processed 1390 reads in 6.847 CPU sec, 6.728 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q6synthetic.fasta
+[main] Real time: 1564.104 sec; CPU: 1540.889 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q6synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q7synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q7synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q7synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100324 sequences (10000053 bp)...
+[M::process] read 97840 sequences (10000012 bp)...
+[M::mem_process_seqs] Processed 100324 reads in 433.308 CPU sec, 433.222 real sec
+[M::process] read 97584 sequences (10000106 bp)...
+[M::mem_process_seqs] Processed 97840 reads in 427.934 CPU sec, 427.706 real sec
+[M::process] read 1252 sequences (126452 bp)...
+[M::mem_process_seqs] Processed 97584 reads in 423.784 CPU sec, 423.660 real sec
+[M::mem_process_seqs] Processed 1252 reads in 5.038 CPU sec, 4.904 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q7synthetic.fasta
+[main] Real time: 1290.086 sec; CPU: 1290.155 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q7synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q8synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q8synthetic.fasta
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q8synthetic.fasta.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100238 sequences (10000029 bp)...
+[M::process] read 97804 sequences (10000006 bp)...
+[M::mem_process_seqs] Processed 100238 reads in 363.785 CPU sec, 363.702 real sec
+[M::process] read 97686 sequences (10000017 bp)...
+[M::mem_process_seqs] Processed 97804 reads in 357.732 CPU sec, 357.518 real sec
+[M::process] read 1272 sequences (127470 bp)...
+[M::mem_process_seqs] Processed 97686 reads in 344.972 CPU sec, 344.865 real sec
+[M::mem_process_seqs] Processed 1272 reads in 4.649 CPU sec, 4.529 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q8synthetic.fasta
+[main] Real time: 1075.052 sec; CPU: 1071.231 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q8synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q9synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q9synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q9synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100260 sequences (10000095 bp)...
+[M::process] read 97648 sequences (10000109 bp)...
+[M::mem_process_seqs] Processed 100260 reads in 303.512 CPU sec, 303.448 real sec
+[M::process] read 97632 sequences (10000028 bp)...
+[M::mem_process_seqs] Processed 97648 reads in 298.799 CPU sec, 298.652 real sec
+[M::process] read 1460 sequences (146138 bp)...
+[M::mem_process_seqs] Processed 97632 reads in 280.457 CPU sec, 280.347 real sec
+[M::mem_process_seqs] Processed 1460 reads in 4.150 CPU sec, 4.029 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q9synthetic.fasta
+[main] Real time: 893.099 sec; CPU: 887.017 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q9synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q10synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q10synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q10synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100260 sequences (10000037 bp)...
+[M::process] read 97798 sequences (10000028 bp)...
+[M::mem_process_seqs] Processed 100260 reads in 249.448 CPU sec, 249.380 real sec
+[M::process] read 97628 sequences (10000173 bp)...
+[M::mem_process_seqs] Processed 97798 reads in 243.612 CPU sec, 243.440 real sec
+[M::process] read 1314 sequences (132330 bp)...
+[M::mem_process_seqs] Processed 97628 reads in 237.674 CPU sec, 237.573 real sec
+[M::mem_process_seqs] Processed 1314 reads in 3.352 CPU sec, 3.269 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q10synthetic.fasta
+[main] Real time: 734.112 sec; CPU: 734.172 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q10synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q11synthetic.fasta
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q11synthetic.fasta.bwa.bam
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q11synthetic.fasta
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100200 sequences (10000031 bp)...
+[M::process] read 97780 sequences (10000110 bp)...
+[M::mem_process_seqs] Processed 100200 reads in 208.757 CPU sec, 208.696 real sec
+[M::process] read 97682 sequences (10000064 bp)...
+[M::mem_process_seqs] Processed 97780 reads in 206.200 CPU sec, 205.989 real sec
+[M::process] read 1338 sequences (133863 bp)...
+[M::mem_process_seqs] Processed 97682 reads in 201.314 CPU sec, 201.204 real sec
+[M::mem_process_seqs] Processed 1338 reads in 2.683 CPU sec, 2.558 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q11synthetic.fasta
+[main] Real time: 619.024 sec; CPU: 619.046 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q11synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q12synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q12synthetic.fasta.bwa.bam
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q12synthetic.fasta
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100326 sequences (10000135 bp)...
+[M::process] read 97796 sequences (10000201 bp)...
+[M::mem_process_seqs] Processed 100326 reads in 175.946 CPU sec, 175.879 real sec
+[M::process] read 97572 sequences (10000027 bp)...
+[M::mem_process_seqs] Processed 97796 reads in 173.569 CPU sec, 173.385 real sec
+[M::process] read 1306 sequences (131744 bp)...
+[M::mem_process_seqs] Processed 97572 reads in 165.312 CPU sec, 165.202 real sec
+[M::mem_process_seqs] Processed 1306 reads in 2.529 CPU sec, 2.415 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q12synthetic.fasta
+[main] Real time: 517.557 sec; CPU: 517.444 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q12synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q13synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q13synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q13synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100104 sequences (10000077 bp)...
+[M::process] read 97852 sequences (10000013 bp)...
+[M::mem_process_seqs] Processed 100104 reads in 159.465 CPU sec, 159.402 real sec
+[M::process] read 97648 sequences (10000163 bp)...
+[M::mem_process_seqs] Processed 97852 reads in 165.314 CPU sec, 165.139 real sec
+[M::process] read 1396 sequences (140319 bp)...
+[M::mem_process_seqs] Processed 97648 reads in 141.475 CPU sec, 141.348 real sec
+[M::mem_process_seqs] Processed 1396 reads in 1.966 CPU sec, 1.846 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q13synthetic.fasta
+[main] Real time: 468.176 sec; CPU: 468.303 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q13synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q14synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q14synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q14synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100276 sequences (10000155 bp)...
+[M::process] read 97772 sequences (10000157 bp)...
+[M::mem_process_seqs] Processed 100276 reads in 130.739 CPU sec, 130.677 real sec
+[M::process] read 97670 sequences (10000126 bp)...
+[M::mem_process_seqs] Processed 97772 reads in 129.303 CPU sec, 129.138 real sec
+[M::process] read 1282 sequences (129283 bp)...
+[M::mem_process_seqs] Processed 97670 reads in 123.342 CPU sec, 123.228 real sec
+[M::mem_process_seqs] Processed 1282 reads in 1.637 CPU sec, 1.517 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q14synthetic.fasta
+[main] Real time: 385.135 sec; CPU: 385.107 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q14synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q15synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q15synthetic.fasta.bwa.bam
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q15synthetic.fasta
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100294 sequences (10000175 bp)...
+[M::process] read 97794 sequences (10000134 bp)...
+[M::mem_process_seqs] Processed 100294 reads in 115.256 CPU sec, 115.167 real sec
+[M::process] read 97604 sequences (10000202 bp)...
+[M::mem_process_seqs] Processed 97794 reads in 112.354 CPU sec, 112.184 real sec
+[M::process] read 1308 sequences (132170 bp)...
+[M::mem_process_seqs] Processed 97604 reads in 115.522 CPU sec, 115.415 real sec
+[M::mem_process_seqs] Processed 1308 reads in 1.569 CPU sec, 1.440 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q15synthetic.fasta
+[main] Real time: 344.603 sec; CPU: 344.807 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q15synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q16synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q16synthetic.fasta.bwa.bam
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q16synthetic.fasta
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100176 sequences (10000012 bp)...
+[M::process] read 97740 sequences (10000147 bp)...
+[M::mem_process_seqs] Processed 100176 reads in 101.450 CPU sec, 101.391 real sec
+[M::process] read 97606 sequences (10000100 bp)...
+[M::mem_process_seqs] Processed 97740 reads in 99.874 CPU sec, 99.693 real sec
+[M::process] read 1478 sequences (148875 bp)...
+[M::mem_process_seqs] Processed 97606 reads in 95.641 CPU sec, 95.485 real sec
+[M::mem_process_seqs] Processed 1478 reads in 1.431 CPU sec, 1.289 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q16synthetic.fasta
+[main] Real time: 298.183 sec; CPU: 298.476 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q16synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q17synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q17synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q17synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100164 sequences (10000151 bp)...
+[M::process] read 97848 sequences (10000074 bp)...
+[M::mem_process_seqs] Processed 100164 reads in 91.057 CPU sec, 90.983 real sec
+[M::process] read 97660 sequences (10000162 bp)...
+[M::mem_process_seqs] Processed 97848 reads in 89.845 CPU sec, 89.675 real sec
+[M::process] read 1328 sequences (132643 bp)...
+[M::mem_process_seqs] Processed 97660 reads in 83.630 CPU sec, 83.498 real sec
+[M::mem_process_seqs] Processed 1328 reads in 1.097 CPU sec, 0.980 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q17synthetic.fasta
+[main] Real time: 265.558 sec; CPU: 265.711 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q17synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q18synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q18synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q18synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100222 sequences (10000020 bp)...
+[M::process] read 97800 sequences (10000184 bp)...
+[M::mem_process_seqs] Processed 100222 reads in 81.873 CPU sec, 81.812 real sec
+[M::process] read 97536 sequences (10000068 bp)...
+[M::mem_process_seqs] Processed 97800 reads in 80.056 CPU sec, 79.869 real sec
+[M::process] read 1442 sequences (144571 bp)...
+[M::mem_process_seqs] Processed 97536 reads in 75.174 CPU sec, 75.046 real sec
+[M::mem_process_seqs] Processed 1442 reads in 1.201 CPU sec, 1.079 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q18synthetic.fasta
+[main] Real time: 238.228 sec; CPU: 238.394 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q18synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q19synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q19synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q19synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100166 sequences (10000011 bp)...
+[M::process] read 97840 sequences (10000150 bp)...
+[M::mem_process_seqs] Processed 100166 reads in 76.068 CPU sec, 75.999 real sec
+[M::process] read 97588 sequences (10000003 bp)...
+[M::mem_process_seqs] Processed 97840 reads in 73.850 CPU sec, 73.654 real sec
+[M::process] read 1406 sequences (140659 bp)...
+[M::mem_process_seqs] Processed 97588 reads in 70.000 CPU sec, 69.874 real sec
+[M::mem_process_seqs] Processed 1406 reads in 1.139 CPU sec, 1.014 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q19synthetic.fasta
+[main] Real time: 220.977 sec; CPU: 221.143 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q19synthetic.fasta.bwa.bam
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q20synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q20synthetic.fasta
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q20synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100178 sequences (10000066 bp)...
+[M::process] read 97732 sequences (10000072 bp)...
+[M::mem_process_seqs] Processed 100178 reads in 68.773 CPU sec, 68.710 real sec
+[M::process] read 97634 sequences (10000060 bp)...
+[M::mem_process_seqs] Processed 97732 reads in 68.024 CPU sec, 67.860 real sec
+[M::process] read 1456 sequences (145753 bp)...
+[M::mem_process_seqs] Processed 97634 reads in 63.927 CPU sec, 63.802 real sec
+[M::mem_process_seqs] Processed 1456 reads in 1.047 CPU sec, 0.908 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q20synthetic.fasta
+[main] Real time: 201.703 sec; CPU: 201.851 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q20synthetic.fasta.bwa.bam

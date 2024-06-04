@@ -1,0 +1,1328 @@
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[1]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:45 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 20:02:45 2024
+Terminated at Mon Jun  3 20:31:00 2024
+Results reported at Mon Jun  3 20:31:00 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1694.90 sec.
+    Max Memory :                                 3 GB
+    Average Memory :                             2.00 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1695 sec.
+    Turnaround time :                            1707 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[2]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 20:31:00 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 20:31:00 2024
+Terminated at Mon Jun  3 20:57:10 2024
+Results reported at Mon Jun  3 20:57:10 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1547.84 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.56 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1570 sec.
+    Turnaround time :                            3276 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[3]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 20:57:10 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 20:57:10 2024
+Terminated at Mon Jun  3 21:18:46 2024
+Results reported at Mon Jun  3 21:18:46 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1295.97 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.37 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1296 sec.
+    Turnaround time :                            4573 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[4]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 21:18:46 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 21:18:46 2024
+Terminated at Mon Jun  3 21:36:47 2024
+Results reported at Mon Jun  3 21:36:47 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1078.12 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.84 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1081 sec.
+    Turnaround time :                            5654 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[5]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 21:36:48 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 21:36:48 2024
+Terminated at Mon Jun  3 21:51:49 2024
+Results reported at Mon Jun  3 21:51:49 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   892.21 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.72 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   901 sec.
+    Turnaround time :                            6555 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[6]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 21:51:49 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 21:51:49 2024
+Terminated at Mon Jun  3 22:04:08 2024
+Results reported at Mon Jun  3 22:04:08 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   739.33 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.68 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   739 sec.
+    Turnaround time :                            7294 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[7]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:04:09 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:04:09 2024
+Terminated at Mon Jun  3 22:14:32 2024
+Results reported at Mon Jun  3 22:14:32 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   623.02 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.61 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   622 sec.
+    Turnaround time :                            7918 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[8]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:14:32 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:14:32 2024
+Terminated at Mon Jun  3 22:23:13 2024
+Results reported at Mon Jun  3 22:23:13 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   521.20 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   521 sec.
+    Turnaround time :                            8439 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[9]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:23:14 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:23:14 2024
+Terminated at Mon Jun  3 22:31:06 2024
+Results reported at Mon Jun  3 22:31:06 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   472.20 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   472 sec.
+    Turnaround time :                            8913 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[10]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:31:06 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:31:06 2024
+Terminated at Mon Jun  3 22:37:34 2024
+Results reported at Mon Jun  3 22:37:34 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   388.39 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   388 sec.
+    Turnaround time :                            9301 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[11]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:37:34 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:37:34 2024
+Terminated at Mon Jun  3 22:43:24 2024
+Results reported at Mon Jun  3 22:43:24 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   348.29 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   350 sec.
+    Turnaround time :                            9651 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[12]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:43:24 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:43:24 2024
+Terminated at Mon Jun  3 22:48:27 2024
+Results reported at Mon Jun  3 22:48:27 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   302.06 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   302 sec.
+    Turnaround time :                            9953 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[13]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:48:26 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:48:26 2024
+Terminated at Mon Jun  3 22:52:55 2024
+Results reported at Mon Jun  3 22:52:55 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   268.90 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   269 sec.
+    Turnaround time :                            10222 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[14]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:52:55 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:52:55 2024
+Terminated at Mon Jun  3 22:56:56 2024
+Results reported at Mon Jun  3 22:56:56 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   241.53 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   241 sec.
+    Turnaround time :                            10463 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[15]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 22:56:57 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 22:56:57 2024
+Terminated at Mon Jun  3 23:00:41 2024
+Results reported at Mon Jun  3 23:00:41 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   224.13 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   224 sec.
+    Turnaround time :                            10688 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 849447[16]: <bwa[1-16]> in cluster <tesla2> Done
+
+Job <bwa[1-16]> was submitted from host <compute21> by user <whitel> in cluster <tesla2> at Mon Jun  3 20:02:38 2024
+Job was executed on host(s) <6*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Mon Jun  3 23:00:42 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Mon Jun  3 23:00:42 2024
+Terminated at Mon Jun  3 23:04:06 2024
+Results reported at Mon Jun  3 23:04:06 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-16]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 6
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/alignment_evals/syntheticreads"
+dest="$HOME/tRNAworkshop/alignment_evals/bams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Q5synthetic.fasta
+Q6synthetic.fasta
+Q7synthetic.fasta
+Q8synthetic.fasta
+Q9synthetic.fasta
+Q10synthetic.fasta
+Q11synthetic.fasta
+Q12synthetic.fasta
+Q13synthetic.fasta
+Q14synthetic.fasta
+Q15synthetic.fasta
+Q16synthetic.fasta
+Q17synthetic.fasta
+Q18synthetic.fasta
+Q19synthetic.fasta
+Q20synthetic.fasta
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u} \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   204.61 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   204 sec.
+    Turnaround time :                            10892 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.849447.err> for stderr output of this job.
+

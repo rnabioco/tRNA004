@@ -1,0 +1,84 @@
++ set -o nounset -o pipefail -o errexit -x
++ input_dir=/beevol/home/whitel/tRNAworkshop/alignment_evals/bams
++ output_dir=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams
++ mkdir -p /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q10synthetic.fasta.bwa.bam .bam
++ base_name=Q10synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q10synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q10synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q10synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q11synthetic.fasta.bwa.bam .bam
++ base_name=Q11synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q11synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q11synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q11synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q12synthetic.fasta.bwa.bam .bam
++ base_name=Q12synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q12synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q12synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q12synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q13synthetic.fasta.bwa.bam .bam
++ base_name=Q13synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q13synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q13synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q13synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q14synthetic.fasta.bwa.bam .bam
++ base_name=Q14synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q14synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q14synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q14synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q15synthetic.fasta.bwa.bam .bam
++ base_name=Q15synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q15synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q15synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q15synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q16synthetic.fasta.bwa.bam .bam
++ base_name=Q16synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q16synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q16synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q16synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q17synthetic.fasta.bwa.bam .bam
++ base_name=Q17synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q17synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q17synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q17synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q18synthetic.fasta.bwa.bam .bam
++ base_name=Q18synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q18synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q18synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q18synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q19synthetic.fasta.bwa.bam .bam
++ base_name=Q19synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q19synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q19synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q19synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q20synthetic.fasta.bwa.bam .bam
++ base_name=Q20synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q20synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q20synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q20synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q5synthetic.fasta.bwa.bam .bam
++ base_name=Q5synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q5synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q5synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q5synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q6synthetic.fasta.bwa.bam .bam
++ base_name=Q6synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q6synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q6synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q6synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q7synthetic.fasta.bwa.bam .bam
++ base_name=Q7synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q7synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q7synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q7synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q8synthetic.fasta.bwa.bam .bam
++ base_name=Q8synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q8synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q8synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q8synthetic.fasta.bwa_full_length.bam
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q9synthetic.fasta.bwa.bam .bam
++ base_name=Q9synthetic.fasta.bwa
++ output_file=/beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q9synthetic.fasta.bwa_full_length.bam
++ /beevol/home/whitel/tRNAworkshop/src/filter_reads.py /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q9synthetic.fasta.bwa.bam /beevol/home/whitel/tRNAworkshop/alignment_evals/filteredbams/Q9synthetic.fasta.bwa_full_length.bam

@@ -1,0 +1,108 @@
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q5synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q5synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q5synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q5synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q6synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q6synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q6synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q6synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q7synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q7synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q7synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q7synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q8synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q8synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q8synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q8synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q9synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q9synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q9synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q9synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q10synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q10synthetic.fasta.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q10synthetic.fasta.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q10synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q11synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q11synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q11synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q11synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q12synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q12synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q12synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q12synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q13synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q13synthetic.fasta.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q13synthetic.fasta.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q13synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q14synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q14synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q14synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q14synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q15synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q15synthetic.fasta.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q15synthetic.fasta.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q15synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"
++ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
++ u=Q16synthetic.fasta
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q16synthetic.fasta.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q16synthetic.fasta.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q16synthetic.fasta.fastq'.
+[main_samview] fail to read the header from "-".
+samtools sort: failed to read header from "-"

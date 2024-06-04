@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Output file
-output_file="allreads_samtools_stats_summary.txt"
+output_file="crossalignments_samtools_stats_summary.txt"
 
 #output locatoin
 outloc="/beevol/home/whitel/tRNAworkshop/metadata"
@@ -10,7 +10,7 @@ outloc="/beevol/home/whitel/tRNAworkshop/metadata"
 echo -e "Filename\tReadsMapped\tErrorRate\tAverageLength\tAverageQuality" > "$outloc/$output_file"
 
 # Directory containing your BAM files
-bam_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads"
+bam_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/crossalignments"
 
 # Loop through each BAM file in the directory
 for bam_file in "$bam_dir"/*.bam; do
