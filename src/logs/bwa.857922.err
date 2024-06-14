@@ -1,0 +1,14 @@
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 74304 sequences (10000011 bp)...
+[M::process] read 75308 sequences (10000107 bp)...
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs

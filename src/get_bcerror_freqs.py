@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+
+import sys
 import argparse
 import pysam
 import pandas as pd

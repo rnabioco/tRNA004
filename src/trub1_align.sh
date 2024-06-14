@@ -1,21 +1,22 @@
 #! /usr/bin/env bash
 
-#BSUB -J bwa[1-2]
+#BSUB -J bwa[1-3]
 #BSUB -o logs/bwa.%J.out
 #BSUB -e logs/bwa.%J.err
 #BSUB -R "span[hosts=1]"
 #BSUB -q rna
-#BSUB -n 2
+#BSUB -n 18
 
-bwaidx="$HOME/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa"
+bwaidx="$HOME/tRNAworkshop/ref/hg38-mature-tRNAs.fa"
 in="$HOME/tRNAworkshop/rebasecalled/fastqs"
 dest="$HOME/tRNAworkshop/rebasecalled/alignedbams"
 
 set -o nounset -o pipefail -o errexit -x
 
 samples=(
-WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3
-WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Trub1untrH295R004_20231207_1527_MN42516_FAX73799_8b069090.rna004_130bps_fast@v5.0.0
+Trub1untrH295R004_20231207_1527_MN42516_FAX73799_8b069090.rna004_130bps_hac@v5.0.0
+Trub1untrH295R004_20231207_1527_MN42516_FAX73799_8b069090.rna004_130bps_sup@v5.0.0
 )
 
 u=${samples[$(( $LSB_JOBINDEX -1 ))]}
@@ -26,3 +27,4 @@ bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
 | samtools sort -o ${dest}/${u}.bwa.bam
 
 samtools index ${dest}/${u}.bwa.bam
+

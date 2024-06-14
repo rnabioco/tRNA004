@@ -1,0 +1,124 @@
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 19431 sequences (3083941 bp)...
+[M::mem_process_seqs] Processed 19431 reads in 75.236 CPU sec, 75.421 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3.fastq
+[main] Real time: 76.158 sec; CPU: 75.327 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 19396 sequences (3034060 bp)...
+[M::mem_process_seqs] Processed 19396 reads in 89.735 CPU sec, 90.023 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.fastq
+[main] Real time: 90.564 sec; CPU: 89.851 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 54734 sequences (10000376 bp)...
+[M::process] read 53658 sequences (10000207 bp)...
+[M::mem_process_seqs] Processed 54734 reads in 314.077 CPU sec, 314.758 real sec
+[M::process] read 57062 sequences (10000081 bp)...
+[M::mem_process_seqs] Processed 53658 reads in 299.252 CPU sec, 299.777 real sec
+[M::process] read 39275 sequences (6849463 bp)...
+[M::mem_process_seqs] Processed 57062 reads in 303.757 CPU sec, 304.389 real sec
+[M::mem_process_seqs] Processed 39275 reads in 202.090 CPU sec, 202.489 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1.fastq
+[main] Real time: 1126.835 sec; CPU: 1119.315 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 101302 sequences (10000222 bp)...
+[M::process] read 100454 sequences (10000175 bp)...
+[M::mem_process_seqs] Processed 101302 reads in 256.130 CPU sec, 256.820 real sec
+[M::process] read 3258 sequences (381773 bp)...
+[M::mem_process_seqs] Processed 100454 reads in 258.931 CPU sec, 259.764 real sec
+[M::mem_process_seqs] Processed 3258 reads in 11.433 CPU sec, 11.361 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0.fastq
+[main] Real time: 529.357 sec; CPU: 526.594 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 67210 sequences (10000115 bp)...
+[M::process] read 69952 sequences (10000723 bp)...
+[M::mem_process_seqs] Processed 67210 reads in 247.531 CPU sec, 248.065 real sec
+[M::process] read 67451 sequences (9627426 bp)...
+[M::mem_process_seqs] Processed 69952 reads in 238.429 CPU sec, 238.775 real sec
+[M::mem_process_seqs] Processed 67451 reads in 232.727 CPU sec, 233.175 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1.fastq
+[main] Real time: 729.359 sec; CPU: 718.854 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 85312 sequences (10000090 bp)...
+[M::process] read 85576 sequences (10000002 bp)...
+[M::mem_process_seqs] Processed 85312 reads in 317.585 CPU sec, 318.282 real sec
+[M::process] read 34350 sequences (4263896 bp)...
+[M::mem_process_seqs] Processed 85576 reads in 307.659 CPU sec, 308.273 real sec
+[M::mem_process_seqs] Processed 34350 reads in 133.934 CPU sec, 134.103 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0.fastq
+[main] Real time: 761.484 sec; CPU: 759.307 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 56546 sequences (10000168 bp)...
+[M::process] read 59004 sequences (10000043 bp)...
+[M::mem_process_seqs] Processed 56546 reads in 277.816 CPU sec, 278.564 real sec
+[M::process] read 59304 sequences (10000108 bp)...
+[M::mem_process_seqs] Processed 59004 reads in 281.386 CPU sec, 282.031 real sec
+[M::process] read 29652 sequences (5012240 bp)...
+[M::mem_process_seqs] Processed 59304 reads in 280.801 CPU sec, 281.592 real sec
+[M::mem_process_seqs] Processed 29652 reads in 141.083 CPU sec, 141.366 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.fastq
+[main] Real time: 997.171 sec; CPU: 981.213 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.bwa.bam
++ samples=(WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_fast@v3 WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_fast@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
++ u=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.bwa.bam
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.fastq
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 74304 sequences (10000011 bp)...
+[M::process] read 75308 sequences (10000107 bp)...
+[M::mem_process_seqs] Processed 74304 reads in 822.885 CPU sec, 824.788 real sec
+[M::process] read 55731 sequences (8249340 bp)...
+[M::mem_process_seqs] Processed 75308 reads in 796.445 CPU sec, 798.162 real sec
+[M::mem_process_seqs] Processed 55731 reads in 768.357 CPU sec, 770.050 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.fastq
+[main] Real time: 2394.379 sec; CPU: 2387.842 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.bwa.bam

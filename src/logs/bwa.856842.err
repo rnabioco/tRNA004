@@ -1,0 +1,48 @@
++ samples=(Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0 Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0 Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0)
++ u=Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/danRer11-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 99768 sequences (10000082 bp)...
+[M::process] read 100512 sequences (10000067 bp)...
+[M::mem_process_seqs] Processed 99768 reads in 495.965 CPU sec, 497.068 real sec
+[M::process] read 3676 sequences (388323 bp)...
+[M::mem_process_seqs] Processed 100512 reads in 505.011 CPU sec, 505.996 real sec
+[M::mem_process_seqs] Processed 3676 reads in 18.389 CPU sec, 18.275 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/danRer11-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0.fastq
+[main] Real time: 1024.997 sec; CPU: 1019.475 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0.bwa.bam
++ samples=(Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0 Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0 Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0)
++ u=Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/danRer11-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 84470 sequences (10000145 bp)...
+[M::process] read 88230 sequences (10000067 bp)...
+[M::mem_process_seqs] Processed 84470 reads in 589.181 CPU sec, 590.507 real sec
+[M::process] read 31674 sequences (3673816 bp)...
+[M::mem_process_seqs] Processed 88230 reads in 560.122 CPU sec, 561.288 real sec
+[M::mem_process_seqs] Processed 31674 reads in 206.666 CPU sec, 207.057 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/danRer11-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0.fastq
+[main] Real time: 1362.244 sec; CPU: 1356.107 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0.bwa.bam
++ samples=(Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_fast@v5.0.0 Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_hac@v5.0.0 Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0)
++ u=Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/danRer11-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 62514 sequences (10000163 bp)...
+[M::process] read 81644 sequences (10000105 bp)...
+[M::mem_process_seqs] Processed 62514 reads in 2020.792 CPU sec, 2025.525 real sec
+[M::process] read 59820 sequences (7363621 bp)...
+[M::mem_process_seqs] Processed 81644 reads in 1063.673 CPU sec, 1066.048 real sec
+[M::mem_process_seqs] Processed 59820 reads in 813.019 CPU sec, 814.886 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/danRer11-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0.fastq
+[main] Real time: 3910.035 sec; CPU: 3897.670 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0.bwa.bam

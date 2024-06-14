@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-in="$HOME/tRNAworkshop/rebasecalled/alignedbams/full_length"
-dest="$HOME/tRNAworkshop/bedgraphs/full_length"
+in="$HOME/tRNAworkshop/rebasecalled/alignedbams/full_length/phage_subset"
+dest="$HOME/tRNAworkshop/bedgraphs"
 
 # Ensure the output directory exists
 mkdir -p "$dest"

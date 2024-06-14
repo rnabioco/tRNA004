@@ -1,0 +1,7 @@
++ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense
++ score_threshold=20
++ output_file=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense/results.csv
+++ dirname /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense/results.csv
++ output_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense
++ mkdir -p /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense
+/beevol/home/whitel/.lsbatch/1717796508.855690.shell: line 19: total_expected_reads: unbound variable

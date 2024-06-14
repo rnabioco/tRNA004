@@ -1,0 +1,132 @@
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100994 sequences (10000019 bp)...
+[M::process] read 81711 sequences (8762131 bp)...
+[M::mem_process_seqs] Processed 100994 reads in 535.777 CPU sec, 535.646 real sec
+[M::mem_process_seqs] Processed 81711 reads in 451.677 CPU sec, 451.523 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3.fastq
+[main] Real time: 1023.853 sec; CPU: 987.707 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 101160 sequences (10000166 bp)...
+[M::process] read 81563 sequences (8882096 bp)...
+[M::mem_process_seqs] Processed 101160 reads in 571.461 CPU sec, 571.296 real sec
+[M::mem_process_seqs] Processed 81563 reads in 485.391 CPU sec, 485.260 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.fastq
+[main] Real time: 1084.945 sec; CPU: 1057.133 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1.bwa.bam
++ samtools view -F4 -hu -
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1.fastq
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 81214 sequences (10000150 bp)...
+[M::process] read 83296 sequences (10000068 bp)...
+[M::mem_process_seqs] Processed 81214 reads in 301.206 CPU sec, 301.864 real sec
+[M::process] read 81940 sequences (10000102 bp)...
+[M::mem_process_seqs] Processed 83296 reads in 297.100 CPU sec, 297.610 real sec
+[M::process] read 71553 sequences (8431582 bp)...
+[M::mem_process_seqs] Processed 81940 reads in 287.761 CPU sec, 288.303 real sec
+[M::mem_process_seqs] Processed 71553 reads in 249.777 CPU sec, 250.306 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1.fastq
+[main] Real time: 1171.324 sec; CPU: 1136.000 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 137664 sequences (10000001 bp)...
+[M::process] read 133878 sequences (10000110 bp)...
+[M::mem_process_seqs] Processed 137664 reads in 461.632 CPU sec, 461.459 real sec
+[M::process] read 49541 sequences (3609313 bp)...
+[M::mem_process_seqs] Processed 133878 reads in 467.780 CPU sec, 467.567 real sec
+[M::mem_process_seqs] Processed 49541 reads in 164.233 CPU sec, 164.121 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0.fastq
+[main] Real time: 1114.945 sec; CPU: 1093.912 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 97546 sequences (10000044 bp)...
+[M::process] read 103292 sequences (10000099 bp)...
+[M::mem_process_seqs] Processed 97546 reads in 378.502 CPU sec, 378.339 real sec
+[M::process] read 102094 sequences (10000148 bp)...
+[M::mem_process_seqs] Processed 103292 reads in 386.630 CPU sec, 386.349 real sec
+[M::process] read 14781 sequences (1428401 bp)...
+[M::mem_process_seqs] Processed 102094 reads in 380.927 CPU sec, 380.726 real sec
+[M::mem_process_seqs] Processed 14781 reads in 51.933 CPU sec, 51.782 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1.fastq
+[main] Real time: 1225.351 sec; CPU: 1198.185 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 125290 sequences (10000012 bp)...
+[M::process] read 122462 sequences (10000106 bp)...
+[M::mem_process_seqs] Processed 125290 reads in 356.279 CPU sec, 357.038 real sec
+[M::process] read 76496 sequences (6057572 bp)...
+[M::mem_process_seqs] Processed 122462 reads in 362.254 CPU sec, 362.889 real sec
+[M::mem_process_seqs] Processed 76496 reads in 219.333 CPU sec, 219.683 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0.fastq
+[main] Real time: 942.273 sec; CPU: 938.060 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1.bwa.bam
++ samtools view -F4 -hu -
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1.fastq
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 74512 sequences (10000050 bp)...
+[M::process] read 75430 sequences (10000284 bp)...
+[M::mem_process_seqs] Processed 74512 reads in 354.193 CPU sec, 354.987 real sec
+[M::process] read 76780 sequences (10000110 bp)...
+[M::mem_process_seqs] Processed 75430 reads in 349.087 CPU sec, 349.792 real sec
+[M::process] read 76978 sequences (10000181 bp)...
+[M::mem_process_seqs] Processed 76780 reads in 343.051 CPU sec, 343.702 real sec
+[M::process] read 13336 sequences (1690185 bp)...
+[M::mem_process_seqs] Processed 76978 reads in 343.716 CPU sec, 344.371 real sec
+[M::mem_process_seqs] Processed 13336 reads in 57.382 CPU sec, 57.373 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1.fastq
+[main] Real time: 1481.643 sec; CPU: 1447.544 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1.bwa.bam
++ samples=(Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_fast@v3 Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_fast@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1 Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0)
++ u=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 116466 sequences (10000108 bp)...
+[M::process] read 114396 sequences (10000162 bp)...
+[M::mem_process_seqs] Processed 116466 reads in 1163.957 CPU sec, 1163.792 real sec
+[M::process] read 88884 sequences (7757468 bp)...
+[M::mem_process_seqs] Processed 114396 reads in 1090.204 CPU sec, 1089.902 real sec
+[M::mem_process_seqs] Processed 88884 reads in 1017.905 CPU sec, 1017.736 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.fastq
+[main] Real time: 3292.087 sec; CPU: 3272.399 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.bwa.bam

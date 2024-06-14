@@ -1,0 +1,21 @@
++ samples=(Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+++ samtools view -c /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.bwa.bam
+++ awk '{print 1000000/$1}'
+[E::hts_open_format] Failed to open file "/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.bwa.bam" : No such file or directory
+samtools view: failed to open "/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.bwa.bam" for reading: No such file or directory
++ tmpscale=
++ samples=(Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0)
++ u=T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+++ samtools view -c /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1.bwa.bam
+++ awk '{print 1000000/$1}'
+[E::hts_open_format] Failed to open file "/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1.bwa.bam" : No such file or directory
+samtools view: failed to open "/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1.bwa.bam" for reading: No such file or directory
++ tmpscale=
++ samples=(Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0)
++ u=T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+++ samtools view -c /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0.bwa.bam
+++ awk '{print 1000000/$1}'
+[E::hts_open_format] Failed to open file "/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0.bwa.bam" : No such file or directory
+samtools view: failed to open "/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0.bwa.bam" for reading: No such file or directory
++ tmpscale=

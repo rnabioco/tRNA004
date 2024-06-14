@@ -1,0 +1,284 @@
+Sender: LSF System <lsfadmin@compute08>
+Subject: Job 857918[4]: <genomecov[1-4]> in cluster <tesla2> Exited
+
+Job <genomecov[1-4]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Sun Jun  9 18:51:54 2024
+Job was executed on host(s) <compute08>, in queue <rna>, as user <whitel> in cluster <tesla2> at Sun Jun  9 18:51:59 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Sun Jun  9 18:51:59 2024
+Terminated at Sun Jun  9 18:52:00 2024
+Results reported at Sun Jun  9 18:52:00 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J genomecov[1-4]
+#BSUB -o logs/genomecov.%J.out
+#BSUB -e logs/genomecov.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 1
+
+in="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+dest="$HOME/tRNAworkshop/bedgraphs/allreads"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+# normalize by CPM - counts per million reads per lib
+# determined from line counting the length of deduplicated bam files, dividing by 10^6
+# genomecov scale factor is a multiplier, so inverse is calculated in tmpscale
+
+tmpscale=$(samtools view -c ${in}/${u}.bwa.bam | awk '{print 1000000/$1}')
+
+bedtools genomecov -ibam ${in}/${u}.bwa.bam -scale ${tmpscale} -bg > ${dest}/${u}.bg
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   0.11 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   0 sec.
+    Turnaround time :                            9 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/genomecov.857918.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute12>
+Subject: Job 857918[1]: <genomecov[1-4]> in cluster <tesla2> Done
+
+Job <genomecov[1-4]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Sun Jun  9 18:51:54 2024
+Job was executed on host(s) <compute12>, in queue <rna>, as user <whitel> in cluster <tesla2> at Sun Jun  9 18:50:30 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Sun Jun  9 18:50:30 2024
+Terminated at Sun Jun  9 18:50:33 2024
+Results reported at Sun Jun  9 18:50:33 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J genomecov[1-4]
+#BSUB -o logs/genomecov.%J.out
+#BSUB -e logs/genomecov.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 1
+
+in="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+dest="$HOME/tRNAworkshop/bedgraphs/allreads"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+# normalize by CPM - counts per million reads per lib
+# determined from line counting the length of deduplicated bam files, dividing by 10^6
+# genomecov scale factor is a multiplier, so inverse is calculated in tmpscale
+
+tmpscale=$(samtools view -c ${in}/${u}.bwa.bam | awk '{print 1000000/$1}')
+
+bedtools genomecov -ibam ${in}/${u}.bwa.bam -scale ${tmpscale} -bg > ${dest}/${u}.bg
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2.23 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   3 sec.
+    Turnaround time :                            0 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/genomecov.857918.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute10>
+Subject: Job 857918[3]: <genomecov[1-4]> in cluster <tesla2> Done
+
+Job <genomecov[1-4]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Sun Jun  9 18:51:54 2024
+Job was executed on host(s) <compute10>, in queue <rna>, as user <whitel> in cluster <tesla2> at Sun Jun  9 18:52:02 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Sun Jun  9 18:52:02 2024
+Terminated at Sun Jun  9 18:52:09 2024
+Results reported at Sun Jun  9 18:52:09 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J genomecov[1-4]
+#BSUB -o logs/genomecov.%J.out
+#BSUB -e logs/genomecov.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 1
+
+in="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+dest="$HOME/tRNAworkshop/bedgraphs/allreads"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+# normalize by CPM - counts per million reads per lib
+# determined from line counting the length of deduplicated bam files, dividing by 10^6
+# genomecov scale factor is a multiplier, so inverse is calculated in tmpscale
+
+tmpscale=$(samtools view -c ${in}/${u}.bwa.bam | awk '{print 1000000/$1}')
+
+bedtools genomecov -ibam ${in}/${u}.bwa.bam -scale ${tmpscale} -bg > ${dest}/${u}.bg
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   5.06 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   6 sec.
+    Turnaround time :                            18 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/genomecov.857918.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute02>
+Subject: Job 857918[2]: <genomecov[1-4]> in cluster <tesla2> Done
+
+Job <genomecov[1-4]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Sun Jun  9 18:51:54 2024
+Job was executed on host(s) <compute02>, in queue <rna>, as user <whitel> in cluster <tesla2> at Sun Jun  9 18:52:02 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Sun Jun  9 18:52:02 2024
+Terminated at Sun Jun  9 18:52:09 2024
+Results reported at Sun Jun  9 18:52:09 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J genomecov[1-4]
+#BSUB -o logs/genomecov.%J.out
+#BSUB -e logs/genomecov.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 1
+
+in="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+dest="$HOME/tRNAworkshop/bedgraphs/allreads"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+# normalize by CPM - counts per million reads per lib
+# determined from line counting the length of deduplicated bam files, dividing by 10^6
+# genomecov scale factor is a multiplier, so inverse is calculated in tmpscale
+
+tmpscale=$(samtools view -c ${in}/${u}.bwa.bam | awk '{print 1000000/$1}')
+
+bedtools genomecov -ibam ${in}/${u}.bwa.bam -scale ${tmpscale} -bg > ${dest}/${u}.bg
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6.21 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   7 sec.
+    Turnaround time :                            18 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/genomecov.857918.err> for stderr output of this job.
+

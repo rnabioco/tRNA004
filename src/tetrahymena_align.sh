@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 
-#BSUB -J bwa[1-5]
+#BSUB -J bwa[1-8]
 #BSUB -o logs/bwa.%J.out
 #BSUB -e logs/bwa.%J.err
 #BSUB -R "span[hosts=1]"
 #BSUB -q rna
 #BSUB -n 18
 
-bwaidx="$HOME/tRNAworkshop/refs_with_adapters/tthermophila-numbered-mature-tRNAs.fa"
+bwaidx="$HOME/tRNAworkshop/ref/tthermophila-numbered-mature-tRNAs.fa"
 in="$HOME/tRNAworkshop/rebasecalled/fastqs"
 dest="$HOME/tRNAworkshop/rebasecalled/alignedbams"
 
@@ -17,8 +17,11 @@ samples=(
 Tetrahymena002_20231207_1743_MN35252_FAX30455_c9f80979.rna002_70bps_fast@v3
 Tetrahymena002_20231207_1743_MN35252_FAX30455_c9f80979.rna002_70bps_hac@v3
 Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_fast@v3.0.1
+Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_fast@v5.0.0
 Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_hac@v3.0.1
+Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_hac@v5.0.0
 Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v3.0.1
+Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0
 )
 
 u=${samples[$(( $LSB_JOBINDEX -1 ))]}

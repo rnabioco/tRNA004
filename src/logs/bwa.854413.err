@@ -1,0 +1,118 @@
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3
++ samtools view -F4 -hu -
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 99090 sequences (10000143 bp)...
+[M::process] read 86749 sequences (8851861 bp)...
+[M::mem_process_seqs] Processed 99090 reads in 264.025 CPU sec, 264.593 real sec
+[M::mem_process_seqs] Processed 86749 reads in 214.100 CPU sec, 214.496 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3.fastq
+[main] Real time: 494.663 sec; CPU: 478.318 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 101922 sequences (10000128 bp)...
+[M::process] read 83698 sequences (8341914 bp)...
+[M::mem_process_seqs] Processed 101922 reads in 299.747 CPU sec, 300.391 real sec
+[M::mem_process_seqs] Processed 83698 reads in 269.667 CPU sec, 270.325 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.fastq
+[main] Real time: 577.691 sec; CPU: 569.593 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 66190 sequences (10000263 bp)...
+[M::process] read 69600 sequences (10000086 bp)...
+[M::mem_process_seqs] Processed 66190 reads in 346.483 CPU sec, 346.444 real sec
+[M::process] read 12333 sequences (2005876 bp)...
+[M::mem_process_seqs] Processed 69600 reads in 360.224 CPU sec, 360.140 real sec
+[M::mem_process_seqs] Processed 12333 reads in 64.704 CPU sec, 64.618 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1.fastq
+[main] Real time: 777.954 sec; CPU: 771.502 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 56214 sequences (10000070 bp)...
+[M::process] read 62852 sequences (10000132 bp)...
+[M::mem_process_seqs] Processed 56214 reads in 322.290 CPU sec, 323.016 real sec
+[M::process] read 29070 sequences (5242577 bp)...
+[M::mem_process_seqs] Processed 62852 reads in 345.029 CPU sec, 345.741 real sec
+[M::mem_process_seqs] Processed 29070 reads in 168.858 CPU sec, 169.173 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1.fastq
+[main] Real time: 853.727 sec; CPU: 836.313 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 95708 sequences (10000039 bp)...
+[M::process] read 52455 sequences (5714572 bp)...
+[M::mem_process_seqs] Processed 95708 reads in 651.790 CPU sec, 651.714 real sec
+[M::mem_process_seqs] Processed 52455 reads in 355.102 CPU sec, 354.967 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0.fastq
+[main] Real time: 1007.602 sec; CPU: 1007.050 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 105236 sequences (10000127 bp)...
+[M::process] read 42694 sequences (4031413 bp)...
+[M::mem_process_seqs] Processed 105236 reads in 432.105 CPU sec, 433.104 real sec
+[M::mem_process_seqs] Processed 42694 reads in 163.734 CPU sec, 164.022 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0.fastq
+[main] Real time: 597.982 sec; CPU: 595.986 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 54812 sequences (10000279 bp)...
+[M::process] read 59976 sequences (10000243 bp)...
+[M::mem_process_seqs] Processed 54812 reads in 509.129 CPU sec, 509.009 real sec
+[M::process] read 33315 sequences (6055537 bp)...
+[M::mem_process_seqs] Processed 59976 reads in 548.726 CPU sec, 548.549 real sec
+[M::mem_process_seqs] Processed 33315 reads in 305.701 CPU sec, 305.573 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1.fastq
+[main] Real time: 1378.289 sec; CPU: 1363.743 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1.bwa.bam
++ samples=(HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_fast@v3 HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_fast@v5.0.0 HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0)
++ u=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 85286 sequences (10000087 bp)...
+[M::process] read 62290 sequences (7660385 bp)...
+[M::mem_process_seqs] Processed 85286 reads in 948.521 CPU sec, 950.725 real sec
+[M::mem_process_seqs] Processed 62290 reads in 798.329 CPU sec, 800.201 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.fastq
+[main] Real time: 1751.812 sec; CPU: 1747.002 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.bwa.bam

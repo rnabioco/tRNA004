@@ -1,0 +1,6 @@
++ samples=(Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0 T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0)
++ u=T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/T4_infected_ecoli.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1.T4ref.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs

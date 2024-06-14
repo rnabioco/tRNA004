@@ -1,0 +1,120 @@
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 69828 sequences (10000127 bp)...
+[M::process] read 10238 sequences (1582519 bp)...
+[M::mem_process_seqs] Processed 69828 reads in 107.254 CPU sec, 107.237 real sec
+[M::mem_process_seqs] Processed 10238 reads in 17.999 CPU sec, 17.894 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3.fastq
+[main] Real time: 144.910 sec; CPU: 125.388 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.bwa.bam
++ samtools view -F4 -hu -
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.fastq
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 72756 sequences (10000158 bp)...
+[M::process] read 7241 sequences (1081515 bp)...
+[M::mem_process_seqs] Processed 72756 reads in 85.103 CPU sec, 85.300 real sec
+[M::mem_process_seqs] Processed 7241 reads in 9.631 CPU sec, 9.528 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.fastq
+[main] Real time: 147.124 sec; CPU: 94.838 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 69364 sequences (10000122 bp)...
+[M::process] read 43346 sequences (6267467 bp)...
+[M::mem_process_seqs] Processed 69364 reads in 156.907 CPU sec, 156.845 real sec
+[M::mem_process_seqs] Processed 43346 reads in 99.075 CPU sec, 99.011 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1.fastq
+[main] Real time: 297.123 sec; CPU: 256.151 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
++ samtools view -F4 -hu -
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 122836 sequences (10000196 bp)...
+[M::process] read 119734 sequences (10000038 bp)...
+[M::mem_process_seqs] Processed 122836 reads in 110.267 CPU sec, 110.473 real sec
+[M::process] read 78059 sequences (6585418 bp)...
+[M::mem_process_seqs] Processed 119734 reads in 113.310 CPU sec, 113.493 real sec
+[M::mem_process_seqs] Processed 78059 reads in 72.187 CPU sec, 72.292 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0.fastq
+[main] Real time: 308.457 sec; CPU: 295.929 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 81362 sequences (10000151 bp)...
+[M::process] read 31322 sequences (3904493 bp)...
+[M::mem_process_seqs] Processed 81362 reads in 82.924 CPU sec, 83.103 real sec
+[M::mem_process_seqs] Processed 31322 reads in 33.023 CPU sec, 33.040 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1.fastq
+[main] Real time: 169.967 sec; CPU: 116.054 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.fastq
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.bwa.bam
++ samtools view -F4 -hu -
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 61836 sequences (10000015 bp)...
+[M::process] read 50864 sequences (8219861 bp)...
+[M::mem_process_seqs] Processed 61836 reads in 130.114 CPU sec, 130.380 real sec
+[M::mem_process_seqs] Processed 50864 reads in 106.509 CPU sec, 106.684 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.fastq
+[main] Real time: 252.680 sec; CPU: 236.753 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 113262 sequences (10000094 bp)...
+[M::process] read 109366 sequences (10000214 bp)...
+[M::mem_process_seqs] Processed 113262 reads in 154.211 CPU sec, 154.080 real sec
+[M::process] read 101021 sequences (9382660 bp)...
+[M::mem_process_seqs] Processed 109366 reads in 152.615 CPU sec, 152.377 real sec
+[M::mem_process_seqs] Processed 101021 reads in 143.196 CPU sec, 143.077 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0.fastq
+[main] Real time: 476.527 sec; CPU: 450.297 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0.bwa.bam
++ samples=(Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3 Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1 Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0)
++ u=Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 100908 sequences (10000030 bp)...
+[M::process] read 99924 sequences (10000185 bp)...
+[M::mem_process_seqs] Processed 100908 reads in 213.829 CPU sec, 214.254 real sec
+[M::process] read 102202 sequences (10000202 bp)...
+[M::mem_process_seqs] Processed 99924 reads in 174.637 CPU sec, 174.870 real sec
+[M::process] read 15749 sequences (1685038 bp)...
+[M::mem_process_seqs] Processed 102202 reads in 187.794 CPU sec, 188.100 real sec
+[M::mem_process_seqs] Processed 15749 reads in 30.638 CPU sec, 30.585 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/ecoliK12MG1655-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.fastq
+[main] Real time: 677.799 sec; CPU: 607.018 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.bwa.bam

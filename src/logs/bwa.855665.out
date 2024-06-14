@@ -1,0 +1,600 @@
+Sender: LSF System <lsfadmin@compute10>
+Subject: Job 855665[1]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute10>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:38 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:18:38 2024
+Terminated at Fri Jun  7 15:21:31 2024
+Results reported at Fri Jun  7 15:21:31 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   170.07 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.55 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   172 sec.
+    Turnaround time :                            184 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute09>
+Subject: Job 855665[2]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute09>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:29 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:18:29 2024
+Terminated at Fri Jun  7 15:21:37 2024
+Results reported at Fri Jun  7 15:21:37 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   183.18 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.55 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   187 sec.
+    Turnaround time :                            190 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 855665[5]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:36 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:18:36 2024
+Terminated at Fri Jun  7 15:23:49 2024
+Results reported at Fri Jun  7 15:23:49 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   311.76 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.71 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   313 sec.
+    Turnaround time :                            323 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute01>
+Subject: Job 855665[3]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute01>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:35 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:18:35 2024
+Terminated at Fri Jun  7 15:24:58 2024
+Results reported at Fri Jun  7 15:24:58 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   376.92 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.36 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   382 sec.
+    Turnaround time :                            391 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute13>
+Subject: Job 855665[4]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute13>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:17:55 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:17:55 2024
+Terminated at Fri Jun  7 15:28:01 2024
+Results reported at Fri Jun  7 15:28:01 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   603.85 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.19 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   605 sec.
+    Turnaround time :                            574 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute09>
+Subject: Job 855665[7]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute09>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:21:41 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:21:41 2024
+Terminated at Fri Jun  7 15:29:35 2024
+Results reported at Fri Jun  7 15:29:35 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   471.77 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.40 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   474 sec.
+    Turnaround time :                            669 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute10>
+Subject: Job 855665[6]: <bwa[1-8]> in cluster <tesla2> Done
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute10>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:21:31 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:21:31 2024
+Terminated at Fri Jun  7 15:32:04 2024
+Results reported at Fri Jun  7 15:32:04 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   631.34 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.83 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   634 sec.
+    Turnaround time :                            817 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 855665[8]: <bwa[1-8]> in cluster <tesla2> Exited
+
+Job <bwa[1-8]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 15:18:30 2024
+Job was executed on host(s) <18*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 15:23:50 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 15:23:50 2024
+Terminated at Fri Jun  7 15:54:36 2024
+Results reported at Fri Jun  7 15:54:36 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-8]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/antisense-Ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/antisense"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_fast@v3
+Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_fast@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   1847.31 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.64 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1846 sec.
+    Turnaround time :                            2169 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.855665.err> for stderr output of this job.
+

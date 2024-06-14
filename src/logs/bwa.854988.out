@@ -1,0 +1,948 @@
+Sender: LSF System <lsfadmin@compute09>
+Subject: Job 854988[1]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute09>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 11:54:29 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 11:54:29 2024
+Terminated at Fri Jun  7 12:10:29 2024
+Results reported at Fri Jun  7 12:10:29 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   955.04 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.69 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   960 sec.
+    Turnaround time :                            1524 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute20>
+Subject: Job 854988[3]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute20>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:10:05 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:10:05 2024
+Terminated at Fri Jun  7 12:14:09 2024
+Results reported at Fri Jun  7 12:14:09 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   239.16 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.46 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                9
+    Run time :                                   244 sec.
+    Turnaround time :                            1744 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute10>
+Subject: Job 854988[2]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute10>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:05:09 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:05:09 2024
+Terminated at Fri Jun  7 12:49:05 2024
+Results reported at Fri Jun  7 12:49:05 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2632.92 sec.
+    Max Memory :                                 5 GB
+    Average Memory :                             3.22 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   2635 sec.
+    Turnaround time :                            3839 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute01>
+Subject: Job 854988[5]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute01>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:11:47 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:11:47 2024
+Terminated at Fri Jun  7 13:01:51 2024
+Results reported at Fri Jun  7 13:01:51 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2996.00 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.84 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   3005 sec.
+    Turnaround time :                            4607 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 854988[7]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:19:18 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:19:18 2024
+Terminated at Fri Jun  7 13:06:59 2024
+Results reported at Fri Jun  7 13:06:59 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2856.32 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.79 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   2861 sec.
+    Turnaround time :                            4914 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 854988[11]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 13:06:59 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 13:06:59 2024
+Terminated at Fri Jun  7 13:10:58 2024
+Results reported at Fri Jun  7 13:10:58 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   237.35 sec.
+    Max Memory :                                 1 GB
+    Average Memory :                             0.57 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                9
+    Run time :                                   238 sec.
+    Turnaround time :                            5153 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute10>
+Subject: Job 854988[9]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute10>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:49:05 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:49:05 2024
+Terminated at Fri Jun  7 13:16:27 2024
+Results reported at Fri Jun  7 13:16:27 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1631.32 sec.
+    Max Memory :                                 2 GB
+    Average Memory :                             1.73 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1643 sec.
+    Turnaround time :                            5481 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute01>
+Subject: Job 854988[10]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute01>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 13:01:52 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 13:01:52 2024
+Terminated at Fri Jun  7 13:30:27 2024
+Results reported at Fri Jun  7 13:30:27 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1711.47 sec.
+    Max Memory :                                 3 GB
+    Average Memory :                             1.83 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   1714 sec.
+    Turnaround time :                            6322 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute09>
+Subject: Job 854988[4]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute09>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:10:29 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:10:29 2024
+Terminated at Fri Jun  7 13:35:28 2024
+Results reported at Fri Jun  7 13:35:28 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   5093.67 sec.
+    Max Memory :                                 6 GB
+    Average Memory :                             4.20 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   5099 sec.
+    Turnaround time :                            6623 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 854988[12]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 13:10:58 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 13:10:58 2024
+Terminated at Fri Jun  7 15:01:41 2024
+Results reported at Fri Jun  7 15:01:41 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6643.87 sec.
+    Max Memory :                                 5 GB
+    Average Memory :                             3.77 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   6643 sec.
+    Turnaround time :                            11797 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute13>
+Subject: Job 854988[8]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute13>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:26:53 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:26:53 2024
+Terminated at Fri Jun  7 15:12:48 2024
+Results reported at Fri Jun  7 15:12:48 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   9952.85 sec.
+    Max Memory :                                 12 GB
+    Average Memory :                             3.88 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   9955 sec.
+    Turnaround time :                            12463 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute20>
+Subject: Job 854988[6]: <bwa[1-12]> in cluster <tesla2> Done
+
+Job <bwa[1-12]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Fri Jun  7 11:45:09 2024
+Job was executed on host(s) <18*compute20>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun  7 12:14:09 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun  7 12:14:09 2024
+Terminated at Fri Jun  7 15:40:20 2024
+Results reported at Fri Jun  7 15:40:20 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-12]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/mito_analysis"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v3.0.1
+Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v3.0.1
+Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v3.0.1
+Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
+Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1
+Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v3.0.1
+Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   12359.90 sec.
+    Max Memory :                                 10 GB
+    Average Memory :                             3.82 GB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   12371 sec.
+    Turnaround time :                            14115 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.854988.err> for stderr output of this job.
+

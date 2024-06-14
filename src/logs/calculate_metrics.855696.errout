@@ -1,0 +1,16 @@
++ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads
++ threshold=20
++ output_csv=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/alignmentmetrics.csv
++ python3 calculate_alignment_metrics.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/alignmentmetrics.csv 20
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/T5infectedecoli.20240202_1332_P2S-01618-B_PAS25444_31820489.rna004_130bps_sup@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/WTyeast002_diffligratios_20231113_1421_P2S-00519-A_PAS43478_c33fd818.rna002_70bps_hac@v3.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Pus4yeast002_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_70bps_hac@v3.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Trub1untrH295R004_20231207_1522_MN31004_FAX71838_4571d21c.rna004_130bps_fast@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_fast@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.T5ref.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/T5infectedecoli.20240202_1332_P2S-01618-B_PAS25444_31820489.rna004_130bps_sup@v3.0.1.T5ref.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Trub1doxH295R004_20231207_1527_MN42516_FAX73799_8b069090.rna004_130bps_sup@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Trub1doxH295R004_20231207_1527_MN42516_FAX73799_8b069090.rna004_130bps_fast@v3.0.1.bwa.bam.bai
+[W::hts_idx_load3] The index file is older than the data file: /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/Trub1untrH295R004_20231207_1522_MN31004_FAX71838_4571d21c.rna004_130bps_hac@v3.0.1.bwa.bam.bai

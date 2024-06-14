@@ -1,0 +1,9 @@
++ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads
++ score_threshold=20
++ output_file=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/alignmentmetrics.csv
+++ dirname /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/alignmentmetrics.csv
++ output_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads
++ mkdir -p /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads
++ python3 calculate_alignment_metrics.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads 20 /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/alignmentmetrics.csv
+usage: calculate_alignment_metrics.py [-h] input_dir output_dir threshold
+calculate_alignment_metrics.py: error: argument threshold: invalid int value: '/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/alignmentmetrics.csv'

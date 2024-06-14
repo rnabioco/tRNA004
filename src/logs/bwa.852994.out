@@ -1,0 +1,144 @@
+Sender: LSF System <lsfadmin@compute01>
+Subject: Job 852994[2]: <bwa[1-2]> in cluster <tesla2> Exited
+
+Job <bwa[1-2]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Thu Jun  6 14:20:34 2024
+Job was executed on host(s) <18*compute01>, in queue <rna>, as user <whitel> in cluster <tesla2> at Thu Jun  6 14:20:40 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Thu Jun  6 14:20:40 2024
+Terminated at Thu Jun  6 14:22:01 2024
+Results reported at Thu Jun  6 14:22:01 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-2]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/T4_infected_ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.T4ref.bwa.bam
+
+samtools index ${dest}/${u}.T4ref.bwa.bam
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   0.12 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                9
+    Run time :                                   5 sec.
+    Turnaround time :                            90 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.852994.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute09>
+Subject: Job 852994[1]: <bwa[1-2]> in cluster <tesla2> Exited
+
+Job <bwa[1-2]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Thu Jun  6 14:20:34 2024
+Job was executed on host(s) <18*compute09>, in queue <rna>, as user <whitel> in cluster <tesla2> at Thu Jun  6 14:20:34 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Thu Jun  6 14:20:34 2024
+Terminated at Thu Jun  6 14:21:55 2024
+Results reported at Thu Jun  6 14:21:55 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-2]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/T4_infected_ecoli.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams/allreads"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v3.0.1
+Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0
+T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.T4ref.bwa.bam
+
+samtools index ${dest}/${u}.T4ref.bwa.bam
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   0.10 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                4
+    Run time :                                   6 sec.
+    Turnaround time :                            84 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.852994.err> for stderr output of this job.
+

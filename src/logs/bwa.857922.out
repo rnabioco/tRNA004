@@ -1,0 +1,140 @@
+Sender: LSF System <lsfadmin@compute02>
+Subject: Job 857922[2]: <bwa[1-2]> in cluster <tesla2> Exited
+
+Job <bwa[1-2]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Sun Jun  9 18:56:56 2024
+Job was executed on host(s) <2*compute02>, in queue <rna>, as user <whitel> in cluster <tesla2> at Sun Jun  9 18:57:04 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Sun Jun  9 18:57:04 2024
+Terminated at Sun Jun  9 18:57:11 2024
+Results reported at Sun Jun  9 18:57:11 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-2]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 2
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   4.99 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                10
+    Run time :                                   7 sec.
+    Turnaround time :                            18 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.857922.err> for stderr output of this job.
+
+Sender: LSF System <lsfadmin@compute10>
+Subject: Job 857922[1]: <bwa[1-2]> in cluster <tesla2> Exited
+
+Job <bwa[1-2]> was submitted from host <compute03> by user <whitel> in cluster <tesla2> at Sun Jun  9 18:56:56 2024
+Job was executed on host(s) <2*compute10>, in queue <rna>, as user <whitel> in cluster <tesla2> at Sun Jun  9 18:57:04 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Sun Jun  9 18:57:04 2024
+Terminated at Sun Jun  9 18:57:12 2024
+Results reported at Sun Jun  9 18:57:12 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-2]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 2
+
+bwaidx="$HOME/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3
+WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   0.13 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                9
+    Run time :                                   8 sec.
+    Turnaround time :                            19 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.857922.err> for stderr output of this job.
+
