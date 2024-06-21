@@ -22,7 +22,7 @@ Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0
 u=${samples[$(( $LSB_JOBINDEX -1 ))]}
 
 ### align to tRNA reference - adapter anchored reference alignment
-bwa mem -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+bwa mem -C -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
 | samtools view -F4 -hu - \
 | samtools sort -o ${dest}/${u}.bwa.bam
 

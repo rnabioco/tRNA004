@@ -1,0 +1,70 @@
+Sender: LSF System <lsfadmin@compute19>
+Subject: Job 869943[2]: <bwa[1-2]> in cluster <tesla2> Exited
+
+Job <bwa[1-2]> was submitted from host <compute07> by user <whitel> in cluster <tesla2> at Fri Jun 21 12:28:57 2024
+Job was executed on host(s) <18*compute19>, in queue <rna>, as user <whitel> in cluster <tesla2> at Fri Jun 21 12:29:02 2024
+</beevol/home/whitel> was used as the home directory.
+</beevol/home/whitel/tRNAworkshop/src> was used as the working directory.
+Started at Fri Jun 21 12:29:02 2024
+Terminated at Fri Jun 21 12:29:04 2024
+Results reported at Fri Jun 21 12:29:04 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#! /usr/bin/env bash
+
+#BSUB -J bwa[1-2]
+#BSUB -o logs/bwa.%J.out
+#BSUB -e logs/bwa.%J.err
+#BSUB -R "span[hosts=1]"
+#BSUB -q rna
+#BSUB -n 18
+
+bwaidx="$HOME/tRNAworkshop/ref/hg38-mature-tRNAs.fa"
+in="$HOME/tRNAworkshop/rebasecalled/fastqs"
+dest="$HOME/tRNAworkshop/rebasecalled/alignedbams"
+
+set -o nounset -o pipefail -o errexit -x
+
+samples=(
+HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0
+Trub1untrH295R004_20231207_1522_MN31004_FAX71838_4571d21c.rna004_130bps_sup@v5.0.0
+)
+
+u=${samples[$(( $LSB_JOBINDEX -1 ))]}
+
+### align to tRNA reference - adapter anchored reference alignment
+bwa mem -C -W 13 -k 6 -T 20 -x ont2d $bwaidx $in/${u}.fastq \
+| samtools view -F4 -hu - \
+| samtools sort -o ${dest}/${u}.bwa.bam
+
+samtools index ${dest}/${u}.bwa.bam
+
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   0.05 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            10 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file <logs/bwa.869943.err> for stderr output of this job.
+

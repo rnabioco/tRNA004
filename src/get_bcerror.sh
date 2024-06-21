@@ -7,9 +7,9 @@
 set -o nounset -o pipefail -o errexit -x
 
 # Define input and output directories
-input_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/phage"
+input_dir="/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset"
 output_dir="/beevol/home/whitel/tRNAworkshop/bcerror"
-ref="/beevol/home/whitel/tRNAworkshop/ref/T4_infected_ecoli.fa"
+ref="/beevol/home/whitel/tRNAworkshop/ref/tthermophila-numbered-mature-tRNAs.fa"
 
 # Iterate through each BAM file in the input directory
 for bam_file in $input_dir/*.bam; do

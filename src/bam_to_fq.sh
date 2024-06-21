@@ -13,5 +13,5 @@ for file in ./*.bam; do
   base_name=$(basename "$file" .bam)
   
   # Convert BAM to FASTQ using samtools
-  samtools fastq "$file" > "./$base_name.fastq"
+  samtools fastq -T "*" "$file" > "./$base_name.fastq"
 done

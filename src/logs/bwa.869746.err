@@ -1,0 +1,18 @@
++ samples=(Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0)
++ u=Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0
++ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/tthermophila-numbered-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/supv5_fastqs/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.fastq
++ samtools view -F4 -hu -
++ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.bwa.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 84610 sequences (10000147 bp)...
+[M::process] read 85914 sequences (10000177 bp)...
+[M::mem_process_seqs] Processed 84610 reads in 1155.957 CPU sec, 1155.766 real sec
+[M::process] read 82322 sequences (10011952 bp)...
+[M::mem_process_seqs] Processed 85914 reads in 1141.855 CPU sec, 1141.639 real sec
+[M::process] read 50797 sequences (8788330 bp)...
+[M::mem_process_seqs] Processed 82322 reads in 1267.110 CPU sec, 1266.830 real sec
+[M::mem_process_seqs] Processed 50797 reads in 2002.297 CPU sec, 2002.098 real sec
+[main] Version: 0.7.16a-r1181
+[main] CMD: bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/tthermophila-numbered-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/supv5_fastqs/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.fastq
+[main] Real time: 5566.984 sec; CPU: 5567.606 sec
++ samtools index /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.bwa.bam

@@ -1,0 +1,33 @@
++ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset
++ output_dir=/beevol/home/whitel/tRNAworkshop/bcerror
++ ref=/beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
++ base_name=Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0
++ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0.tsv
++ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0.tsv
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
++ base_name=Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0
++ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0.tsv
++ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0.tsv
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
++ base_name=Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0
++ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv
++ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
++ base_name=Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0
++ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv
++ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
++ base_name=Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0
++ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.tsv
++ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.tsv
++ for bam_file in '$input_dir/*.bam'
+++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
++ base_name=WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0
++ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv
++ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length_mito/subset/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv
