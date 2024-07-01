@@ -27,16 +27,16 @@ process_files <- function(prefix) {
 
   # Read and process the modified file
   mod_map <- read_tsv(mod_file_path) %>%
-    rename(Position = seq_pos, mod_nt = struct_nt) %>%
+    dplyr::rename(Position = seq_pos, mod_nt = struct_nt) %>%
     select(-struct_ref) %>%
-    rename(Reference = seq_ref) %>%
+    dplyr::rename(Reference = seq_ref) %>%
     distinct(Reference, Position, .keep_all = TRUE)
 
   # Read and process the unmodified file
   nomod_map <- read_tsv(nomod_file_path) %>%
-    rename(Position = seq_pos) %>%
+    dplyr::rename(Position = seq_pos) %>%
     select(-struct_ref) %>%
-    rename(Reference = seq_ref) %>%
+    dplyr::rename(Reference = seq_ref) %>%
     distinct(Reference, Position, .keep_all = TRUE)
 
   # Join the datasets
@@ -57,9 +57,10 @@ process_files("scerevisiae")
 process_files("hsapiens")
 process_files("tthermophila")
 process_files("ecoli")
+process_files("T4infectedecoli")
 process_files("dmelanogaster")
-bind_rows(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings) -> mappings
-rm(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings)
+bind_rows(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, T4infectedecoli_mappings, dmelanogaster_mappings) -> mappings
+rm(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, T4infectedecoli_mappings, dmelanogaster_mappings)
 ```
 Then bring in tsvs that contain the error frequencies for each sample.
 ```{r}
@@ -89,11 +90,11 @@ create_rolling_string <- function(nt_vec) {
   })
 }
 
-read_bcerr(here("bcerror/scerevisiae.bcerror.tsv"), "scerevisiae") -> scerevisiae
-read_bcerr(here("bcerror/hsapiens.bcerror.tsv"), "hsapiens") -> hsapiens
-read_bcerr(here("bcerror/dmelanogaster.bcerror.tsv"), "dmelanogaster") -> dmelanogaster
-read_bcerr(here("bcerror/ecoli.bcerror.tsv"), "ecoli") -> ecoli
-read_bcerr(here("bcerror/tthermophila.bcerror.tsv"), "tthermophila") -> tthermophila
+read_bcerr(here("bcerror/RNA004v5/sup/yeast/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv"), "scerevisiae") -> scerevisiae
+read_bcerr(here("bcerror/RNA004v5/sup/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.tsv"), "hsapiens") -> hsapiens
+read_bcerr(here("bcerror/RNA004v5/sup/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.tsv"), "dmelanogaster") -> dmelanogaster
+read_bcerr(here("bcerror/RNA004v5/sup/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.tsv"), "ecoli") -> ecoli
+read_bcerr(here("bcerror/RNA004v5/sup/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.tsv"), "tthermophila") -> tthermophila
 
 # we need to add 1 to His tRNAs only, because the structured fastas have the 5' G & the seqref doesn't.
 bind_rows(hsapiens, dmelanogaster, ecoli, tthermophila, scerevisiae) %>%
@@ -103,9 +104,9 @@ rm(scerevisiae, hsapiens, dmelanogaster, ecoli, tthermophila)
 
 left_join(allspecies, mappings, by = c("Reference", "Position", "species")) %>%
   select(-N_freq) %>%
-  rename(seq_pos = Position) %>%
-  rename(Position = struct_pos) %>%
-  filter(!is.na(Position))  %>% # this removes tRNAs that do not have structural info in the mappings df
+  dplyr::rename(seq_pos = Position) %>%
+  dplyr::rename(Position = struct_pos) %>%
+  filter(!is.na(Position)) %>% # this removes tRNAs that do not have structural info in the mappings df
   mutate(Position = Position - 24) %>%
   group_by(species, Reference) %>%
   arrange(Position) %>%
@@ -125,7 +126,7 @@ We also pull in the database of Modomics codes in order to convert single charac
 ```{r}
 modomics <- read_csv(here("Modomics/modomicscodes.csv")) %>%
   select(Name, `Short Name`, `RNAMods code (2023)`) %>%
-  rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) %>%
+  dplyr::rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) %>%
   group_by(mod_nt) %>%
   arrange(mod_nt, shortname) %>%
   # filter 5'-monophosphate containing duplicate shortnames
@@ -138,35 +139,159 @@ left_join(mapped, modomics) -> mapped
 ```
 Revisit this! group by parent nt and compare mm, ins, del freq for all mods vs. parent unmod to rationalize appraoch*******
 ```{r}
-mapped %>%
-  filter(!mod_nt %in% c('A', 'C', 'G', 'U')) %>%
-  ggplot(., aes(x = shortname, y = DeletionFreq)) +
-    geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
-    geom_boxplot(width = 0.2, alpha = 0.5, outlier.shape = NA, fill = "#56B4E9") +
-    theme_bw() +
-    labs(title = "Deletion frequency across unique sequence contexts on tRNA isodecoders",
-         x = "",
-         y = "Deletion frequency") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3))
+# set an ordering for each shortname from a median frequency
+ordered_shortname <- mapped %>%
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U', 'N')) %>%
+  group_by(shortname) %>%
+  filter(Position > 0 & Position < 98) %>%
+  summarize(median_deletion = median(DeletionFreq, na.rm = TRUE),
+            median_insertion = median(InsertionFreq, na.rm = TRUE),
+            median_mismatch = median(MismatchFreq, na.rm = T),
+            median_bcerr = median(BCErrorFreq, na.rm = T)
+            ) %>%
+  arrange(median_bcerr) %>%
+  pull(shortname)
 
+# Reorder shortname factor levels based on median bcerr
+mapped <- mapped %>%
+  filter(shortname != "N") %>%
+  mutate(shortname = factor(shortname, levels = ordered_shortname))
+
+# Plot
 mapped %>%
-  filter(struct_nt == "G") %>%
-  mutate(mod_nt = ifelse(mod_nt == "G", "G", "mod")) %>% # conditionally categorize all mods together 
-  pivot_longer(cols = c(MismatchFreq, InsertionFreq, DeletionFreq), 
-               names_to = "attribute", 
-               values_to = "attribute_value")  %>%
-  ggplot(., aes(x = mod_nt, y = attribute_value)) +
-    geom_jitter(cex = 0.2, alpha = 0.3, size = 0.5, width = 0.25) +  # Jitter plot
-    geom_boxplot(width = 0.2, alpha = .75, outlier.shape = NA, color = "#009E73") +
-    facet_wrap(~attribute) +
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U', 'N')) %>%
+  filter(Position >0) %>%
+  filter(Position <98) %>%
+  ggplot(aes(x = shortname, y = BCErrorFreq)) +
+    geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
+    geom_boxplot(width = 0.2, alpha = 0.75, outlier.shape = NA, fill = "#56B4E9") +
     theme_bw() +
-    labs(title = "", # Mean error frequency across unique sequence contexts on tRNA isodecoders
+    labs(title = "Basecalling error frequency across unique sequence contexts on tRNA isodecoders",
          x = "",
-         y = "Frequency")
-# set levels here so that ummod always preceeds mod on x axis
-# add stats
+         y = "BCerror frequency") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
 ```
+Plot each base in aggregate
+```{r}
+# plotting function for each nucleobase
+plot_mod_nt <- function(mapped, mod_nt_value) {
+  mapped %>%
+    filter(struct_nt == mod_nt_value) %>%
+    filter(Position > 0 & Position < 98) %>%
+    mutate(mod_nt = ifelse(mod_nt == mod_nt_value, mod_nt_value, "mod")) %>% # Categorize mod or unmodified nt
+    mutate(mod_nt = factor(mod_nt, levels = c(mod_nt_value, "mod"))) %>% # set levels for mod_nt (fixes U order plotting)
+    pivot_longer(cols = c(MismatchFreq, InsertionFreq, DeletionFreq), 
+                 names_to = "attribute", 
+                 values_to = "attribute_value")  %>%
+    ggplot(aes(x = mod_nt, y = attribute_value)) +
+      geom_jitter(cex = 0.2, alpha = 0.3, size = 0.5, width = 0.25) +
+      geom_boxplot(width = 0.2, alpha = .75, outlier.shape = NA, color = "#009E73") +
+      facet_wrap(~attribute) +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      theme_bw() +
+      labs(title = "", 
+           x = "",
+           y = "Frequency")
+}
+# Generate the individual plots
+plot_A <- plot_mod_nt(mapped, "A")
+plot_C <- plot_mod_nt(mapped, "C")
+plot_U <- plot_mod_nt(mapped, "U")
+plot_G <- plot_mod_nt(mapped, "G")
+
+# Combine the plots into a grid with cowplot
+combined_plot <- plot_grid(plot_A, plot_C, plot_U, plot_G, labels = "AUTO", ncol = 2)
+
+# Display the combined plot
+print(combined_plot)
+```
+```{r}
+# Define the function to create individual plots
+create_plot <- function(data, nucleotide) {
+  data %>%
+    filter(struct_nt == nucleotide) %>%
+    filter(Position > 0 & Position < 98) %>%
+    mutate(mod_nt = ifelse(mod_nt == nucleotide, nucleotide, "mod")) %>%  # Categorize mod or unmodified nt
+    mutate(mod_nt = factor(mod_nt, levels = c(nucleotide, "mod"))) %>%  # Set levels for mod_nt (fixes U order plotting)
+    ggplot(aes(x = mod_nt, y = BCErrorFreq)) +
+      geom_jitter(cex = 0.2, alpha = 0.3, size = 0.5, width = 0.25) +
+      geom_boxplot(width = 0.2, alpha = .75, outlier.shape = NA, color = "#009E73") +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      theme_bw() +
+      ylim(0, 1) +
+      labs(title = "", 
+           x = "",
+           y = "")
+}
+
+# Generate the individual plots for each nucleotide
+plot_A <- create_plot(mapped, "A")
+plot_C <- create_plot(mapped, "C")
+plot_U <- create_plot(mapped, "U")
+plot_G <- create_plot(mapped, "G")
+
+# Combine the plots into a grid using cowplot
+combined_plot <- plot_grid(plot_A, plot_C, plot_U, plot_G, labels = "", ncol = 4)
+
+# Display the combined plot
+print(combined_plot)
+
+calculate_medians <- function(data, nucleotide) {
+  data %>%
+    filter(Position > 0 & Position < 98) %>%
+    mutate(mod_status = ifelse(mod_nt == nucleotide, paste0("unmod_", nucleotide), paste0("mod_", nucleotide))) %>%
+    filter(struct_nt == nucleotide | mod_nt == nucleotide) %>%
+    group_by(mod_status) %>%
+    summarise(
+      median_BCErrorFreq = median(BCErrorFreq, na.rm = TRUE),
+      median_InsertionFreq = median(InsertionFreq, na.rm = TRUE),
+      median_DeletionFreq = median(DeletionFreq, na.rm = TRUE),
+      median_MismatchFreq = median(MismatchFreq, na.rm = TRUE),
+      .groups = 'drop'  # Drop grouping after summarization
+    ) %>%
+    mutate(nucleotide = nucleotide)
+}
+
+# Calculate medians for each nucleotide
+medians_A <- calculate_medians(mapped, "A")
+medians_C <- calculate_medians(mapped, "C")
+medians_U <- calculate_medians(mapped, "U")
+medians_G <- calculate_medians(mapped, "G")
+
+# Combine the results into a single table
+combined_medians <- bind_rows(medians_A, medians_C, medians_U, medians_G) %>%
+  select(nucleotide, mod_status, everything())
+
+# Display the combined table
+print(combined_medians)
+
+# Adjust the combined_medians to correctly split mod_status
+combined_medians <- combined_medians %>%
+  separate(mod_status, into = c("mod_status", "nucleotide"), sep = "_", extra = "drop")
+
+
+# Reshape the combined table
+reshaped <- combined_medians %>%
+  pivot_wider(
+    names_from = mod_status,
+    values_from = c(median_BCErrorFreq, median_InsertionFreq, median_DeletionFreq, median_MismatchFreq),
+    names_glue = "{.value}_{mod_status}"
+  )
+
+# Calculate the differences between mod and unmod for each nucleotide
+differences <- reshaped %>%
+  mutate(
+    diff_BCErrorFreq = median_BCErrorFreq_mod - median_BCErrorFreq_unmod,
+    diff_InsertionFreq = median_InsertionFreq_mod - median_InsertionFreq_unmod,
+    diff_DeletionFreq = median_DeletionFreq_mod - median_DeletionFreq_unmod,
+    diff_MismatchFreq = median_MismatchFreq_mod - median_MismatchFreq_unmod
+  ) %>%
+  select(nucleotide, diff_BCErrorFreq, diff_InsertionFreq, diff_DeletionFreq, diff_MismatchFreq)
+
+```
+
+
 
 Plotting function.
 ```{r}
@@ -241,7 +366,7 @@ plot_modification_data <- function(mapped, shortname) {
          x = "5mer nucleotide context", y = "Nucleotide freq") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
           axis.ticks.x = element_blank()) +
-    scale_fill_manual(values = c("A_Freq" = "#D55E00", "T_Freq" = "#0072B2", "G_Freq" = "#009E73", "C_Freq" = "#F0E442"))
+    scale_fill_manual(values = c("T_Freq" = "#D55E00", "C_Freq" = "#0072B2", "A_Freq" = "#009E73", "G_Freq" = "#F0E442"))
 
   # Extract the legend as a separate object from plot_normalized
   legend <- cowplot::get_legend(plot_normalized)
@@ -274,7 +399,7 @@ plot_modification_data <- function(mapped, shortname) {
 
   
   # Save the combined plot to a file
-  ggsave(output_path, plot_combined, height = 10, width = 11, units = "in")
+  ggsave(output_path, plot_combined, height = 10, width = 21, units = "in")
 
   return(plot_combined)
 }
@@ -288,6 +413,81 @@ for (shortname in distinct_shortnames) {
   # Call the plotting function for each shortname
   plot_modification_data(mapped, shortname)
 }
+```
+I'd like to compare contexts with no additional modifications vs. ones with additional mods in the 5mer.
+```{r}
+# Function to count non-AGCU characters in mod_context strings
+count_non_agcu_chars <- function(mod_context) {
+  # Define the allowed characters
+  allowed_chars <- c("A", "G", "C", "U")
+  
+  # Extract the surrounding characters
+  surrounding_chars <- c(substr(mod_context, 1, 1), substr(mod_context, 2, 2), substr(mod_context, 4, 4), substr(mod_context, 5, 5))
+  
+  # Count the number of non-AGCU characters
+  non_agcu_count <- sum(!surrounding_chars %in% allowed_chars)
+  
+  return(non_agcu_count)
+}
+
+# Apply the function to your data frame
+mapped <- mapped %>%
+  mutate(NonAGCUCount = sapply(mod_context, count_non_agcu_chars))
+
+table(mapped$NonAGCUCount)
+
+# Function to plot modification data
+plot_modification_data <- function(mapped, shortname) {
+  # Filter for the specified modification
+  filtered_data <- mapped %>%
+    filter(shortname == !!shortname)
+  
+  # Add the NonAGCUCount column
+  filtered_data <- filtered_data %>%
+    mutate(NonAGCUCount = sapply(mod_context, count_non_agcu_chars))
+  
+  # Retrieve the corresponding mod_nt and long name
+  mod_nt_value <- filtered_data$mod_nt[1]
+  mod_name_value <- filtered_data$modname[1]
+  
+  # Plot for each value of NonAGCUCount
+  plot_bcerror <- ggplot(filtered_data, aes(x = factor(NonAGCUCount), y = BCErrorFreq, fill=factor(NonAGCUCount))) +
+    geom_violin(alpha = .5) +
+    geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA) +
+    theme_cowplot() +
+    labs(title = paste("Mean BCerror per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
+         x = "Number of additional modifications in 5mer",
+         y = "Mean BCerror",
+         legend = "") +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
+          axis.ticks.x = element_blank()) +
+    scale_fill_OkabeIto(order = c(8,2,6))
+  
+  # Define the name of the output file based on the shortname
+  output_filename <- paste0(shortname, "_non_agcu_count.png")
+  
+  # Define the output path using the here package
+  output_path <- here("modplots", output_filename)
+  
+  # Save the plot to a file
+  ggsave(output_path, plot_bcerror, height = 4, width = 4, units = "in")
+  
+  return(plot_bcerror)
+}
+
+# Example usage
+plot_modification_data(mapped, "Y")
+
+```
+Make a yeast file that contains these additional mods info per position
+```{r}
+mapped %>%
+  ungroup() %>%
+  filter(startsWith(Reference, "nuc")) %>%
+  select(Reference, seq_pos, Position, shortname, BCErrorFreq, MeanQual, mod_context, NonAGCUCount) %>%
+  mutate(Reference = str_replace(Reference, "^nuc-", "")) -> yeastnuctrna_mapped
+
+  # some of these are NA because they lack mod context in the ... structure file? hm.
 ```
 
 

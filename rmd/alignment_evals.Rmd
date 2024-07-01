@@ -1,0 +1,216 @@
+---
+title: "Alignment Evaluations"
+author: "Laura White"
+date: "2024-06-08"
+output: html_document
+---
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(here)
+library(cowplot)
+library(colorblindr)
+```
+
+```{r}
+
+# Directory containing the extracted data files
+data_dir <- here("metadata/allreads")
+output_dir <- here("metadata/plots")
+
+# Ensure the output directory exists
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
+# Load all extracted data files and combine them into a single data frame
+data_files <- list.files(data_dir, pattern = "_alignment_data.csv", full.names = TRUE)
+
+# Read and combine data
+all_data <- lapply(data_files, function(file) {
+  data <- read.csv(file, header = FALSE, col.names = c("AlignmentScore", "MAPQ", "ReadLength", "AvgQuality"))
+  data$Filename <- basename(file)
+  data
+}) %>%
+  bind_rows()
+
+# Filter data to include only files that start with "Human"
+subset_data <- all_data %>%
+  filter(grepl("^Human", Filename)) %>%
+  mutate(Filename = str_remove(Filename, "\\.0\\.0\\.bwa_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "\\.0\\.1\\.bwa_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "\\.bwa_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd")) %>%
+  mutate(Filename = str_remove(Filename, "_20231208_1351_MN42516_FAX71838_b8f7b990")) %>%
+  mutate(Filename = str_remove(Filename, "HumanFibroblast002\\.")) %>%
+  mutate(Filename = str_remove(Filename, "HumanFibroblast004\\.")) %>%
+  mutate(Filename = str_remove(Filename, "_70bps_")) %>%
+  mutate(Filename = str_remove(Filename, "_130bps_")) %>%
+  mutate(chemistry = str_extract(Filename, "^rna\\d{3}"), model = str_remove(Filename, "^rna\\d{3}")) %>%
+  separate(model, into=c("model", "version"), sep = "@") %>%
+  mutate(version = str_remove(version, "v"))
+
+
+# Faceted distribution plot of Alignment Scores
+ggplot(subset_data, aes(x = AlignmentScore, fill = Filename)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(version ~ chemistry, scales = "fixed", ncol = 1) +
+  labs(title = "Human tRNAseq alignment score distribution, no filtering",
+       x = "Alignment Score",
+       y = "Density",
+       fill = "Chemistry x BC model") +
+  theme_cowplot() +
+  theme(strip.text = element_blank()) +
+  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
+
+ggplot(subset_data, aes(x = ReadLength, fill = Filename)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(version ~ chemistry, scales = "fixed", ncol = 1) +
+  labs(title = "Human tRNAseq read length distribution, no filtering",
+       x = "Read length",
+       y = "Density",
+       fill = "Chemistry x BC model") +
+  theme_cowplot() +
+  theme(strip.text = element_blank()) +
+  xlim(0,300)+
+  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
+
+
+
+```
+
+```{r}
+
+# Directory containing the extracted data files
+data_dir <- here("metadata/full_length")
+output_dir <- here("metadata/plots")
+
+# Ensure the output directory exists
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
+# Load all extracted data files and combine them into a single data frame
+data_files <- list.files(data_dir, pattern = "_alignment_data.csv", full.names = TRUE)
+
+# Read and combine data
+fl_data <- lapply(data_files, function(file) {
+  data <- read.csv(file, header = FALSE, col.names = c("AlignmentScore", "MAPQ", "ReadLength", "AvgQuality"))
+  data$Filename <- basename(file)
+  data
+}) %>%
+  bind_rows()
+
+# Filter data to include only files that start with "Human"
+fl_subset_data <- fl_data %>%
+  filter(grepl("^Human", Filename)) %>%
+  mutate(Filename = str_remove(Filename, "\\.0\\.0\\.bwa_full_length_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "\\.0\\.1\\.bwa_full_length_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "\\.bwa_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "\\.bwa_full_length_alignment_data\\.csv$")) %>%
+  mutate(Filename = str_remove(Filename, "_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd")) %>%
+  mutate(Filename = str_remove(Filename, "_20231208_1351_MN42516_FAX71838_b8f7b990")) %>%
+  mutate(Filename = str_remove(Filename, "HumanFibroblast002\\.")) %>%
+  mutate(Filename = str_remove(Filename, "HumanFibroblast004\\.")) %>%
+  mutate(Filename = str_remove(Filename, "_70bps_")) %>%
+  mutate(Filename = str_remove(Filename, "_130bps_")) %>%
+  mutate(chemistry = str_extract(Filename, "^rna\\d{3}"), model = str_remove(Filename, "^rna\\d{3}")) %>%
+  separate(model, into=c("model", "version"), sep = "@") %>%
+  mutate(version = str_remove(version, "v"))
+
+
+# Faceted distribution plot of Alignment Scores
+ggplot(fl_subset_data, aes(x = AlignmentScore, fill = Filename)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(version ~ chemistry, scales = "fixed", ncol = 1) +
+  labs(title = "Human tRNAseq alignment score distribution, with filtering",
+       x = "Alignment Score",
+       y = "Density",
+       fill = "Chemistry x BC model") +
+  theme_cowplot() +
+  theme(strip.text = element_blank()) +
+  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
+
+
+ggplot(fl_subset_data, aes(x = ReadLength, fill = Filename)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(version ~ chemistry, scales = "fixed", ncol = 1) +
+  labs(title = "Human tRNAseq read length distribution, with filtering",
+       x = "Read length",
+       y = "Density",
+       fill = "Chemistry x BC model") +
+  theme_cowplot() +
+  theme(strip.text = element_blank()) +
+  xlim(0,300)+
+  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
+
+
+```
+Ok, I want to see how alignment score distributions change with filtering for the best available model for each chemistry (looking at these 10k read subsets).
+```{r}
+all_data %>%
+  mutate(filtering = "none") -> all_data
+
+fl_data %>%
+  mutate(filtering = "full_length") -> fl_data
+
+bind_rows(all_data, fl_data)  %>%
+  mutate(Filename = gsub("\\.bwa_alignment_data\\.csv$", "", Filename)) %>%
+  mutate(Filename = gsub("\\.bwa_full_length_alignment_data\\.csv$", "", Filename)) %>%
+  separate(Filename, into = c("Sample", "Date", "Something", "Instrument", "Flowcell", "SomethingAndChemistry", "HelicaseSpeed", "BasecallingModel"), sep = "_", extra = "merge") %>%
+  filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast", "Grandeyeast", "Petityeast", "Pus1yeast", "Pus2yeast", "T4infectedecoli")) %>% # wildtypes only
+  select(-Something) %>%
+  separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
+  select(-Something, -HelicaseSpeed) %>%
+  separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
+  separate(Version, into = c("Version"), sep = "\\.") %>%
+  filter((Chemistry == "rna002" & BCModel == "hac") | (Chemistry == "rna004" & BCModel == "sup" & Version == "v5")) -> test
+
+
+test %>% mutate(Sample = sub("\\d{3}$", "", Sample)) %>%
+  filter(!Sample %in% c("Trub1untrH295R", "Pus4yeast")) %>%
+  mutate(Species = case_when(
+    grepl("^Drosophila", Sample) ~ "D_melanogaster",
+    grepl("^Ecoli", Sample) ~ "E_coli",
+    grepl("^(HumanFibroblast|Trub1doxH295R|Trub1untrH295R)", Sample) ~ "H_sapiens",
+    grepl("^(Pus4yeast|WTyeast)", Sample) ~ "S_cerevisiae",
+    grepl("^Tetrahymena", Sample) ~ "T_thermophila",
+    grepl("^Zebrafish", Sample) ~ "D_rerio",
+    TRUE ~ NA_character_  # Default case if none of the above conditions are met
+  )) -> test
+    
+
+test$filtering <- factor(test$filtering, levels = rev(levels(factor(test$filtering))))
+
+ggplot(test, aes(x = AlignmentScore, fill = filtering)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(Chemistry ~ Species, ncol=6) +
+  theme_cowplot() +
+  scale_fill_OkabeIto(order = c(8,2)) +
+  labs(x = "Alignment Score", fill = "Filtering")
+
+
+ggplot(test, aes(x = AlignmentScore, fill = filtering)) +
+  geom_density(alpha = 0.6) +
+  facet_wrap(~Chemistry, ncol=1) +
+  theme_cowplot() +
+  scale_fill_OkabeIto(order = c(8,2)) +
+  labs(x = "Alignment Score", fill = "Filtering")
+
+
+
+# Reshape the data to wide format
+wide_data <- test %>%
+  select(Sample, Chemistry, BCModel, Version, TotalReads, filtering)  %>% # remove 1 duplicate basecalling
+  filter(TotalReads != 157007) %>%
+  pivot_wider(names_from = filtering, values_from = TotalReads, names_prefix = "TotalReads_")
+
+# Calculate the percent retained
+percent_retained <- wide_data %>%
+  mutate(percent_retained = (TotalReads_full_length / TotalReads_none) * 100) %>%
+  select(Sample, Chemistry, BCModel, Version, percent_retained)
+
+percent_retained %>%
+  group_by(Chemistry) %>%
+  summarize(median_percent_retained = median(percent_retained))
+
+# Print the result
+print(percent_retained)
+```
+

@@ -1,0 +1,238 @@
+---
+title: "BCerr mappings check"
+author: "Laura White"
+date: "2024-06-16"
+output: html_document
+---
+
+```{r}
+pkgs <- c(
+    "data.table",
+    "GenomicAlignments",
+    "Rsamtools",
+    "here",
+    "ggplot2",
+    "cowplot",
+    "ggthemes",
+    "ComplexHeatmap"
+)
+
+invisible(lapply(pkgs,
+    library,
+    character.only = TRUE,
+    warn.conflicts = FALSE,
+    quietly = TRUE
+))
+
+theme_set(theme_cowplot())
+d_cols <- unname(palette.colors()[-1])
+here::i_am("Rmd/BCerror_reimplement.Rmd")
+```
+
+## get map of tRNA positions to consensus tRNA 
+
+Use the mapping from modomics to map tRNAs to consensus structural position.
+Append `CCUAAGAGCAAGAAGAAGCCUGGN` 5' adapter, `CCA` and `GGCUUCUUCUUGCUCUUAGGAAAAAAAAAA` 3' adapter to structural alignments. 
+
+```{r}
+alns <- readLines(here("yeast_tRNA_alignment.afa"))
+alns <- data.frame(
+    id = sub(">", "", alns[seq(1, length(alns), 2)]),
+    con_seq = alns[seq(2, length(alns), 2)]
+)
+
+# Split the ID fields into separate components
+seq_ids <- tstrsplit(alns$id, "\\|", type.convert = TRUE)
+seq_ids[[4]] <- gsub("U", "T", gsub("I", "A", gsub("3", "T", seq_ids[[4]])))
+
+# Create reference names with prefix based on organelle type
+alns$ref_names <- ifelse(seq_ids[[6]] == "eukaryotic cytosol ", 
+                         paste0("nuc-", seq_ids[[3]], "-", seq_ids[[4]]), 
+                         ifelse(seq_ids[[6]] == "mitochondrion", 
+                                paste0("mito-", seq_ids[[3]], "-", seq_ids[[4]]), NA))
+
+# Filter to keep only entries from eukaryotic cytosol or mitochondrion
+to_keep <- !is.na(alns$ref_names)
+alns <- alns[to_keep, ]
+
+# Special case renaming if necessary
+alns$ref_names <- ifelse(alns$ref_names == "Ini-CAT", "iMet-CAT", alns$ref_names)
+alns$id <- alns$ref_names
+
+five_p_adapter <- "CCUAAGAGCAAGAAGAAGCCUGGN"
+three_p_cca_adapter <- "CCAGGCUUCUUCUUGCUCUUAGGAAAAAAAAAA"
+alns$con_seq <- paste0(
+    five_p_adapter,
+    alns$con_seq,
+    three_p_cca_adapter
+)
+
+struct2pos <- function(x) {
+    n <- nchar(x)
+    struct_pos <- 1:n
+    seq_pos <- rep(1, n)
+    gaps <- stringr::str_locate_all(x, "-")[[1]][, 1]
+    seq_pos[gaps] <- 0
+    seq_pos <- cumsum(seq_pos)
+    seq_pos[gaps] <- NA
+    data.frame(
+        struct_pos = struct_pos,
+        seq_pos = seq_pos
+    )
+}
+
+
+trna_conseq_labels <- c(
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17",
+    "17a", "18", "19", "20", "20a", "20b", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+    "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48",
+    "e11", "e12", "e13", "e14", "e15", "e16", "e17", "e1", "e2", "e3", "e4", "e5",
+    "e27", "e26", "e25", "e24", "e23", "e22", "e21", "49", "50", "51", "52", "53", "54", "55", "56", "57",
+    "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "C", "C", "A"
+)
+trna_conseq_labels <- c(
+    rep("5a", nchar(five_p_adapter)),
+    trna_conseq_labels,
+    rep("3a", nchar(three_p_cca_adapter))
+)
+
+yeast_seq2struct <- lapply(split(alns, seq_len(nrow(alns))), function(x) {
+    nc <- length(trna_conseq_labels)
+    stopifnot(nc == nchar(x$con_seq))
+    cbind(
+        id = x$id,
+        label = factor(trna_conseq_labels, levels = unique(trna_conseq_labels)),
+        struct2pos(x$con_seq)
+    )
+}) |>
+    rbindlist()
+```
+
+## Load basecalling error rates
+
+```{r}
+data_dir <- here("bcerror")
+
+# Define experiment paths 
+expt_paths <- c(
+    "wildtype" = "WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv",
+    "pus1" = "Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv",
+    "pus2" = "Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv",
+    "pus4" = "Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna004_130bps_sup@v5.0.0.tsv"
+)
+
+# Construct full paths to the files
+bc_error_files <- file.path(data_dir, expt_paths)
+
+names(bc_error_files) <- c(
+    "wildtype",
+    "pus1",
+    "pus2",
+    "pus4"
+)
+
+all_bc_error_dat <- lapply(bc_error_files, fread) |> rbindlist(idcol = "Run")
+
+bc_error_dat <- all_bc_error_dat[, c(
+  "Run",
+    "Reference",
+    "Position",
+    "Spanning_Reads",
+    "Bases_Mapped",
+    "A_Freq",
+    "T_Freq",
+    "G_Freq",
+    "C_Freq",
+    "N_freq",
+    "MismatchFreq",
+    "InsertionFreq",
+    "DeletionFreq",
+    "BCErrorFreq",
+    "MeanQual"
+)]
+
+```
+
+
+Generate heatmaps of base calling error rates for charged and uncharged tRNAs for each experiment.
+
+```{r, fig.width = 30, fig.height = 4}
+#dir.create("plots", showWarnings = FALSE)
+
+vals_to_plot <- c(
+    "BCErrorFreq",
+    "MismatchFreq",
+    "InsertionFreq",
+    "DeletionFreq",
+    "MeanQual"
+)
+tRNAs_to_query <- alns$id
+
+
+# need to deal with nuclear vs cytoplasmic here 
+subset_bc_error_dat <- bc_error_dat[Reference %in% tRNAs_to_query] |>
+    melt(id.vars = c("Run", "Position", "Reference"), measure.vars = 10:14) |>
+    dcast(Reference + Position + variable ~ Run)
+
+subset_bc_error_dat <- merge(subset_bc_error_dat,
+    yeast_seq2struct,
+    by.x = c("tRNA", "Position"),
+    by.y = c("id", "seq_pos"),
+    allow.cartesian = TRUE
+) |>
+    unique()
+
+all_obs <- expand.grid(
+    struct_pos = 1:length(trna_conseq_labels),
+    tRNA = unique(subset_bc_error_dat$tRNA),
+    variable = unique(subset_bc_error_dat$variable),
+    Run = unique(subset_bc_error_dat$Run)
+)
+
+subset_bc_error_dat <- merge(setDT(all_obs),
+    subset_bc_error_dat,
+    all.x = TRUE
+)
+# don't plot adapters
+pos_to_plot <- which(!trna_conseq_labels %in% c("5a", "3a", "C", "A"))
+for (val in vals_to_plot) {
+    message(val)
+    mat <- subset_bc_error_dat[variable == val] |>
+        dcast(Run + tRNA ~ struct_pos, value.var = "delta") |>
+        as.data.frame()
+
+    mat_lst <- split(mat, mat$Run)
+    hmaps <- lapply(seq_along(mat_lst), function(i) {
+        mat <- mat_lst[[i]]
+        id <- names(mat_lst)[i]
+
+        rownames(mat) <- mat$tRNA
+        mat$tRNA <- NULL
+        mat$Run <- NULL
+        mat <- as.matrix(mat)
+
+        hmap <- Heatmap(mat[, pos_to_plot],
+            name = "Charged - Uncharged",
+            column_title = paste(val, id),
+            column_labels = trna_conseq_labels[pos_to_plot],
+            cluster_rows = TRUE,
+            cluster_columns = FALSE,
+            row_names_side = "left",
+            row_dend_side = "right",
+            row_names_gp = gpar(fontsize = 8),
+            column_names_gp = gpar(fontsize = 6)
+        )
+        hmap
+    })
+    hmap <- Reduce(`+`, hmaps)
+    pdf(file.path("plots", paste0(val, "_heatmap.pdf")),
+        width = 30,
+        height = 4
+    )
+    draw(hmap)
+    meh <- dev.off()
+
+    draw(hmap)
+}
+```
+

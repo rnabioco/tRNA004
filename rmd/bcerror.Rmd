@@ -26,10 +26,10 @@ read_bcerr <- function(x, Sample, ref) {
   return(df)
 }
 
-read_bcerr(here("bcerror/WTyeast004_20231111.tsv"), "WT") -> wt
-read_bcerr(here("bcerror/Pus4yeast004_20231208.tsv"), "Pus4del") -> pus4
-read_bcerr(here("bcerror/Pus2yeast004_20240105.tsv"), "Pus2del") -> pus2
-read_bcerr(here("bcerror/Pus1yeast004_20240105.tsv"), "Pus1del") -> pus1
+read_bcerr(here("bcerror/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv"), "WT") -> wt
+read_bcerr(here("bcerror/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.tsv"), "Pus4del") -> pus4
+read_bcerr(here("bcerror/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv"), "Pus2del") -> pus2
+read_bcerr(here("bcerror/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv"), "Pus1del") -> pus1
 
 bind_rows(wt, pus4, pus2, pus1) %>%
   mutate(Position = (Position - 24)) %>%
@@ -42,7 +42,8 @@ rm(wt, pus4, pus2, pus1)
 Widen the data to enforce a coverage threshold and calculate bc error differences.
 ```{r}
 all %>%
-  select(Sample, Reference, Position, Coverage, BCerror) %>%
+  select(Sample, Reference, Position, Spanning_Reads, BCerror) %>%
+  rename(Coverage = Spanning_Reads) %>%
   pivot_wider(
     names_from = Sample,
     names_sep = "_",
@@ -74,7 +75,7 @@ long_data <- diffs %>%
 
 Now, can we pull in our tsv containing sequence to structure mappings, join it, and use that to make nicer plots.
 ```{r}
-read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+read_tsv(here("ref/structural_alignments/unmodified/scerevisiae.seq2structure.tsv")) %>%
   filter(str_starts(seq_ref, "mito"))  %>% 
   mutate(struct_pos = (struct_pos - 24)) %>%
   mutate(Position = (seq_pos - 24)) %>%
@@ -182,6 +183,7 @@ We need to go back to our original dataset and roll up the values for each tRNA 
 Then widen the data as before, with enforced coverage threshold and error difference calculations.
 ```{r}
 all %>%
+  rename(Coverage = Spanning_Reads) %>%
   filter(str_starts(Reference, "nuc")) %>%
   separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon", "Family", "Species"), sep = "-") %>%
   mutate(
@@ -236,7 +238,7 @@ long_data %>%
   filter(str_starts(Reference, "nuc")) -> nuc_long_data
 
 
-read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+read_tsv(here("ref/structural_alignments/unmodified/scerevisiae.seq2structure.tsv")) %>%
   filter(str_starts(seq_ref, "nuc"))  %>% 
   mutate(struct_pos = (struct_pos - 24)) %>%
   mutate(Position = (seq_pos - 24)) %>%
@@ -264,13 +266,14 @@ Alright. Now: can we aggregate not just by isodecoder, but across all tRNAs for 
 # the problem with doing this at this point is they're not lined up yet on the structure, are they?
 # shit, this is a problem collapsing the nuclear tRNAs, too.
 # the answer has to be to pull the mappings in BEFORE we start collapsing things.
-read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+read_tsv(here("ref/structural_alignments/unmodified/scerevisiae.seq2structure.tsv")) %>%
   mutate(struct_pos = (struct_pos - 24)) %>%
   rename(Position = seq_pos, Reference = seq_ref) %>%
   mutate(Position = (Position - 24)) -> mappings
 
 all %>%
   left_join(., mappings, by = c("Reference", "Position")) %>%
+  rename(Coverage = Spanning_Reads) %>%
   select(Reference, Coverage, Sample, BCerror, struct_pos) %>%
   rename(Position = struct_pos) %>%
   separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon", "Family", "Species"), sep = "-") %>%
