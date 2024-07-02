@@ -1,0 +1,301 @@
+---
+title: "Mod calls from BAMs"
+author: "Laura White"
+date: "2024-06-25"
+output: html_document
+---
+
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(Rsamtools)
+library(cowplot)
+library(here)
+here::i_am("Rmd/modbams.Rmd")
+```
+I have a bunch of BAM files from SUP v5 calling with pseudouridine and m6A modification calls emitted into MM & ML tags. I want to look at these, both at the general distribution of modification likelihood (ML) scores, and then also the behavior at positions on tRNA that are annotated vs. unannotated for pseudouridylation in MODOMICS.
+
+```{r}
+# Function to extract ML values without extensive debugging information
+extract_ml_values_single <- function(bam_file) {
+  bam <- scanBam(BamFile(bam_file), param=ScanBamParam(tag=c("MM", "ML")))
+
+  ml_values <- c()
+
+  if (length(bam[[1]]$tag$MM) > 0) {
+    for (i in seq_along(bam[[1]]$tag$MM)) {
+      mm_tag <- bam[[1]]$tag$MM[[i]]
+      ml_tag <- bam[[1]]$tag$ML[[i]]
+
+      if (!is.null(mm_tag) && !is.null(ml_tag) && length(ml_tag) > 0) {
+        mm_parts <- unlist(strsplit(mm_tag, ";"))
+        ml_parts <- unlist(ml_tag)
+
+        for (j in seq_along(mm_parts)) {
+          if (grepl("T\\+17802", mm_parts[j])) {
+            ml_values <- c(ml_values, as.numeric(ml_parts[j]))
+          }
+        }
+      }
+    }
+  }
+
+  return(ml_values)
+}
+
+# Path BAM file
+single_bam_file <- "/Users/laurakwhite/Library/CloudStorage/Dropbox/Laura - UC Denver/2023/tRNAworkshop/alignments/004supv5/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.bwa_full_length.bam"
+
+# Extract ML values from the single BAM file
+ml_values <- extract_ml_values_single(single_bam_file)
+
+if (length(ml_values) > 0) {
+  ml_df <- data.frame(ML_values = ml_values, File = basename(single_bam_file))
+  
+  ggplot(ml_df, aes(x = ML_values)) +
+    geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+    theme_minimal() +
+    labs(title = "Distribution of ML Values for Pseudouridine, Tetrahymena", x = "ML Value", y = "Frequency")
+} else {
+  cat("No ML values found for file:", single_bam_file, "\n")
+}
+```
+```{r}
+
+# Step 1: Load the data
+data <- read_tsv("/Users/laurakwhite/Library/CloudStorage/Dropbox/Laura - UC Denver/2023/tRNAworkshop/alignments/004supv5/subsampled.extract.tsv")
+
+# Step 2: Filter for pseudouridine modifications
+pseudoU_data <- data %>% filter(mod_code == "17802")
+
+# Step 3: Calculate median modification quality scores
+median_mod_qual <- pseudoU_data %>%
+  group_by(ref_position) %>%
+  summarize(median_mod_qual = median(mod_qual, na.rm = TRUE))
+
+# Step 4: Plot the results
+ggplot(median_mod_qual, aes(x = ref_position, y = median_mod_qual)) +
+  geom_vline(xintercept = 79, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 54, linetype = "dashed", color = "red") +
+  annotate("rect", xmin = -1, xmax = 23, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "gray") +
+  geom_line() +
+  geom_point() +
+  labs(title = "Modification Quality Score for Pseudouridine (Ψ) Modifications",
+       x = "Reference Position (all tRNAs)",
+       y = "Median Modification Quality Score") +
+  theme_cowplot()
+
+```
+```{r}
+read_tsv(here("alignments/004supv5/yeastextract.tsv")) %>%
+  filter(mod_code=="17802" & ref_strand=="+" & ref_mod_strand=="+" & mod_strand=="+" & mod_qual >.98) %>%
+  select(read_id, ref_position, chrom, mod_qual, base_qual, ref_kmer) %>%
+  mutate(ref_position = ref_position +1) -> test
+
+read_tsv(here("alignments/004supv5/remorainfer.extract.tsv")) %>%
+  filter(mod_code=="17802" & ref_strand=="+" & ref_mod_strand=="+" & mod_strand=="+") %>%
+  select(read_id, ref_position, chrom, mod_qual, base_qual, ref_kmer) %>%
+  mutate(ref_position = ref_position +1) -> remoratest
+
+read_tsv(here("alignments/004supv5/mnremoved.remorainfer.extract.tsv")) %>%
+  filter(mod_code=="17802" & ref_strand=="+" & ref_mod_strand=="+" & mod_strand=="+" & mod_qual >.98) %>%
+  select(read_id, ref_position, chrom, mod_qual, base_qual, ref_kmer) %>%
+  mutate(ref_position = ref_position +1) -> remoratest2
+```
+Let's start by getting data at one reference.
+```{r}
+
+data_filtered <- remoratest2 %>%
+  filter(str_starts(chrom, "tRNA-Ala-AGC-1")) %>%
+  filter(ref_position > 24 & ref_position < 101)
+
+data_adjusted <- data_filtered %>%
+  mutate(new_ref_position = ref_position - 24)
+
+#create a complete set of adjusted reference positions
+complete_positions <- data.frame(new_ref_position = seq(min(data_adjusted$new_ref_position), max(data_adjusted$new_ref_position)))
+
+#merge the complete positions with the adjusted data
+data_complete <- complete_positions %>%
+  left_join(data_adjusted, by = "new_ref_position")
+
+ggplot(data_complete, aes(x = as.factor(new_ref_position), y = mod_qual)) +
+  geom_vline(xintercept = 50, linetype = "dashed", color = "red") +
+  geom_jitter(width = 0.2, alpha = 0.2, color = "blue", na.rm = TRUE) +
+  geom_boxplot(alpha = 0.8, outlier.shape = NA, na.rm = TRUE) +
+  theme_minimal() +
+  labs(title = "Modification probabilities at all pseudoU sites on Ala-AGC-1",
+       x = "Position",
+       y = "Modification Quality") +
+  scale_x_discrete(drop = FALSE) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust =.5))
+
+```
+Generated pileup data at 0.98 threshold, loading this in with column names
+```{r}
+# Define the column names
+col_names <- c("chrom", "start", "end", "fmod", "ncov")
+
+# Read the bedgraph file with specified column names
+yeastpileup <- read_tsv(here("alignments/004supv5/bedgraphs/yeast/17802_positive.bedgraph"), col_names = col_names)
+
+yeastpileup %>%
+  select(-end) %>%
+  mutate(start = start-24) %>%
+  dplyr::rename(position = start) %>%
+  filter(str_starts(chrom, "tRNA-Ala-AGC-1")) -> alatRNA
+
+#All the alanine tRNAs above have the same positional info, so we can collpase this data
+collapsed_data <- alatRNA %>%
+  group_by(position) %>%
+  summarise(
+    weighted_fmod = sum(fmod * ncov),
+    total_ncov = sum(ncov)
+  ) %>%
+  mutate(final_fmod = weighted_fmod / total_ncov) %>%
+  select(position, final_fmod, total_ncov) %>%
+  dplyr::rename(fmod = final_fmod, ncov = total_ncov)
+
+ggplot(collapsed_data, aes(x = position, y = fmod)) +
+  geom_vline(xintercept = 79 - 24, linetype = "dashed", color = "red") +
+  geom_jitter(width = 0.2, alpha = 0.2, color = "blue", na.rm = TRUE) +
+#  geom_boxplot(alpha = 0.6, outlier.shape = NA, na.rm = TRUE) +
+  theme_minimal() +
+  labs(title = "Modification probabilities at high confidence pseudoU sites on Ala-AGC-1",
+       x = "Position",
+       y = "Modification Quality") +
+  scale_x_discrete(drop = FALSE) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+# Create a complete sequence of positions from min to max
+complete_positions <- tibble(position = seq(min(collapsed_data$position), max(collapsed_data$position)))
+
+# Join the complete sequence with your dataset
+complete_data <- complete_positions %>%
+  left_join(collapsed_data, by = "position")
+
+# Create two separate data frames
+all_data <- complete_data %>%
+  mutate(facet = "All Data")
+
+filtered_data <- complete_data %>%
+  filter(ncov > 29) %>%
+  mutate(facet = "ncov > 29")
+
+# Combine the two data frames
+combined_data <- bind_rows(all_data, filtered_data)
+
+# Plot the data
+ggplot(combined_data, aes(x = position, y = fmod)) +
+  geom_col() +
+  scale_x_continuous(breaks = seq(min(combined_data$position), max(combined_data$position), by = 1)) +
+  labs(title = "Fraction modified on Ala-AGC, all mod calls",
+       x = "Position",
+       y = "Fraction modified") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  facet_wrap(~ facet, scales = "free_y", ncol = 1) +
+  geom_hline(yintercept = .5, linetype = "dashed", color = "red")
+```
+A retest using the bedmethyl output
+```{r}
+read_tsv(here("alignments/004supv5/bedmethyls/WTyeastremorainfer.98.out.bed")) %>%
+  filter(name == "17802" & strand == "+") %>%
+  select(chrom, chromStart, valid_coverage, percent_modified, count_modified,  count_other_mode, count_canonical, count_delete, count_fail, count_diff, count_nocall) %>%
+  dplyr::rename(start = chromStart) %>%
+  mutate(count_unmodified = count_canonical + count_other_mode + count_fail + count_nocall + count_diff + count_delete) %>%
+  mutate(count_all = count_modified + count_unmodified) %>%
+  mutate(scaled_mod_pct = (count_modified / count_all)*100) -> yeastbedmeth
+
+yeastbedmeth %>%
+  ggplot(aes(x = percent_modified, y = scaled_mod_pct)) +
+  geom_point(alpha = .2) +
+  theme_cowplot() +
+  labs(title = "What does percent modified mean at --filter-threshold 0.9? \n each dot is one position mapped to the reference",
+       x = "ModKit % modified in pileup bedmethyl column",
+       y = "Mod calls as % of all reads spanning position")
+
+
+yeastbedmeth %>%
+  filter(count_all > 29) %>%
+  ggplot(aes(x = percent_modified, y = scaled_mod_pct)) +
+  geom_point(alpha = .2) +
+  theme_cowplot() +
+  labs(title = "What does percent modified mean at --filter-threshold 0.9? \n each dot is one position mapped to the reference \n with total read coverage >29",
+       x = "ModKit % modified in pileup bedmethyl column",
+       y = "Mod calls as % of all reads spanning position")
+```
+```{r}
+yeastbedmeth %>%
+  mutate(start = start-23) %>%
+  dplyr::rename(position = start) %>%
+  filter(str_starts(chrom, "tRNA-Ala-AGC-1")) -> alatRNAbedmeth
+
+# Step 1: Summarise the data to calculate sums
+summarised_data <- alatRNAbedmeth %>%
+  group_by(position) %>%
+  summarise(
+    sum_percent_modified = sum(percent_modified * count_all, na.rm = TRUE),
+    total_coverage = sum(count_all, na.rm = TRUE),
+    modkitcov = sum(count_modified + count_canonical)
+  )
+
+# Step 2: Calculate the weighted percent modified
+collapsed_data <- summarised_data %>%
+  mutate(
+    fmod = sum_percent_modified / total_coverage,
+    ncov = total_coverage
+  ) %>%
+  select(position, fmod, ncov, modkitcov)
+
+# Create a complete sequence of positions from min to max
+complete_positions <- tibble(position = seq(min(collapsed_data$position), max(collapsed_data$position)))
+
+# Join the complete sequence with the collapsed data
+complete_data <- complete_positions %>%
+  left_join(collapsed_data, by = "position")
+
+# Filter the data for ncov > 29
+filtered_data <- complete_data %>%
+  filter(modkitcov > 29)
+
+# Plot the data
+ggplot(filtered_data, aes(x = position, y = fmod)) +
+  geom_col() +
+  scale_x_continuous(breaks = seq(min(filtered_data$position), max(filtered_data$position), by = 1)) +
+  labs(title = "ModKit percent modified on Ala-AGC-1",
+       x = "Position",
+       y = "Percent modified") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+
+
+
+# Step 2: Calculate the weighted percent modified
+alatRNAbedmeth %>%
+  group_by(position) %>%
+  summarise(
+    scaled_mod_pct = sum(scaled_mod_pct * count_all, na.rm = TRUE),
+    total_coverage = sum(count_all, na.rm = TRUE)
+  ) %>%
+  mutate(
+    fmod = scaled_mod_pct / total_coverage,
+    ncov = total_coverage
+  ) %>%
+  select(position, fmod, ncov) %>%
+  filter(ncov > 29) -> scaleddata
+  
+
+ggplot(scaleddata, aes(x = position, y = fmod)) +
+  geom_col() +
+  scale_x_continuous(breaks = seq(min(scaleddata$position), max(scaleddata$position), by = 1)) +
+  labs(title = "Coverage-scaled percent modified on Ala-AGC-1",
+       x = "Position",
+       y = "Percent modified") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+```
+

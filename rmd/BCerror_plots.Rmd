@@ -27,17 +27,17 @@ read_bcerr <- function(x, Sample, ref) {
 }
 
 # all reads
-read_bcerr(here("bcerror/WTyeast004_20231111.tsv"), "WT") -> wt
-read_bcerr(here("bcerror/Pus4yeast004_20231208.tsv"), "Pus4del") -> pus4
-read_bcerr(here("bcerror/Pus2yeast004_20240105.tsv"), "Pus2del") -> pus2
-read_bcerr(here("bcerror/Pus1yeast004_20240105.tsv"), "Pus1del") -> pus1
+read_bcerr(here("bcerror/yeast/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv"), "WT") -> wt
+read_bcerr(here("bcerror/yeast/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.tsv"), "Pus4del") -> pus4
+read_bcerr(here("bcerror/yeast/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv"), "Pus2del") -> pus2
+read_bcerr(here("bcerror/yeast/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv"), "Pus1del") -> pus1
 
 bind_rows(wt, pus4, pus2, pus1) %>%
   mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> all 
 
 rm(wt, pus4, pus2, pus1)
 
-read_tsv(here("ref/structural_alignments/unmodified/sacCer.seq2structure.tsv")) %>%
+read_tsv(here("ref/structural_alignments/test.tsv")) %>%
   rename(Position = seq_pos) %>%
   select(-struct_ref) %>%
   rename(Reference = seq_ref) -> mappings
@@ -52,7 +52,8 @@ left_join(all, mappings, by = c("Reference", "Position")) %>%
 # or even to anticodon leve
 mapped %>%
   filter(str_starts(Reference, "mito")) %>%
-  select(Reference, Coverage, Sample, BCerror, struct_nt, Position) %>%
+  select(Reference, Spanning_Reads, Sample, BCerror, struct_nt, Position) %>%
+  rename(Coverage = Spanning_Reads) %>%
   separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon"), sep = "-") %>%
   mutate(Anticodon = str_replace_all(Anticodon, "U", "T")) %>% # because our ref names are inconsistent
   unite(Reference, c("Location", "AA", "Anticodon"), sep = "-") %>%
@@ -60,7 +61,8 @@ mapped %>%
 
 mapped %>%
   filter(str_starts(Reference, "nuc")) %>%
-  select(Reference, Coverage, Sample, BCerror, struct_nt, Position) %>%
+  select(Reference, Spanning_Reads, Sample, BCerror, struct_nt, Position) %>%
+  rename(Coverage = Spanning_Reads) %>%
   separate(Reference, into = c("Location", "tRNA", "AA", "Anticodon", "Family", "Species"), sep = "-") %>%
   group_by(Location, tRNA, AA, Anticodon, Position, Sample) %>% # roll up to anticodon if not grouped by Family
   summarise(
@@ -164,16 +166,12 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
   if (include_legend) {
     p <- p + theme(
       legend.position = "bottom",
-#      legend.position = c(0, 1),
-#      legend.justification = c(1, 1),
-#      legend.box.just = "right",
-#      legend.margin = margin(0, 0, 0, 0),
       legend.background = element_rect(fill = "transparent", color = NA),
       legend.box.background = element_rect(fill = "transparent", color = NA),
       legend.key = element_rect(fill = "transparent", color = NA),
       legend.title = element_text(size = 10),
       legend.text = element_text(size = 9)
-    ) # Removed the guides modification
+    )
   } else {
     p <- p + theme(legend.position = "none")
   }
@@ -181,7 +179,7 @@ plot_basecalling_error <- function(data, delta_type, title_suffix, include_legen
   
   p <- p + theme(
     axis.text.y = element_text(color = label_colors, angle = 0, hjust = 1, vjust = 0.3, size = 10),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3, size = 10),
+    axis.text.x = element_text(angle = 90, hjust = 0, vjust = .5, size = 8),
   ) +
   coord_fixed(ratio = 1)
 

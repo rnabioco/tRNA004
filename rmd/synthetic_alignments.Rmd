@@ -1,0 +1,36 @@
+---
+title: "Synthetic Alignments"
+author: "Laura White"
+date: "2024-06-04"
+output: html_document
+---
+
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(cowplot)
+library(here)
+here::i_am("Rmd/synthetic_alignments.Rmd")
+```
+I've made a bunch of simulated data to test (and explain) the impact of our filtering strategy and read quality on BWA MEM mapping. Here, visualizing how that impacts things. Looking at one exemplar tRNA.
+```{r}
+read_it <- function(x, name) {
+  df <- readr::read_csv(x, show_col_types = F) %>%
+    filter(str_detect(tRNA, "^nuc-tRNA-Ser-AGA-2")) %>%
+    dplyr::mutate(sample = name)
+  
+  return(df)
+}
+
+read_it(here("alignment_evals/bams/alignment_accuracy.csv"), "unfiltered") -> unfiltered
+
+read_it(here("alignment_evals/filteredbams/alignment_accuracy.csv"), "filtered") -> filtered
+
+rbind(unfiltered, filtered) -> all
+```
+
+Plot some things
+```{r}
+ggplot(filtered, )
+```
+

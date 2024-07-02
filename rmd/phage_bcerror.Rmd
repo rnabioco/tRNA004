@@ -27,10 +27,10 @@ read_bcerr <- function(x, Sample, ref) {
 }
 
 # all reads
-read_bcerr(here("bcerror/T4_infected_ecoli.bcerror.tsv"), "infected") %>%
+read_bcerr(here("bcerror/T4infectedecoli_20240202_1332_P2S-01618-A_PAU05281_fd3805fc.rna004_130bps_sup@v5.0.0.T4ref.tsv"), "infected") %>%
   mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> t4ecoli
 
-read_bcerr(here("bcerror/T4_uninfected_ecoli.bcerror.tsv"), "uninfected") %>%
+read_bcerr(here("bcerror/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.T4ref.tsv"), "uninfected") %>%
   mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> ecoli
 
 bind_rows(t4ecoli, ecoli) -> all
@@ -89,8 +89,8 @@ test %>%
   ) %>%
   mutate(
     MinCov = pmin(Coverage_uninfected, Coverage_infected, na.rm = TRUE),
-    BCerror_infected = replace(BCerror_infected, MinCov < 29, 0),
-    BCerror_uninfected = replace(BCerror_uninfected, MinCov < 29, 0),
+    BCerror_infected = replace(BCerror_infected, MinCov < 30, 0),
+    BCerror_uninfected = replace(BCerror_uninfected, MinCov < 30, 0),
     BC_delta = BCerror_infected - BCerror_uninfected) -> diffs
 
 
@@ -122,17 +122,21 @@ plot_basecalling_error <- function(data, title_suffix, include_legend = TRUE) {
   # Left join with the filtered dataset
   full_data <- complete_grid %>%
     left_join(data, by = c("Position", "Reference"))
+  
+
 
   # Plot
   p <- ggplot(full_data, aes(x = Position, y = Reference, fill = BC_delta)) +
     geom_tile(color = "white", size = 0.1) +
-    scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white", midpoint = 0, na.value = "#D3D3D3") +
+    scale_fill_gradient2(low = "#0072B2", high = "#D55E00", mid = "white",midpoint = 0, limits = c(-0.5, 0.5), 
+                     na.value = "#D3D3D3", 
+                     breaks = seq(-0.5, 0.5, by = 0.25)) +
     scale_x_discrete(labels = x_labels) + # Apply custom x-axis labels
     labs(title = paste("Difference in basecalling error", title_suffix),
          x = "Position",
          y = "Reference") +
     theme_minimal() +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 6),
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 8),
           legend.position = ifelse(include_legend, "bottom", "none"))
 
   return(p)
@@ -142,6 +146,7 @@ diffs %>%
   filter(str_starts(Reference, "host")) %>%
   mutate(Reference = str_replace(Reference, "^host-", "")) -> diffs
 
-plot_basecalling_error(diffs, "for E. coli tRNAs on T4 phage infection")
+p <- plot_basecalling_error(diffs, "for E. coli tRNAs on T4 phage infection")
+ggsave("T4infection_heatmap.png", plot = p, width = 9, height = 5, units = "in")
 ```
 

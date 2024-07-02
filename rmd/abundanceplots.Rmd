@@ -1,0 +1,162 @@
+---
+title: "Abundance Plots"
+author: "Laura White"
+date: "2024-06-10"
+output: html_document
+---
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(colorblindr)
+library(cowplot)
+library(ggrepel)
+library(forcats)
+library(here)
+here::i_am("Rmd/abundanceplots.Rmd")
+```
+
+```{r}
+read_tRNA <- function(x, species, chemistry, model) {
+  df <- readr::read_tsv(x, col_names = c("chrom", "start", "pos", "score"))
+  
+  df <- df %>%
+    dplyr::mutate(species = species, chemistry = chemistry, model = model) # easiest is add these by hand for now
+  
+  return(df)
+}
+
+read_tRNA(here("bedgraphs/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.bwa_full_length.bam.fl.bg"), "D_melanogaster", "RNA002", "hac") -> fly2
+read_tRNA(here("bedgraphs/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.bwa_full_length.bam.fl.bg"), "D_melanogaster", "RNA004", "sup") -> fly4
+
+read_tRNA(here("bedgraphs/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.bwa_full_length.bam.fl.bg"), "E_coli", "RNA002", "hac") -> ecoli2
+read_tRNA(here("bedgraphs/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.bwa_full_length.bam.fl.bg"), "E_coli", "RNA004", "sup") -> ecoli4
+
+read_tRNA(here("bedgraphs/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.bwa_full_length.bam.fl.bg"), "H_sapiens", "RNA002", "hac") -> human2
+read_tRNA(here("bedgraphs/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.bwa_full_length.bam.fl.bg"), "H_sapiens", "RNA004", "sup") -> human4
+
+read_tRNA(here("bedgraphs/Tetrahymena002_20231207_1743_MN35252_FAX30455_c9f80979.rna002_70bps_hac@v3.bwa_full_length.bam.fl.bg"), "T_thermophila", "RNA002", "hac") -> tetrahymena2
+read_tRNA(here("bedgraphs/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.bwa_full_length.bam.fl.bg"), "T_thermophila", "RNA004", "sup") -> tetrahymena4
+
+read_tRNA(here("bedgraphs/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.bwa_full_length.bam.fl.bg"), "S_cerevisiae", "RNA002", "hac") -> yeast2
+read_tRNA(here("bedgraphs/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.bwa_full_length.bam.fl.bg"), "S_cerevisiae", "RNA004", "sup") -> yeast4
+
+read_tRNA(here("bedgraphs/Zebrafish002_20231207_1528_P2S-00519-A_PAS44221_7e583c4c.rna002_70bps_hac@v3.bwa_full_length.bam.fl.bg"), "D_rerio", "RNA002", "hac") -> zebrafish2
+read_tRNA(here("bedgraphs/Zebrafish004_20231208_0919_MN31004_FAX73799_f3dea9f8.rna004_130bps_sup@v5.0.0.bwa_full_length.bam.fl.bg"), "D_rerio", "RNA004", "sup") -> zebrafish4
+
+
+combined <- list(fly2, fly4, ecoli2, ecoli4, human2, human4, tetrahymena2, tetrahymena4, yeast2, yeast4, zebrafish2, zebrafish4)
+
+bind_rows(combined) %>%
+  mutate(pos = as.numeric(pos)) %>%
+  mutate(score = as.numeric(score)) %>%
+  separate(chrom, c("tRNA", "AA", "anticodon", "family", "isotype")) %>%
+  select(-tRNA) -> tRNAcov
+
+rm(fly2, fly4, ecoli2, ecoli4, human2, human4, tetrahymena2, tetrahymena4, yeast2, yeast4, zebrafish2, zebrafish4, combined)
+```
+The above gives us a tidy tibble with coverage x position for each tRNA in each sample.
+I then make the assumption that the maximum coverage score for each gene is a better proxy coverage value than (for example) the mean coverage on that reference, because per-nucleotide coverage is being depressed by Nanopore error rates and mismatches/indels due to tRNA modifications.
+```{r}
+tRNAcov %>%
+  group_by(species, chemistry, model, AA, anticodon, family, isotype) %>%
+  slice_max(score, with_ties = F) %>%
+  ungroup() %>%
+  unite(tRNA, AA, anticodon, sep = "-") %>%
+  select(-pos) -> rollup
+```
+
+The code below adds up max scores for family & gene number info so that we have summary scores for each isodecoder.
+```{r}
+rollup %>%
+  separate(tRNA, c("AA", "anticodon"), extra = "drop") %>%
+  group_by(AA, anticodon, species, chemistry, model) %>%
+  summarize(score = sum(score)) %>%
+  unite(tRNA, AA, anticodon, sep = "-") %>%
+  ungroup() %>%
+  group_by(species, chemistry, model) %>%
+  mutate(total_score = sum(score)) %>%
+  mutate(CPM = score/total_score*1000000) -> isodecoder_scores
+```
+
+Plot these summed scores for all isodecoders, fast basecallling
+```{r}
+# Reshape the data
+cpm_comparison <- isodecoder_scores %>%
+  ungroup() %>%
+  select(tRNA, species, chemistry, CPM) %>%
+  pivot_wider(names_from = chemistry, values_from = CPM, names_prefix = "CPM_") %>%
+  na.omit() %>% # Remove rows with NA values
+  separate(tRNA, into = c("isoacceptor", "tRNA"), sep = "-", remove = FALSE)
+
+# Function to calculate Pearson's correlation coefficient for each species
+calculate_pearson <- function(df) {
+  cor(df$CPM_RNA002, df$CPM_RNA004, method = "pearson")
+}
+
+# Calculate Pearson's correlation coefficient for each species and determine positions for annotations
+pearson_df <- cpm_comparison %>%
+  group_by(species) %>%
+  summarise(pearson_rho = calculate_pearson(cur_data()))
+
+# Merge Pearson's correlation values back to the original dataframe
+cpm_comparison <- cpm_comparison %>%
+  left_join(pearson_df, by = "species")
+
+# Specify color palette for isoacceptor labeling
+tol_rainbow_colors <- pals::tol.rainbow(25)
+
+# Create the plot with regression line and repelling labels
+plot <- ggplot(cpm_comparison, aes(x = CPM_RNA002, y = CPM_RNA004, color = isoacceptor)) +
+  geom_point() +
+  scale_color_manual(values = tol_rainbow_colors) +
+  geom_text_repel(aes(label = tRNA), size = 3, color = "black") +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(title = "",
+       x = "RNA002",
+       y = "RNA004") +
+  theme_cowplot() +
+  theme(aspect.ratio = 1,
+        plot.margin = margin(5.5, 5.5, 15.5, 5.5, "points"), # Increase bottom margin
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic", color = "black")) +
+  coord_fixed(ratio = 1) +
+  facet_wrap(~ species) +
+  geom_text(data = pearson_df, aes(x = 1.5e03, y = 1e05, label = sprintf("Pearson's ρ: %.2f", pearson_rho)),
+            hjust = 1, vjust = 1, inherit.aes = FALSE, size = 4, color = "black")
+
+# Print the plot
+print(plot)
+```
+Let's try using the isodecoder scores data to generate a PCA plot.
+```{r}
+isodecoder_scores %>%
+  ungroup() %>%
+  select(-score, -total_score, -model) %>%
+  pivot_wider(names_from = tRNA, values_from = CPM) %>%
+  mutate(combined_species_chemistry = factor(paste(species, chemistry, sep = "_"))) -> wide_data
+
+numeric_cols <- select(wide_data, where(is.numeric))
+# Replace NA values with zeros
+numeric_cols[is.na(numeric_cols)] <- 0
+pca_result <- prcomp(numeric_cols, scale. = TRUE)
+
+pca_df <- as.data.frame(pca_result$x)
+pca_df$combined_species_chemistry <- wide_data$combined_species_chemistry
+pca_df$species <- wide_data$species
+pca_df$chemistry <- wide_data$chemistry
+
+# Create PCA plot with unique colors for species and shapes for chemistry
+ggplot(pca_df, aes(x = PC1, y = PC2, color = species, shape = chemistry)) +
+  geom_point(size = 4) +
+  labs(title = "",
+       x = "Principal Component 1",
+       y = "Principal Component 2",
+       color = "Species",
+       shape = "Chemistry") +
+  theme_cowplot() +
+  scale_color_OkabeIto() +
+  theme(aspect.ratio = 1,
+        legend.position = "bottom")
+
+
+```

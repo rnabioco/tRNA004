@@ -18,10 +18,10 @@ We want to compare alignment rates and other key stats from our tRNA sequencing 
 * Count mapped reads from all bam files from all runs with `extract_stats.sh`, generating `samtools_stats_summary.txt`
 These can then be read in here, joined together by file names, and mutated to get a new column with the percent of reads aligned.
 ```{r}
-stats <- read_tsv(here("metadata/allreads_stats_summary.txt")) %>%
+stats <- read_tsv(here("metadata/allreads_samtools_stats_summary.txt")) %>%
   mutate(Filename = gsub("\\.bwa\\.bam$", "", Filename))
 
-counts <- read_tsv(here("metadata/new_fastq_read_counts.txt")) %>%
+counts <- read_tsv(here("metadata/fastq_read_counts.txt")) %>%
   mutate(Filename = gsub("\\.fastq$", "", Filename))
 
 all <- left_join(counts, stats) %>%
@@ -32,7 +32,8 @@ all <- left_join(counts, stats) %>%
   separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
   select(-Something, -HelicaseSpeed) %>%
   separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
-  select(-Version) %>%
+  separate(Version, into = c("Version"), sep = "\\.") %>%
+# select(-thingie, -otherthingie) %>%
   mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
   mutate(Species = case_when(
     grepl("^Drosophila", Sample) ~ "D_melanogaster",
@@ -51,25 +52,25 @@ NB:
 all %>%
   filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast")) %>% # wildtypes only
   filter(!is.na(Species)) %>%
-  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry))) +
+  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry, Version))) +
   geom_bar(stat = "identity", position = position_dodge()) +
-  labs(title = "tRNA alignment rates",
+  labs(title = "",
        x = "",
        y = "% Aligned",
        fill = "Chemistry &\nbasecalling model") +
   theme_cowplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
-  scale_fill_OkabeIto(order = c(1,6,2,5,3), na.translate = FALSE) #order = c(3,7)
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "bottom") +
+  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
 ```
 Down here we do the same thing but for the filtered full length reads.
 ```{r}
-stats <- read_tsv(here("metadata/flfilter_samtools_stats_summary.txt")) %>%
+stats <- read_tsv(here("metadata/flreads_samtools_stats_summary.txt")) %>%
   mutate(Filename = gsub("\\.bwa_full_length\\.bam$", "", Filename))
 
-counts <- read_tsv(here("metadata/new_fastq_read_counts.txt")) %>%
+counts <- read_tsv(here("metadata/fastq_read_counts.txt")) %>%
   mutate(Filename = gsub("\\.fastq$", "", Filename))
 
-all <- left_join(counts, stats) %>%
+fl <- left_join(counts, stats) %>%
   rename("TotalReads" = "Total Reads") %>%
   mutate(PercentAligned = (ReadsMapped / TotalReads * 100)) %>%
   separate(Filename, into = c("Sample", "Date", "Something", "Instrument", "Flowcell", "SomethingAndChemistry", "HelicaseSpeed", "BasecallingModel"), sep = "_", extra = "merge") %>%
@@ -77,13 +78,13 @@ all <- left_join(counts, stats) %>%
   separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
   select(-Something, -HelicaseSpeed) %>%
   separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
-  select(-Version) %>%
+  separate(Version, into = c("Version"), sep = "\\.") %>%
   mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
   mutate(Species = case_when(
     grepl("^Drosophila", Sample) ~ "D_melanogaster",
     grepl("^Ecoli", Sample) ~ "E_coli",
     grepl("^(HumanFibroblast|Trub1doxH295R|Trub1untrH295R)", Sample) ~ "H_sapiens",
-    grepl("^(Pus4yeast|WTyeast|Grandeyeast|Petityeast|Pus1yeast|Pus2yeast)", Sample) ~ "S_cerevisiae",
+    grepl("^(Pus4yeast|WTyeast)", Sample) ~ "S_cerevisiae",
     grepl("^Tetrahymena", Sample) ~ "T_thermophila",
     grepl("^Zebrafish", Sample) ~ "D_rerio",
     TRUE ~ NA_character_  # Default case if none of the above conditions are met
@@ -92,16 +93,89 @@ all <- left_join(counts, stats) %>%
 ```
 Equivalent plot here
 ```{r}
-all %>%
+fl %>%
   filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast", "Grandeyeast", "Petityeast", "Pus1yeast", "Pus2yeast")) %>% # wildtypes only
   filter(!is.na(Species)) %>%
-  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry))) +
+  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry, Version))) +
   geom_bar(stat = "identity", position = position_dodge()) +
-  labs(title = "tRNA alignment rates",
+  labs(title = "tRNA alignment rates, with filtering",
        x = "",
        y = "% Aligned",
        fill = "Chemistry &\nbasecalling model") +
   theme_cowplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
-  scale_fill_OkabeIto(order = c(1,6,2,5,3), na.translate = FALSE) #order = c(3,7)
+  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
 ```
+What if we wanted the % of reads after filtering for full length, like how many filtered reads aligned?
+Need new fastq read counts, or just count all reads in the
+```{r}
+stats <- read_tsv(here("metadata/flreads_samtools_stats_summary.txt")) %>%
+  mutate(Filename = gsub("\\.bwa_full_length\\.bam$", "", Filename))
+
+counts <- read_tsv(here("metadata/fastq_read_counts.txt")) %>%
+  mutate(Filename = gsub("\\.fastq$", "", Filename))
+
+flcounts <- left_join(counts, stats) %>%
+  rename("TotalReads" = "Total Reads") %>%
+  mutate(PercentAligned = (ReadsMapped / `FL Reads` * 100)) %>%
+  separate(Filename, into = c("Sample", "Date", "Something", "Instrument", "Flowcell", "SomethingAndChemistry", "HelicaseSpeed", "BasecallingModel"), sep = "_", extra = "merge") %>%
+  select(-Something) %>%
+  separate(SomethingAndChemistry, into = c("Something", "Chemistry"), sep = "\\.", extra="merge") %>%
+  select(-Something, -HelicaseSpeed) %>%
+  separate(BasecallingModel, into = c("BCModel", "Version"), sep = "@") %>%
+  separate(Version, into = c("Version"), sep = "\\.") %>%
+  mutate(Sample = sub("\\d{3}$", "", Sample)) %>% # strip last 3 from samples, don't need the 002 and 004
+  mutate(Species = case_when(
+    grepl("^Drosophila", Sample) ~ "D_melanogaster",
+    grepl("^Ecoli", Sample) ~ "E_coli",
+    grepl("^(HumanFibroblast|Trub1doxH295R|Trub1untrH295R)", Sample) ~ "H_sapiens",
+    grepl("^(Pus4yeast|WTyeast)", Sample) ~ "S_cerevisiae",
+    grepl("^Tetrahymena", Sample) ~ "T_thermophila",
+    grepl("^Zebrafish", Sample) ~ "D_rerio",
+    TRUE ~ NA_character_  # Default case if none of the above conditions are met
+  ))
+  
+```
+
+So now that we know just how good filtering is for improving alignment rates, we want to illustrate this for the best available models for each chemistry only (002hacv3 and 004supv5) for all our libraries.
+```{r}
+all %>%
+  mutate(filtering = "none") -> all
+
+flcounts %>%
+  mutate(filtering = "full_length") -> flcounts
+
+bind_rows(all, flcounts) %>%
+  select(-Date, -Instrument, -Flowcell, -ErrorRate, -AverageLength, -AverageQuality) %>%
+  filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast", "Grandeyeast", "Petityeast", "Pus1yeast", "Pus2yeast", "T4infectedecoli")) %>% # wildtypes only
+  filter((Chemistry == "rna002" & BCModel == "hac") | (Chemistry == "rna004" & BCModel == "sup" & Version == "v5")) -> test
+
+test$filtering <- factor(test$filtering, levels = rev(levels(factor(test$filtering))))
+
+
+ggplot(test, aes(x = Species, y = PercentAligned, fill = filtering)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  facet_wrap(~ Chemistry, scales = "fixed", ncol=1) +
+  labs(
+    title = "",
+    x = "Species, Chemistry",
+    y = "% Aligned",
+    fill = "Filtering"
+  ) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_OkabeIto(order = c(8,2))
+
+
+# Calculate the median PercentAligned for each combination of Chemistry and filtering
+median_percent_aligned <- test %>%
+  group_by(Chemistry, filtering) %>%
+  summarize(median_PercentAligned = median(PercentAligned, na.rm = TRUE))
+
+# Print the result
+print(median_percent_aligned)
+
+```
+
+
+
