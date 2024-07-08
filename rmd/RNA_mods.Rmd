@@ -57,10 +57,9 @@ process_files("scerevisiae")
 process_files("hsapiens")
 process_files("tthermophila")
 process_files("ecoli")
-process_files("T4infectedecoli")
 process_files("dmelanogaster")
-bind_rows(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, T4infectedecoli_mappings, dmelanogaster_mappings) -> mappings
-rm(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, T4infectedecoli_mappings, dmelanogaster_mappings)
+bind_rows(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings) -> mappings
+rm(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings)
 ```
 Then bring in tsvs that contain the error frequencies for each sample.
 ```{r}

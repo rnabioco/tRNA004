@@ -1,0 +1,190 @@
+---
+title: "Generate bcerr comparisons"
+author: "Laura White"
+date: "2024-07-02"
+output: html_document
+---
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(message=FALSE)
+library(tidyverse)
+library(cowplot)
+library(ggtext)
+library(ggrepel)
+library(here)
+here::i_am("Rmd/generatebcerrfiles.Rmd")
+```
+
+Here's a function to read in the mappings from modified and unmodified tRNA aligned to a consensus sequence, for joining to sequence alignments.
+```{r}
+process_files <- function(prefix) {
+  # Construct file paths
+  mod_file_path <- here("ref/structural_alignments/modified", paste0(prefix, ".mods.seq2structure.tsv"))
+  nomod_file_path <- here("ref/structural_alignments/unmodified", paste0(prefix, ".seq2structure.tsv"))
+
+  # Read and process the modified file
+  mod_map <- read_tsv(mod_file_path) %>%
+    dplyr::rename(Position = seq_pos, mod_nt = struct_nt) %>%
+    select(-struct_ref) %>%
+    dplyr::rename(Reference = seq_ref) %>%
+    distinct(Reference, Position, .keep_all = TRUE)
+
+  # Read and process the unmodified file
+  nomod_map <- read_tsv(nomod_file_path) %>%
+    dplyr::rename(Position = seq_pos) %>%
+    select(-struct_ref) %>%
+    dplyr::rename(Reference = seq_ref) %>%
+    distinct(Reference, Position, .keep_all = TRUE)
+
+  # Join the datasets
+  joined_map <- left_join(mod_map, nomod_map, by = c("Reference", "Position", "struct_pos"))
+
+  # Add the 'species' column
+  joined_map <- mutate(joined_map, species = prefix)
+
+  # Assign the joined dataset to the global environment
+  joined_map_name <- paste0(prefix, "_mappings")
+  assign(joined_map_name, joined_map, envir = .GlobalEnv)
+}
+```
+
+Below, bring in the mapping information.
+```{r}
+process_files("scerevisiae")
+process_files("hsapiens")
+process_files("tthermophila")
+process_files("ecoli")
+process_files("dmelanogaster")
+bind_rows(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings) -> mappings
+rm(scerevisiae_mappings, hsapiens_mappings, tthermophila_mappings, ecoli_mappings, dmelanogaster_mappings)
+```
+
+Then bring in tsvs that contain the error frequencies for each sample.
+```{r}
+read_bcerr <- function(x, species, chemistry, bcmodel, bcversion) {
+  df <- readr::read_tsv(x, show_col_types = FALSE)
+  
+  df <- df %>%
+    dplyr::mutate(species = species,
+                  chemistry = chemistry,
+                  bcmodel = bcmodel,
+                  bcversion = bcversion)
+  
+  return(df)
+}
+
+inputs <- list(
+  list(file = here("bcerror/RNA004v5/sup/yeast/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv"), species = "scerevisiae", chemistry = "004", bcmodel = "sup", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/sup/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.tsv"), species = "hsapiens", chemistry = "004", bcmodel = "sup", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/sup/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.tsv"), species = "dmelanogaster", chemistry = "004", bcmodel = "sup", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/sup/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v5.0.0.tsv"), species = "ecoli", chemistry = "004", bcmodel = "sup", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/sup/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v5.0.0.tsv"), species = "tthermophila", chemistry = "004", bcmodel = "sup", bcversion = "5"),
+  
+  list(file = here("bcerror/RNA004v5/hac/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_hac@v5.0.0.tsv"), species = "scerevisiae", chemistry = "004", bcmodel = "hac", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/hac/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_hac@v5.0.0.tsv"), species = "hsapiens", chemistry = "004", bcmodel = "hac", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/hac/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_hac@v5.0.0.tsv"), species = "dmelanogaster", chemistry = "004", bcmodel = "hac", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/hac/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_hac@v5.0.0.tsv"), species = "ecoli", chemistry = "004", bcmodel = "hac", bcversion = "5"),
+  list(file = here("bcerror/RNA004v5/hac/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_hac@v5.0.0.tsv"), species = "tthermophila", chemistry = "004", bcmodel = "hac", bcversion = "5"),
+  
+    list(file = here("bcerror/RNA004v3/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v3.0.1.tsv"), species = "scerevisiae", chemistry = "004", bcmodel = "sup", bcversion = "3"),
+  list(file = here("bcerror/RNA004v3/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v3.0.1.tsv"), species = "hsapiens", chemistry = "004", bcmodel = "sup", bcversion = "3"),
+  list(file = here("bcerror/RNA004v3/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v3.0.1.tsv"), species = "dmelanogaster", chemistry = "004", bcmodel = "sup", bcversion = "3"),
+  list(file = here("bcerror/RNA004v3/Ecoli004_20240105_1224_MN31004_FAX73799_1fe84761.rna004_130bps_sup@v3.0.1.tsv"), species = "ecoli", chemistry = "004", bcmodel = "sup", bcversion = "3"),
+  list(file = here("bcerror/RNA004v3/Tetrahymena004_20231208_0920_MN42516_FAX71838_a244513d.rna004_130bps_sup@v3.0.1.tsv"), species = "tthermophila", chemistry = "004", bcmodel = "sup", bcversion = "3"),
+  
+  list(file = here("bcerror/RNA002/WTyeast002_20231111_1103_P2S-00519-A_PAS43478_1fa49e43.rna002_70bps_hac@v3.tsv"), species = "scerevisiae", chemistry = "002", bcmodel = "hac", bcversion = "1"),
+  list(file = here("bcerror/RNA002/HumanFibroblast002_20231207_1455_P2S-00519-B_PAS29437_b7f6c4bd.rna002_70bps_hac@v3.tsv"), species = "hsapiens", chemistry = "002", bcmodel = "hac", bcversion = "1"),
+  list(file = here("bcerror/RNA002/Drosophila002_20231207_1500_MN35252_FAX30455_48242de2.rna002_70bps_hac@v3.tsv"), species = "dmelanogaster", chemistry = "002", bcmodel = "hac", bcversion = "1"),
+  list(file = here("bcerror/RNA002/Ecoli002_20231208_1312_P2S-00519-A_PAS44628_9e5214a7.rna002_70bps_hac@v3.tsv"), species = "ecoli", chemistry = "002", bcmodel = "hac", bcversion = "1"),
+  list(file = here("bcerror/RNA002/Tetrahymena002_20231207_1743_MN35252_FAX30455_c9f80979.rna002_70bps_hac@v3.tsv"), species = "tthermophila", chemistry = "002", bcmodel = "hac", bcversion = "1")
+)
+# Apply the read_bcerr function to each input and combine the results
+result_list <- lapply(inputs, function(input) {
+  read_bcerr(input$file, input$species, input$chemistry, input$bcmodel, input$bcversion)
+})
+
+# Combine all data frames into one
+allspecies <- dplyr::bind_rows(result_list)
+
+
+# function to get 5mer sequence context for each mod
+create_rolling_string <- function(nt_vec) {
+  sapply(seq_along(nt_vec), function(i) {
+    if (i < 3 | i > length(nt_vec) - 2) {
+      return(NA)
+    }
+    
+    rolling_elems <- c(lag(nt_vec, 2)[i], lag(nt_vec, 1)[i], nt_vec[i], lead(nt_vec, 1)[i], lead(nt_vec, 2)[i])
+    
+    if (any(is.na(rolling_elems))) {
+      return(NA)
+    } else {
+      return(paste0(rolling_elems, collapse = ""))
+    }
+  })
+}
+
+left_join(allspecies, mappings, by = c("Reference", "Position", "species")) %>%
+  select(-N_freq) %>%
+  dplyr::rename(seq_pos = Position) %>%
+  dplyr::rename(Position = struct_pos) %>%
+  filter(!is.na(Position)) %>% # this removes tRNAs that do not have structural info in the mappings df
+  mutate(Position = Position - 24) %>%
+  group_by(species, Reference, chemistry, bcmodel, bcversion) %>%
+  arrange(Position) %>%
+  mutate(kmer_context = create_rolling_string(struct_nt)) %>%
+  mutate(mod_context = create_rolling_string(mod_nt)) %>%
+#  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U', 'N')) %>% # only keep positions with modifications 
+  filter(Bases_Mapped >29) -> mapped
+
+# with ACGUTN intact
+n_distinct(mapped$mod_context)
+n_distinct(mapped$mod_nt)
+```
+
+We also pull in the database of Modomics codes in order to convert single character codes to short names.
+Something here is wrong with the 5mer contexts.
+```{r}
+# Load and process the modomics data
+modomics <- read_csv(here("Modomics/modomicscodes.csv")) %>%
+  select(Name, `Short Name`, `RNAMods code (2023)`) %>%
+  dplyr::rename(modname = Name, shortname = `Short Name`, mod_nt = `RNAMods code (2023)`) %>%
+  group_by(mod_nt) %>%
+  arrange(mod_nt, shortname)
+
+# Remove duplicate mod_nt values from modomics
+unique_modomics <- modomics %>%
+  group_by(mod_nt) %>%
+  slice(1) %>%  # Take the first entry for each mod_nt
+  ungroup()
+
+# Replace backslash with "Ħ" in the mapped dataset (old Modomics code usage)
+mapped$mod_nt <- ifelse(mapped$mod_nt == "\\", "Ħ", mapped$mod_nt)
+
+# Check distinct values before the join
+distinct_mod_nt_before_join <- n_distinct(mapped$mod_nt)
+print(paste("Distinct mod_nt before join:", distinct_mod_nt_before_join))
+
+# Perform the left join with unique_modomics
+mapped <- left_join(mapped, unique_modomics, by = "mod_nt")
+
+# Check distinct values after the join
+distinct_mod_nt_after_join <- n_distinct(mapped$mod_nt)
+distinct_shortname_after_join <- n_distinct(mapped$shortname)
+print(paste("Distinct mod_nt after join:", distinct_mod_nt_after_join))
+print(paste("Distinct shortname after join:", distinct_shortname_after_join))
+
+# save out mapped to bcerr
+write_tsv(mapped, here("bcerror/combinedbcerr.tsv"))
+
+# only keep modified positiosn with 30+ reads from the one dataset
+mapped %>%
+  filter(bcmodel == "sup" & bcversion == "5") %>%
+  filter(Spanning_Reads > 29) %>%
+  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U', 'N')) -> mapped
+
+# after removing ACGTUN do same counts of distinct mods, contexts
+n_distinct(mapped$mod_context)
+n_distinct(mapped$mod_nt)
+```
+
+
