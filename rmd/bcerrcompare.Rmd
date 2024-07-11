@@ -146,7 +146,6 @@ combined_plot <- plot_grid(plot_A, plot_C, plot_U, plot_G, labels = "AUTO", ncol
 # Display the combined plot
 print(combined_plot)
 ```
-
 For fig 2B, generate the all tRNA mods plots distribution for RNA004 only, with median scores from above 
 ```{r}
 # set an ordering for each shortname from a median frequency
@@ -170,7 +169,7 @@ mapped <- mapped %>%
 
 # Plot, annotating values for unmodified bases from combined_medians above
 mapped %>%
-  filter(!mod_nt %in% c('A', 'C', 'G', 'U', 'N')) %>%
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U', '.')) %>%
   filter(chemistry == "004" & bcmodel == "sup" & bcversion == "5") %>%
   filter(Position >0) %>%
   filter(Position <98) %>%
@@ -188,13 +187,85 @@ mapped %>%
     theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
 ```
+Also let's do the same thing for RNA002 only
+```{r}
 
+
+calculate_medians <- function(data, nucleotide) {
+  data %>%
+    filter(chemistry == "002" & bcmodel == "hac" & bcversion == "1") %>%
+    filter(Position > 0 & Position < 98) %>%
+    mutate(mod_status = ifelse(mod_nt == nucleotide, paste0("unmod_", nucleotide), paste0("mod_", nucleotide))) %>%
+    filter(struct_nt == nucleotide | mod_nt == nucleotide) %>%
+    group_by(mod_status) %>%
+    summarise(
+      median_BCErrorFreq = median(BCErrorFreq, na.rm = TRUE),
+      median_InsertionFreq = median(InsertionFreq, na.rm = TRUE),
+      median_DeletionFreq = median(DeletionFreq, na.rm = TRUE),
+      median_MismatchFreq = median(MismatchFreq, na.rm = TRUE),
+      .groups = 'drop'  # Drop grouping after summarization
+    ) %>%
+    mutate(nucleotide = nucleotide)
+}
+
+# Related calculations for text associated with Fig2A
+# Calculate medians for each nucleotide
+medians_A <- calculate_medians(mapped, "A")
+medians_C <- calculate_medians(mapped, "C")
+medians_U <- calculate_medians(mapped, "U")
+medians_G <- calculate_medians(mapped, "G")
+
+# Combine the results into a single table
+combined_medians <- bind_rows(medians_A, medians_C, medians_U, medians_G) %>%
+  select(nucleotide, mod_status, everything()) %>%
+  separate(mod_status, into = c("mod_status", "nucleotide"), sep = "_", extra = "drop")
+
+# set an ordering for each shortname from a median frequency
+ordered_shortname <- mapped %>%
+  filter(chemistry == "002" & bcmodel == "hac" & bcversion == "1") %>%
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U', 'N')) %>%
+  group_by(shortname) %>%
+  filter(Position > 0 & Position < 98) %>%
+  summarize(median_deletion = median(DeletionFreq, na.rm = TRUE),
+            median_insertion = median(InsertionFreq, na.rm = TRUE),
+            median_mismatch = median(MismatchFreq, na.rm = T),
+            median_bcerr = median(BCErrorFreq, na.rm = T)
+            ) %>%
+  arrange(median_bcerr) %>%
+  pull(shortname)
+
+# Reorder shortname factor levels based on median bcerr
+mapped <- mapped %>%
+  filter(shortname != "N") %>%
+  mutate(shortname = factor(shortname, levels = ordered_shortname))
+
+# Plot, annotating values for unmodified bases from combined_medians above
+mapped %>%
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U', '.')) %>%
+  filter(shortname != 'NA') %>%
+  filter(chemistry == "002" & bcmodel == "hac" & bcversion == "1") %>%
+  filter(Position >0) %>%
+  filter(Position <98) %>%
+  ggplot(aes(x = shortname, y = BCErrorFreq)) +
+    geom_hline(yintercept = 0.3037975, linetype = "dashed", color = "#009E73") + # unmodified As
+    geom_hline(yintercept = 0.1392045, linetype = "dashed", color = "#0072B2") + # unmodified Cs
+    geom_hline(yintercept = 0.3333333, linetype = "dashed", color = "#F0E442") + # unmodified Us
+    geom_hline(yintercept = 0.2000000, linetype = "dashed", color = "#D55E00") + # unmodified Gs
+#    geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
+    geom_boxplot(width = 0.2, alpha = 0.75, fill = "darkgray", outlier.size = 0.5) +
+    theme_bw() +
+    labs(title = "Basecalling error frequency across unique sequence contexts on tRNA isodecoders",
+         x = "",
+         y = "BCerror frequency") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+```
 
 Then we can start comparing across chemistries (2C).
 ```{r}
 # Set an ordering for each shortname from a median frequency
 ordered_shortname <- mapped %>%
-  filter(!mod_nt %in% c('A', 'C', 'G', 'U', 'N')) %>%
+  filter(!mod_nt %in% c('A', 'C', 'G', 'U', '.')) %>%
   filter((chemistry == "004" & bcmodel == "sup" & bcversion == "5")| (chemistry == "002" & bcmodel == "hac" & bcversion == "1")) %>% # take only 002hac or 004supv5
   group_by(shortname) %>%
   filter(Position > 0 & Position < 98) %>%
@@ -348,9 +419,9 @@ plot_modification_data <- function(mapped, shortname) {
     geom_violin(alpha = .5) +
     geom_boxplot(width = 0.2, alpha = .5, outlier.shape = NA) +
     theme_cowplot() +
-    labs(title = paste("Mean BCerror per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
+    labs(title = paste("BCerror per tRNA isodecoder,", shortname, "/", mod_nt_value, "/", mod_name_value),
          x = "Number of additional modifications in 5mer",
-         y = "Mean BCerror",
+         y = "BCerror",
          legend = "") +
     theme(axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 0.5, margin = margin(2, 0, 2, 0), size = 10),
           axis.ticks.x = element_blank()) +
@@ -381,15 +452,15 @@ mapped %>%
   select(Reference, Position, MismatchFreq, InsertionFreq, DeletionFreq, BCErrorFreq, MeanQual, species, mod_nt, struct_nt, mod_context, chemistry) %>%
   mutate(chemistry = factor(chemistry)) -> pseudou
 
-# Calculate the mean BCErrorFreq for each mod_context and chemistry
+# Calculate the median BCErrorFreq for each mod_context and chemistry
 aggregated_data <- pseudou %>%
   group_by(mod_context, chemistry) %>%
-  summarise(mean_BCErrorFreq = mean(BCErrorFreq, na.rm = TRUE)) %>%
+  summarise(median_BCErrorFreq = median(BCErrorFreq, na.rm = TRUE)) %>%
   ungroup()
 
 # Reshape the data from long to wide format
 wide_data <- aggregated_data %>%
-  pivot_wider(names_from = chemistry, values_from = mean_BCErrorFreq, names_prefix = "mean_BCErrorFreq_")
+  pivot_wider(names_from = chemistry, values_from = median_BCErrorFreq, names_prefix = "median_BCErrorFreq_")
 
 # Add the non-AGCU count column
 wide_data <- wide_data %>%
@@ -400,19 +471,19 @@ wide_data <- wide_data %>%
   mutate(non_agcu_count = sapply(mod_context, count_non_agcu_chars))
 
 # Calculate the axis limits
-axis_limits <- range(c(wide_data$mean_BCErrorFreq_002, wide_data$mean_BCErrorFreq_004), na.rm = TRUE)
+axis_limits <- range(c(wide_data$median_BCErrorFreq_002, wide_data$median_BCErrorFreq_004), na.rm = TRUE)
 
 # Calculate Pearson correlation coefficient
-correlation_coefficient <- cor(wide_data$mean_BCErrorFreq_002, wide_data$mean_BCErrorFreq_004, use = "complete.obs")
+correlation_coefficient <- cor(wide_data$median_BCErrorFreq_002, wide_data$median_BCErrorFreq_004, use = "complete.obs")
 
 # Plot the correlation with the same axis limits for X and Y and square plot area
 plot_correlation <- function(data, corr_coeff) {
-  ggplot(data, aes(x = mean_BCErrorFreq_002, y = mean_BCErrorFreq_004, color = as.factor(non_agcu_count))) +
+  ggplot(data, aes(x = median_BCErrorFreq_002, y = median_BCErrorFreq_004, color = as.factor(non_agcu_count))) +
     geom_text_repel(aes(label = mod_context), size = 3, max.overlaps = Inf) +  # Increase max.overlaps to Inf
     theme_cowplot() +
     labs(title = "",
-         x = "Mean BCError, RNA002",
-         y = "Mean BCError, RNA004",
+         x = "Median BCError, RNA002",
+         y = "Median BCError, RNA004",
          color = "Additional modifications in 5mer") +
     xlim(axis_limits) +
     ylim(axis_limits) +

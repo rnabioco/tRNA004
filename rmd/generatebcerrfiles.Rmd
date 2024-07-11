@@ -133,7 +133,6 @@ left_join(allspecies, mappings, by = c("Reference", "Position", "species")) %>%
   arrange(Position) %>%
   mutate(kmer_context = create_rolling_string(struct_nt)) %>%
   mutate(mod_context = create_rolling_string(mod_nt)) %>%
-#  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U', 'N')) %>% # only keep positions with modifications 
   filter(Bases_Mapped >29) -> mapped
 
 # with ACGUTN intact
@@ -177,12 +176,13 @@ print(paste("Distinct shortname after join:", distinct_shortname_after_join))
 write_tsv(mapped, here("bcerror/combinedbcerr.tsv"))
 
 # only keep modified positiosn with 30+ reads from the one dataset
+# Ns are periods
 mapped %>%
   filter(bcmodel == "sup" & bcversion == "5") %>%
   filter(Spanning_Reads > 29) %>%
-  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'T', 'U', 'N')) -> mapped
+  filter(!is.na(kmer_context) & !mod_nt %in% c('A', 'C', 'G', 'U', '.')) -> mapped
 
-# after removing ACGTUN do same counts of distinct mods, contexts
+# after removing ACGUN do same counts of distinct mods, contexts
 n_distinct(mapped$mod_context)
 n_distinct(mapped$mod_nt)
 ```
