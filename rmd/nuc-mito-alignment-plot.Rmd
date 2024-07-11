@@ -1,0 +1,180 @@
+---
+title: "nuc-mito-trna-alignment"
+author: "Sami del Pozo"
+date: "2024-06-17"
+output: pdf_document
+---
+
+## control option i = new chunk
+
+##gplot2 used fot plotting and dplyr for data manipulation
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(tidyverse)
+```
+load data
+```{r}
+input_path <- "/Users/Sami/rstudio/parasail_alignments/nuc-mito-trna-alignment.txt"
+
+```
+
+function to plot seq identities
+```{r}
+plot_percent_identities <- function(input_path, output_path=NULL) {
+  # Reading by line
+  lines <- readLines(input_path)
+  
+  # New place for data
+  data <- tibble(tRNA1=character(), tRNA2=character(), Identity=numeric())
+  
+  # Regular expressions to compare
+  tRNA_pattern <- "^Comparing\\s+>(.*?)\\s+to\\s+>(.*)"
+  identity_pattern <- "^Sequence Identity:\\s+(\\d+\\.\\d+)"
+  
+  # Place keeper
+  temp_comparison <- NULL
+  
+  # Parse the data
+  for (line in lines) {
+    # Match the tRNA line
+    tRNA_match <- str_match(line, tRNA_pattern)
+    id_match <- str_match(line, identity_pattern)
+    
+    if (!is.na(tRNA_match[1])) {
+      # Store the comparison
+      tRNA1 <- tRNA_match[2]
+      tRNA2 <- tRNA_match[3]
+      temp_comparison <- list(tRNA1=tRNA1, tRNA2=tRNA2)
+    }
+    
+    if (!is.na(id_match[1]) && !is.null(temp_comparison)) {
+      id_value <- as.numeric(id_match[2])
+      data <- add_row(data, tRNA1=temp_comparison$tRNA1, tRNA2=temp_comparison$tRNA2, Identity=id_value)
+      temp_comparison <- NULL
+    }
+  }
+  
+  # Edit labels to simplify and format them
+  data <- data %>%
+    mutate(tRNA1 = str_replace(tRNA1, "tRNA-", ""),
+           tRNA2 = str_replace(tRNA2, "tRNA-", ""))
+  
+  # Pivot dataframe to create heatmap
+  heatmap_data <- data %>%
+    pivot_wider(names_from = tRNA2, values_from = Identity, values_fill = 0)
+  
+  # Convert to long format for ggplot2
+  heatmap_data_long <- heatmap_data %>%
+    pivot_longer(cols = -tRNA1, names_to = "tRNA2", values_to = "Identity")
+  
+  # Set factor levels to avoid duplication on axes
+  heatmap_data_long <- heatmap_data_long %>%
+    mutate(tRNA1 = factor(tRNA1, levels = unique(tRNA1)),
+           tRNA2 = factor(tRNA2, levels = unique(tRNA2)))
+  
+  # Plot using ggplot2
+  p <- ggplot(heatmap_data_long, aes(x = tRNA2, y = tRNA1, fill = Identity)) + 
+    geom_tile() + 
+    scale_fill_gradient(low = "white", high = "#009E73") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, 
+                                     color = ifelse(str_detect(levels(factor(heatmap_data_long$tRNA2)), "mito-"), "red", "black")),
+          axis.text.y = element_text(color = ifelse(str_detect(levels(factor(heatmap_data_long$tRNA1)), "mito-"), "red", "black"))) +
+    labs(title = "Percent Identity of tRNA sequences", x = NULL, y = NULL)
+  
+  # Save plot
+  if (!is.null(output_path)) {
+    ggsave(output_path, plot = p, width = 10, height = 10)
+  }
+  
+  print(p)
+  return(data)
+}
+
+plot_path <- "/Users/Sami/rstudio/parasail_alignments/percent_id_plot.png"
+plot_percent_identities(input_path, plot_path)
+```
+
+
+line by line testing
+```{r}
+# Reading by line
+lines <- readLines(input_path)
+
+# New place for data
+data <- tibble(tRNA1=character(), tRNA2=character(), Identity=numeric())
+
+# Regular expressions to compare
+tRNA_pattern <- "^Comparing\\s+>(.*?)\\s+to\\s+>(.*)"
+identity_pattern <- "^Sequence Identity:\\s+(\\d+\\.\\d+)"
+
+# Place keeper
+temp_comparison <- NULL
+
+# Parse the data
+for (line in lines) {
+  # Match the tRNA line
+  tRNA_match <- str_match(line, tRNA_pattern)
+  id_match <- str_match(line, identity_pattern)
+  
+  if (!is.na(tRNA_match[1])) {
+    # Store the comparison
+    tRNA1 <- tRNA_match[2]
+    tRNA2 <- tRNA_match[3]
+    temp_comparison <- list(tRNA1=tRNA1, tRNA2=tRNA2)
+  }
+  
+  if (!is.na(id_match[1]) && !is.null(temp_comparison)) {
+    id_value <- as.numeric(id_match[2])
+    data <- add_row(data, tRNA1=temp_comparison$tRNA1, tRNA2=temp_comparison$tRNA2, Identity=id_value)
+    temp_comparison <- NULL
+  }
+}
+
+# Edit labels to simplify and format them
+data <- data %>%
+  mutate(tRNA1 = str_replace(tRNA1, "tRNA-", ""),
+         tRNA1 = str_replace(tRNA1, "-\\d+-\\d+$", ""),
+         tRNA2 = str_replace(tRNA2, "tRNA-", ""),
+         tRNA2 = str_replace(tRNA2, "-\\d+-\\d+$", ""))
+
+data <- data %>%
+    group_by(tRNA1, tRNA2) %>%
+    summarise(Identity = mean(Identity, na.rm = TRUE)) %>%
+    ungroup()
+
+
+# Pivot dataframe to create heatmap
+heatmap_data <- data %>%
+  pivot_wider(names_from = tRNA2, values_from = Identity, values_fill = 0)
+
+# Convert to long format for ggplot2
+heatmap_data_long <- heatmap_data %>%
+  pivot_longer(cols = -tRNA1, names_to = "tRNA2", values_to = "Identity")
+
+# Set factor levels to avoid duplication on axes
+heatmap_data_long <- heatmap_data_long %>%
+  mutate(tRNA1 = factor(tRNA1, levels = unique(tRNA1)),
+         tRNA2 = factor(tRNA2, levels = unique(tRNA2)))
+
+# Plot using ggplot2
+p <- ggplot(heatmap_data_long, aes(x = tRNA2, y = tRNA1, fill = Identity)) + 
+  geom_tile() + 
+  scale_fill_gradient(low = "white", high = "#009E73") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, 
+                                   color = ifelse(str_detect(levels(factor(heatmap_data_long$tRNA2)), "mito-"), "red", "black")),
+        axis.text.y = element_text(color = ifelse(str_detect(levels(factor(heatmap_data_long$tRNA1)), "mito-"), "red", "black"))) +
+  labs(title = "Percent Identity of tRNA sequences", x = NULL, y = NULL)
+
+# Save plot
+if (!is.null(output_path)) {
+  ggsave(output_path, plot = p, width = 10, height = 10)
+}
+
+print(p)
+
+```
+
