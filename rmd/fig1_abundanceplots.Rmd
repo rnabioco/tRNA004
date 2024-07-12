@@ -12,7 +12,7 @@ library(cowplot)
 library(ggrepel)
 library(forcats)
 library(here)
-here::i_am("Rmd/abundanceplots.Rmd")
+here::i_am("Rmd/fig1_abundanceplots.Rmd")
 ```
 
 ```{r}

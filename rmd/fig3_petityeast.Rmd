@@ -11,7 +11,7 @@ library(colorblindr)
 library(cowplot)
 library(stringr)
 library(here)
-here::i_am("Rmd/petit.Rmd")
+here::i_am("Rmd/fig3_petityeast.Rmd")
 ```
 We want to know if our mitochondrial tRNA aligning reads are genuine. So we've seqeunced tRNA from a petit yeast from EtBr treatment vs. its parent grande strain, and aligned these two to a reference containing both the mitochondrial and genomic yeast tRNAs.
 ```{r}
@@ -120,15 +120,6 @@ fold_changes <- summary_data %>%
 # Print the summarized data and fold changes
 print(summary_data)
 print(fold_changes)
-
-# Plot the differences
-ggplot(differences, aes(x = origin, y = difference, fill = origin)) +
-  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
-  theme_cowplot() +
-  labs(title = "Difference in Mean CPM between Grande and Petit Samples",
-       x = "Origin",
-       y = "Difference in Mean CPM (Grande - Petit)") +
-  scale_fill_OkabeIto(order = c(1, 2))
 ```
 
 

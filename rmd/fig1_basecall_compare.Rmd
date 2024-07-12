@@ -11,7 +11,7 @@ library(cowplot)
 library(colorblindr)
 library(here)
 
-here::i_am("rmd/basecall_compare.Rmd")
+here::i_am("rmd/fig1_basecall_compare.Rmd")
 ```
 We want to compare alignment rates and other key stats from our tRNA sequencing runs across multiple organisms, looking at various basecalling models for both chemistries. There's some previous data processing that goes into this:
 * Count reads from all fastq files from all runs with `count_reads.sh`, generating `fastq_read_counts.txt`

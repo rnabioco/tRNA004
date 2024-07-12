@@ -11,7 +11,7 @@ library(tidyverse)
 library(colorblindr)
 library(cowplot)
 library(here)
-here::i_am("Rmd/phage.Rmd")
+here::i_am("Rmd/fig4_phage_abundance.Rmd")
 ```
 We want to know if our E. coli T4  phage tRNA aligning reads are genuine.
 Going to take the same basic approach as looking at mitochondrial reads.
