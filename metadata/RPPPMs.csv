@@ -1,0 +1,19 @@
+Genus,Species,Sample,Chemistry,Read,Minutes,Pores,RPPPM
+Drosophila,melanogaster,S2,RNA002,173822,114,1151,1.32
+Homo,sapiens,HS27,RNA002,185971,1025,7018,0.03
+Tetrahymena,thermophila,,RNA002,557168,860,1132,0.57
+Saccharomyces,cerevisiae,pus4del,RNA002,21162,999,292,0.07
+Danio,rerio,,RNA002,142321,993,8832,0.02
+Saccharomyces,cerevisiae,S288C,RNA002,40913,31.5,10793,0.12
+Drosophila,melanogaster,S2,RNA004,245444,69,1052,3.38
+Homo,sapiens,HS27,RNA004,142888,70,393,5.19
+Tetrahymena,thermophila,,RNA004,296767,77,1128,3.42
+Saccharomyces,cerevisiae,pus4del,RNA004,297027,46,1066,6.06
+Danio,rerio,,RNA004,199081,78,1313,1.94
+Saccharomyces,cerevisiae,S288C,RNA004,204731,29,7419,0.95
+Escherichia,coli,,RNA002,80141,157,6647,0.08
+Escherichia,coli,,RNA004,253401,136,504,3.70
+Saccharomyces,cerevisiae,grande parent,RNA004,346152,56,3602,1.72
+Saccharomyces,cerevisiae,petite candidate,RNA004,320177,56,5185,1.10
+Saccharomyces,cerevisiae,pus1del,RNA004,657366,69,2612,3.65
+Saccharomyces,cerevisiae,pus2del,RNA004,406547,69,7847,0.75

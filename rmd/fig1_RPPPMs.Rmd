@@ -24,7 +24,7 @@ The total pores value is also in the `.json` version of this report, but not as 
 
 Meanwhile, my crude solution is to grab all those manually and dump them into a .csv file, which I pull in here.
 ```{r}
-read_csv(here("RPPPMs.csv")) -> yields
+read_csv(here("metadata/RPPPMs.csv")) -> yields
 
 yields$GenusSpecies <- factor(paste(yields$Genus, yields$Species))
 

@@ -18,10 +18,7 @@ here::i_am("rmd/figS2_alignment_evals.Rmd")
 
 # Directory containing the extracted data files
 data_dir <- here("metadata/allreads")
-output_dir <- here("metadata/plots")
 
-# Ensure the output directory exists
-dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Load all extracted data files and combine them into a single data frame
 data_files <- list.files(data_dir, pattern = "_alignment_data.csv", full.names = TRUE)
@@ -83,10 +80,6 @@ ggplot(subset_data, aes(x = ReadLength, fill = Filename)) +
 
 # Directory containing the extracted data files
 data_dir <- here("metadata/full_length")
-output_dir <- here("metadata/plots")
-
-# Ensure the output directory exists
-dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Load all extracted data files and combine them into a single data frame
 data_files <- list.files(data_dir, pattern = "_alignment_data.csv", full.names = TRUE)
