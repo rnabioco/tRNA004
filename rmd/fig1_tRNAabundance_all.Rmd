@@ -11,6 +11,7 @@ library(colorblindr)
 library(cowplot)
 library(ggrepel)
 library(scales)
+library(pals)
 library(patchwork)
 library(forcats)
 library(here)
@@ -127,50 +128,64 @@ complete_grid <- expand.grid(species = all_species, isoacceptor = all_isoaccepto
 cpm_comparison_complete <- merge(complete_grid, cpm_comparison, by = c("species", "isoacceptor"), all = TRUE)
 ```
 
-Plotting function
+Plotting function & correlation plots
 ```{r}
 plot_species <- function(data, species_name) {
-  # Filter data for the specified species
   species_data <- data %>% filter(species == species_name)
 
-  # Calculate Pearson's correlation coefficient for the species
   cor_coefficient <- cor(species_data$RNA002_hac, species_data$RNA004_sup, method = "pearson", use = "complete.obs")
   
   tol_rainbow_colors <- pals::tol.rainbow(25)
   
-  # Create the plot
+  x_range <- range(species_data$RNA002_hac, na.rm = TRUE)
+  y_range <- range(species_data$RNA004_sup, na.rm = TRUE)
+  
   plot <- ggplot(species_data, aes(x = RNA002_hac, y = RNA004_sup, color = isoacceptor)) +
-  geom_point() +
-  scale_color_manual(values = tol_rainbow_colors) +
-  geom_text_repel(aes(label = tRNA), size = 3, color = "black") +
-  scale_x_log10(labels = label_scientific()) +
-  scale_y_log10(labels = label_scientific()) +
-  labs(title = bquote(italic(.(species_name))),
-       x = "RNA002",
-       y = "RNA004",
-       subtitle = sprintf("Pearson's ρ: %.2f", cor_coefficient)) +
-  theme_cowplot() +
-  theme(aspect.ratio = 1,
-        plot.margin = margin(5.5, 5.5, 15.5, 5.5, "points"), # Increase bottom margin
-        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic", color = "black")) +
-  coord_fixed(ratio = 1)
+    geom_point() +
+    scale_color_manual(values = tol_rainbow_colors) +
+    geom_text_repel(aes(label = tRNA), size = 3, color = "black") +
+    scale_x_log10(labels = label_scientific()) +
+    scale_y_log10(labels = label_scientific()) +
+    labs(title = bquote(italic(.(species_name))), x = NULL, y = NULL) +
+    theme_cowplot() +
+    theme(aspect.ratio = 1,
+          plot.margin = margin(5.5, 5.5, 15.5, 5.5, "points"),
+          plot.title = element_text(hjust = 0.5, face = "italic"),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank()) +
+    coord_fixed(ratio = 1) +
+    annotate("text", x = x_range[1], y = y_range[2], 
+             label = sprintf("ρ: %.2f", cor_coefficient), 
+             hjust = 0, vjust = 1, size = 4, color = "black", fontface = "bold")
   
   return(plot)
 }
-```
 
+# Example usage
+all_species <- levels(cpm_comparison_complete$species)
 
-```{r warning=FALSE}
 # Generate plots for each species
 plots <- lapply(all_species, function(sp) plot_species(cpm_comparison_complete, sp))
 
 # Combine the plots using patchwork
-combined_plot <- wrap_plots(plots) + plot_layout(ncol = 3, guides = "collect")
-combined_plot
+combined_plot <- wrap_plots(plots) + 
+  plot_layout(ncol = 3, guides = "collect")
 
-# if we retain an odd number of samples, can employ an empty plot that gets combined to put the legend into the final slot of the patched grid
+# Add common x and y axis titles
+combined_plot <- combined_plot +
+  plot_annotation(
+    theme = theme(
+      axis.title.x = element_text(size = 12, face = "bold"),
+      axis.title.y = element_text(size = 12, face = "bold")
+    )
+  ) &
+  labs(x = "RNA002", y = "RNA004")
+
+suppressWarnings(print(combined_plot))
 ```
-Let's try using the isodecoder scores data to generate a PCA plot.
+
+
+Then use the isodecoder scores data to generate a PCA plot.
 ```{r}
 isodecoder_scores %>%
   ungroup() %>%
@@ -198,7 +213,7 @@ ggplot(pca_df, aes(x = PC1, y = PC2, color = species, shape = chemistry)) +
        shape = "Chemistry") +
   theme_cowplot() +
   scale_color_OkabeIto() +
-  theme(aspect.ratio = 1)
+  theme(aspect.ratio = 1, legend.text = element_text(face = "italic"))
 
 
 ```

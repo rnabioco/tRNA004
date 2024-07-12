@@ -93,18 +93,32 @@ fl <- left_join(counts, stats) %>%
 ```
 Equivalent plot here
 ```{r}
+# Preprocess the Species column to desired format
+fl <- fl %>%
+  mutate(SpeciesFormatted = case_when(
+    Species == "D_melanogaster" ~ "italic('D. melanogaster')",
+    Species == "E_coli" ~ "italic('E. coli')",
+    Species == "H_sapiens" ~ "italic('H. sapiens')",
+    Species == "S_cerevisiae" ~ "italic('S. cerevisiae')",
+    Species == "T_thermophila" ~ "italic('T. thermophila')",
+    Species == "D_rerio" ~ "italic('D. rerio')",
+    TRUE ~ NA_character_
+  ))
+
+# Filter and plot
 fl %>%
-  filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast", "Grandeyeast", "Petityeast", "Pus1yeast", "Pus2yeast")) %>% # wildtypes only
+  filter(!Sample %in% c("Trub1doxH295R", "Trub1untrH295R", "Pus4yeast", "Grandeyeast", "Petityeast", "Pus1yeast", "Pus2yeast")) %>%
   filter(!is.na(Species)) %>%
-  ggplot(., aes(x = Species, y = PercentAligned, fill = interaction(BCModel, Chemistry, Version))) +
+  ggplot(aes(x = SpeciesFormatted, y = PercentAligned, fill = interaction(BCModel, Chemistry, Version))) +
   geom_bar(stat = "identity", position = position_dodge()) +
   labs(title = "tRNA alignment rates, with filtering",
        x = "",
        y = "% Aligned",
        fill = "Chemistry &\nbasecalling model") +
   theme_cowplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Adjust text angle for better readability if needed
-  scale_fill_OkabeIto(order = c(6,1,4,3,2,5,7,8), use_black=T, na.translate = FALSE)
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+  scale_x_discrete(labels = function(x) parse(text = x)) + # Parse text for axis labels
+  scale_fill_OkabeIto(order = c(6, 1, 4, 3, 2, 5, 7, 8), use_black = TRUE, na.translate = FALSE)
 ```
 What if we wanted the % of reads after filtering for full length, like how many filtered reads aligned?
 Need new fastq read counts, or just count all reads in the
@@ -152,18 +166,30 @@ bind_rows(all, flcounts) %>%
 
 test$filtering <- factor(test$filtering, levels = rev(levels(factor(test$filtering))))
 
+test <- test %>%
+  mutate(SpeciesFormatted = case_when(
+    Species == "D_melanogaster" ~ "D. melanogaster",
+    Species == "E_coli" ~ "E. coli",
+    Species == "H_sapiens" ~ "H. sapiens",
+    Species == "S_cerevisiae" ~ "S. cerevisiae",
+    Species == "T_thermophila" ~ "T. thermophila",
+    Species == "D_rerio" ~ "D. rerio",
+    TRUE ~ NA_character_
+  ))
 
-ggplot(test, aes(x = Species, y = PercentAligned, fill = filtering)) +
+
+ggplot(test, aes(x = SpeciesFormatted, y = PercentAligned, fill = filtering)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   facet_wrap(~ Chemistry, scales = "fixed", ncol=1) +
   labs(
     title = "",
-    x = "Species, Chemistry",
+    x = "",
     y = "% Aligned",
     fill = "Filtering"
   ) +
   theme_cowplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, face = "italic"),
+        plot.margin = margin(5.5, 5.5, 5.5, 40, "points")) +
   scale_fill_OkabeIto(order = c(8,2))
 
 

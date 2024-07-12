@@ -183,10 +183,14 @@ ggplot(test, aes(x = AlignmentScore, fill = filtering)) +
 
 ggplot(test, aes(x = AlignmentScore, fill = filtering)) +
   geom_density(alpha = 0.6) +
-  facet_wrap(~Chemistry, ncol=1) +
+  facet_wrap(~Chemistry, ncol = 1) +
   theme_cowplot() +
-  scale_fill_OkabeIto(order = c(8,2)) +
-  labs(x = "Alignment Score", fill = "Filtering")
+  scale_fill_OkabeIto(order = c(8, 2)) +
+  labs(x = "Alignment Score", fill = "Filtering") +
+  theme(
+    aspect.ratio = .5,  # Control aspect ratio through theme
+    panel.spacing = unit(1, "lines")  # Adjust panel spacing
+  )
 
 
 
