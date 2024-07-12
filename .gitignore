@@ -1,6 +1,7 @@
 .Rproj.user/
 .DS_Store
 .Rhistory
+rmd/defunct/
 large_txt_metadata/
 rebasecalling/
 rebasecalled/
