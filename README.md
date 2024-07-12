@@ -8,4 +8,4 @@ Accompanying manuscript describes:
 * leveraging tRNA as a way to systematically benchmark differences in basecalling error signals produced by old vs. new nanopore dRNAseq chemistry
 * comparison of select tRNA modification signals across ecoli, budding yeast, drosophila, tetrahymena, T4 phage, human tRNAs
 
-The directory `modplots` contains additional plots for all 43 RNA modifications evaluated in the manuscript, at all sequence contexts >29X coverage in RNA004 supv5 basecalled data.
+The directory `modplots` contains additional plots for all 43 RNA modifications evaluated in the manuscript, at all sequence contexts >29X coverage in RNA004 supv5 basecalled data. These plots were generated using the function `plot_modification_data` in `rmd/fig2_RNA_mods.Rmd`.
