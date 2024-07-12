@@ -1,9 +1,0 @@
-+ samples=(Grandeyeast004_20240105_1222_P2S-00519-B_PAS98845_231d7d7e.rna004_130bps_sup@v5.0.0 Petityeast004_20240105_1222_P2S-00519-A_PAQ47538_49891fce.rna004_130bps_sup@v5.0.0 Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0 Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0 Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v5.0.0 WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0)
-+ u=Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v5.0.0
-+ bwa mem -C -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer3-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v5.0.0.fastq
-+ samtools view -F4 -hu -
-+ samtools sort -o /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v5.0.0.bwa.bam
-[M::bwa_idx_load_from_disk] read 0 ALT contigs
-[E::main_mem] fail to open file `/beevol/home/whitel/tRNAworkshop/rebasecalled/fastqs/Pus4yeast004_20231208_1152_MN42516_FAX71838_e2d70aac.rna004_130bps_sup@v5.0.0.fastq'.
-[main_samview] fail to read the header from "-".
-samtools sort: failed to read header from "-"

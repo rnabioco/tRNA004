@@ -1,8 +1,0 @@
-+ samples=(Q5synthetic.fasta Q6synthetic.fasta Q7synthetic.fasta Q8synthetic.fasta Q9synthetic.fasta Q10synthetic.fasta Q11synthetic.fasta Q12synthetic.fasta Q13synthetic.fasta Q14synthetic.fasta Q15synthetic.fasta Q16synthetic.fasta Q17synthetic.fasta Q18synthetic.fasta Q19synthetic.fasta Q20synthetic.fasta)
-+ u=Q5synthetic.fasta
-+ bwa mem -W 13 -k 6 -T 20 -x ont2d /beevol/home/whitel/tRNAworkshop/ref/sacCer-mito-and-nuclear-tRNAs.fa /beevol/home/whitel/tRNAworkshop/alignment_evals/syntheticreads/Q5synthetic.fasta
-+ samtools view -F4 -hu -
-+ samtools sort -o /beevol/home/whitel/tRNAworkshop/alignment_evals/bams/Q5synthetic.fasta.bwa.bam
-[M::bwa_idx_load_from_disk] read 0 ALT contigs
-[M::process] read 100270 sequences (10000019 bp)...
-[M::process] read 97790 sequences (10000093 bp)...

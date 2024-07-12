@@ -1,4 +1,0 @@
-+ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length
-+ threshold=20
-+ output_csv=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/alignmentmetrics.csv
-+ python3 calculate_alignment_metrics.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/alignmentmetrics.csv 20

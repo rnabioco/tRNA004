@@ -1,7 +1,0 @@
-+ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense
-+ score_threshold=20
-+ output_file=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense/results.csv
-++ dirname /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense/results.csv
-+ output_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense
-+ mkdir -p /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense
-+ python3 calculate_alignment_metrics.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense 20 /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/antisense/results.csv

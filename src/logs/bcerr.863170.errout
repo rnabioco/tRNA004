@@ -1,8 +1,0 @@
-+ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset
-+ output_dir=/beevol/home/whitel/tRNAworkshop/bcerror
-+ ref=/beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa
-+ for bam_file in '$input_dir/*.bam'
-++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
-+ base_name=HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0
-+ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.tsv
-+ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/hg38-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/HumanFibroblast004_20231208_1351_MN42516_FAX71838_b8f7b990.rna004_130bps_sup@v5.0.0.tsv

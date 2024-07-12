@@ -1,8 +1,0 @@
-+ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset
-+ output_dir=/beevol/home/whitel/tRNAworkshop/bcerror
-+ ref=/beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa
-+ for bam_file in '$input_dir/*.bam'
-++ basename /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.bwa_full_length.bam .bwa_full_length.bam
-+ base_name=Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0
-+ output_file=/beevol/home/whitel/tRNAworkshop/bcerror/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.tsv
-+ /beevol/home/whitel/tRNAworkshop/src/get_bcerror_freqs.py /beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/full_length/subset/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.bwa_full_length.bam /beevol/home/whitel/tRNAworkshop/ref/dm6-mature-tRNAs.fa /beevol/home/whitel/tRNAworkshop/bcerror/Drosophila004_20231208_1307_MN31004_FAX73799_72c200e4.rna004_130bps_sup@v5.0.0.tsv

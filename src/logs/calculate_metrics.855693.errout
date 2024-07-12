@@ -1,5 +1,0 @@
-+ input_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads
-+ threshold=20
-+ output_dir=/beevol/home/whitel/tRNAworkshop/rebasecalled/alignedbams/allreads/
-/beevol/home/whitel/.lsbatch/1717797569.855693.shell: line 15: output_file: unbound variable
-+ output_dir=
