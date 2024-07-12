@@ -12,9 +12,11 @@ library(patchwork)
 library(stringr)
 library(here)
 
-here::i_am("rmd/modomics_alltRNA.Rmd")
+here::i_am("rmd/misc_modomics_alltRNA.Rmd")
 ```
-Here's a function to read in fasta files of tRNA sequences from Modomics database (http://modomics.genesilico.pl/) and parse their headers so that we can make a clean table of tRNA sequences with modifications and their metadata.
+The plots in this Rmarkdown document are not contained in the manuscript itself; however, this analysis was used to determine which organisms' tRNA to sequence to get a good representation of tRNA modifications across species.
+
+Below is a function to read in fasta files of tRNA sequences from Modomics database (http://modomics.genesilico.pl/) and parse their headers so that we can make a clean table of tRNA sequences with modifications and their metadata.
 ```{r}
 # to parse a single FASTA file with headers from Modomics.org
 parse_fasta <- function(file_path) {
@@ -99,7 +101,7 @@ distribution_summary <- all_modified %>%
                         unnest(NonStandardChars) %>%
                         count(Species, NonStandardChars) %>%
                         filter(Species != "synthetic construct") %>%
-                        filter(NonStandardChars != ""))
+                        filter(NonStandardChars != "")
 
 modomics <- read_csv(here("Modomics/modomicscodes.csv")) %>%
   select(Name, `Short Name`, `RNAMods code (2023)`) %>%
@@ -111,7 +113,11 @@ modomics <- read_csv(here("Modomics/modomicscodes.csv")) %>%
 
 
 annotated <- left_join(distribution_summary, modomics)
-annotated %>% distinct(NonStandardChars) -> allspecies
+# get count of unique mods observed on all tRNAs in modomics, but remove "any ribonucleoside residue" and one more synthetic mod that somehow got included in this dataset
+annotated %>% distinct(NonStandardChars, modname) %>%
+  filter(shortname != c("㑆", ".")) -> allspecies
+
+
 
 desired_species <- c("Escherichia coli", "Homo sapiens", "Saccharomyces cerevisiae", "Drosophila melanogaster", "Danio rerio", "Tetrahymena thermophila", "Enterobacteria phage T4")
 annotated %>% filter(Species %in% desired_species) %>% distinct(NonStandardChars) -> subsetspecies
@@ -171,7 +177,6 @@ combined_plot_a <- total_counts_plot + heatmap_plot + plot_layout(widths = c(1, 
 print(combined_plot_a)
 
 ```
-Now, key question: what modifications are not present in the 6 species I'm pretty sure I can get samples for, and in what organisms can I find those modifications?
 ```{r}
 # Assuming distribution_summary contains a column 'NonStandardChars' with nonstandard characters as a string
 # Filter data to include only the desired species
@@ -197,7 +202,7 @@ species_with_chars <- distribution_summary %>%
 ```
 There are only 13 modifications absent in the 6 I've chosen that are present in other organisms. Cool.
 
-So what if we plot those organisms' tRNA modifications?
+Some plots of those organisms' tRNA modifications below.
 ```{r}
 # List of desired species
 
@@ -249,7 +254,6 @@ combined_plot_b <- total_counts_plot + heatmap_plot + plot_layout(widths = c(1, 
 combined_plot <- combined_plot_a / combined_plot_b
 print(combined_plot)
 ```
-How about looking only at the modifications not present in the subset we think we'll sequence?
 ```{r}
 # Filter the distribution_summary for sequences containing any of the chars_not_in_desired
 distribution_summary_filtered <- distribution_summary %>%
@@ -274,53 +278,5 @@ heatmap_plot <- ggplot(plot_data, aes(x = NonStandardChars, y = Species, fill = 
 print(heatmap_plot)
 
 ```
-So that tells me none of them have more than two unique modifications of the 13/69 that are absent in our samples so far. Getting a plant would only give me one new one, and that same modification (which I can't tell the identify of without getting a better lookup system right now) is also present in _S. griseus_. Weirdly, other mammals (rats and cows) seem to have some modifications not characterized in human cells. Overall, it seems like adding _S. griseus_, _H. volcanii_ and possibly _B. taurus_ or _R. norvegicus_ RNA would be worthwhile. Rat's going to be easier to get on campus, I'm sure.
-
-Another thing we want to do is get from these to a bed file like `https://github.com/novoalab/Nano-tRNAseq/blob/c14dcaaf4e59164d5dc43716019b8d39f2d554da/ref/yeast.tRNA.modomics.tsv.bed#L4`
-After we do this, we'll need to do is convert the unicode symbols into the Modomics short names to make the modifications more human-readable.
-
-```{r}
-generate_bed_data <- function(df) {
-  bed_data_list <- lapply(1:nrow(df), function(i) {
-    seq_name <- df$Name[i]
-    aa <- df$AA[i]
-    anticodon <- df$Anticodon[i]
-    cellular_location <- df$Cellular_Localization[i]
-    species <- df$Species[i]
-    sequence <- df$Sequence[i]
-    special_chars <- str_locate_all(sequence, "[^A-Za-z]")[[1]]  # Adjust regex for your needs
-    if (is.null(special_chars) || nrow(special_chars) == 0) {
-      return(NULL)  # No special characters found
-    }
-    special_chars_df <- as.data.frame(special_chars)
-    special_chars_df$Name <- seq_name
-    special_chars_df$AA <- aa
-    special_chars_df$Anticodon <- anticodon
-    special_chars_df$Cellular_Localization <- cellular_location
-    special_chars_df$Species <- species
-    special_chars_df$ASCII_mod <- str_sub(sequence, special_chars_df$start, special_chars_df$end)
-    colnames(special_chars_df) <- c("Start", "End", "Name", "AA", "Anticodon", "Cellular_Localization", "Species", "ASCII_mod")
-    return(special_chars_df)
-  })
-  do.call("rbind", bed_data_list)
-}
-
-bed_data <- generate_bed_data(yeast_modified)
-
-# test write to bed file
-output_file_path <- here("ref", "yeast_tRNA_modifications.bed")
-write.table(bed_data, output_file_path, sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
-
-```
-
-make the remaining bed files
 
 
-make the remaining bed files, then let's look at how many unique characters are present in each species
-
-
-Coming back to this 1/4, realizing there are NAs in the desired_species_data that contains the stuff we're definitely sequencing
-```{r}
-desired_species_data %>%
-  filter(!is.na(Species))
-```

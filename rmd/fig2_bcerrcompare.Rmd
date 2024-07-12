@@ -12,7 +12,7 @@ library(ggtext)
 library(ggokabeito)
 library(ggrepel)
 library(here)
-here::i_am("Rmd/bcerrcompare.Rmd")
+here::i_am("Rmd/fig2_bcerrcompare.Rmd")
 ```
 
 Pull in the complete set of bcerror data with Modomics annotations from `generatebcerrorfiles.Rmd`. This is pre-filtered to only contain positions with at least 30 mapped reads.
@@ -146,6 +146,14 @@ combined_plot <- plot_grid(plot_A, plot_C, plot_U, plot_G, labels = "AUTO", ncol
 # Display the combined plot
 print(combined_plot)
 ```
+
+Generate a supplemental table of shortnames and full names for each modification type. 
+```{r}
+supplemental_table <- mapped %>%
+  distinct(shortname, modname)
+
+write.csv(supplemental_table, here("metadata/modnames_table.csv"), row.names = FALSE)
+```
 For fig 2B, generate the all tRNA mods plots distribution for RNA004 only, with median scores from above 
 ```{r}
 # set an ordering for each shortname from a median frequency
@@ -170,14 +178,15 @@ mapped <- mapped %>%
 # Plot, annotating values for unmodified bases from combined_medians above
 mapped %>%
   filter(!mod_nt %in% c('A', 'C', 'G', 'U', '.')) %>%
+  filter(shortname != "NA") %>%
   filter(chemistry == "004" & bcmodel == "sup" & bcversion == "5") %>%
   filter(Position >0) %>%
   filter(Position <98) %>%
   ggplot(aes(x = shortname, y = BCErrorFreq)) +
     geom_hline(yintercept = 0.2476489, linetype = "dashed", color = "#009E73") + # unmodified As
     geom_hline(yintercept = 0.1722880, linetype = "dashed", color = "#0072B2") + # unmodified Cs
-    geom_hline(yintercept = 0.2363636, linetype = "dashed", color = "#F0E442") + # unmodified Us
-    geom_hline(yintercept = 0.1524008, linetype = "dashed", color = "#D55E00") + # unmodified Gs
+    geom_hline(yintercept = 0.2363636, linetype = "dashed", color = "#D55E00") + # unmodified Us 
+    geom_hline(yintercept = 0.1524008, linetype = "dashed", color = "#F0E442") + # unmodified Gs
 #    geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
     geom_boxplot(width = 0.2, alpha = 0.75, fill = "darkgray", outlier.size = 0.5) +
     theme_bw() +
@@ -189,8 +198,6 @@ mapped %>%
 ```
 Also let's do the same thing for RNA002 only
 ```{r}
-
-
 calculate_medians <- function(data, nucleotide) {
   data %>%
     filter(chemistry == "002" & bcmodel == "hac" & bcversion == "1") %>%
@@ -249,8 +256,8 @@ mapped %>%
   ggplot(aes(x = shortname, y = BCErrorFreq)) +
     geom_hline(yintercept = 0.3037975, linetype = "dashed", color = "#009E73") + # unmodified As
     geom_hline(yintercept = 0.1392045, linetype = "dashed", color = "#0072B2") + # unmodified Cs
-    geom_hline(yintercept = 0.3333333, linetype = "dashed", color = "#F0E442") + # unmodified Us
-    geom_hline(yintercept = 0.2000000, linetype = "dashed", color = "#D55E00") + # unmodified Gs
+    geom_hline(yintercept = 0.3333333, linetype = "dashed", color = "#D55E00") + # unmodified Us
+    geom_hline(yintercept = 0.2000000, linetype = "dashed", color = "#F0E442") + # unmodified Gs
 #    geom_jitter(cex = 0.2, alpha = 0.4, size = 0.5, width = 0.25) +  # Jitter plot
     geom_boxplot(width = 0.2, alpha = 0.75, fill = "darkgray", outlier.size = 0.5) +
     theme_bw() +
@@ -287,9 +294,10 @@ mapped %>%
   filter(!mod_nt %in% c('A', 'C', 'G', 'U', 'N')) %>%
   filter(bcversion == "5" | bcversion == "1") %>% # take only 002hac or 004supv5
   filter(Position > 0 & Position < 98) %>%
-  ggplot(aes(x = shortname, y = BCErrorFreq, fill = chemistry)) +
-    geom_boxplot(position = position_dodge(width = 0.75),  width = 0.5, outlier.size = .5) +
+  ggplot(aes(x = shortname, y = BCErrorFreq, fill = chemistry, color = chemistry)) +
+    geom_boxplot(position = position_dodge(width = 0.75),  width = 0.5, outlier.shape = NA) +
     scale_fill_manual(values = c("002" = "#E69F00", "004" = "#56B4E9")) +
+    scale_color_manual(values = c("002" = "#B07A00", "004" = "#3E80A0")) +
     theme_bw() +
     labs(title = "Basecalling error frequency across unique sequence contexts on tRNA isodecoders",
          x = "",
@@ -319,6 +327,15 @@ final_data <- median_diff %>%
 
 # View the final dataframe
 print(final_data)
+
+ggplot(median_diff, aes(x = shortname, y = diff_medians)) +
+  geom_col() + 
+  theme_cowplot() +
+  labs(title = "",
+         x = "",
+         y = "∆ BC error (004 - 002)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+# ordered same as plot above vs high to low
 ```
 Generate correlations of mod medians for panels D, E
 ```{r}
@@ -804,3 +821,5 @@ normalized_freq %>%
   )
 
 ```
+
+

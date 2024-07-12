@@ -14,7 +14,7 @@ library(scales)
 library(patchwork)
 library(forcats)
 library(here)
-here::i_am("Rmd/tRNAabundance_all.Rmd")
+here::i_am("Rmd/fig1_tRNAabundance_all.Rmd")
 ```
 
 ```{r}

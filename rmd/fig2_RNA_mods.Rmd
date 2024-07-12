@@ -14,7 +14,7 @@ library(ggbeeswarm)
 library(patchwork)
 library(ggtext)
 library(here)
-here::i_am("Rmd/RNA_mods.Rmd")
+here::i_am("Rmd/fig2_RNA_mods.Rmd")
 ```
 We can take our tRNA basecalling error data and ask questions about how well we can detect different RNA modifications in multiple sequence contexts across multiple organisms. This is enabled by (a) abundant LC/MS data about tRNA modifications from Modomics and (b) our ability to pin our basecalling error data onto structure files and line them up with modification info.
 
@@ -486,7 +486,6 @@ mapped %>%
   select(Reference, seq_pos, Position, shortname, BCErrorFreq, MeanQual, mod_context, NonAGCUCount) %>%
   mutate(Reference = str_replace(Reference, "^nuc-", "")) -> yeastnuctrna_mapped
 
-  # some of these are NA because they lack mod context in the ... structure file? hm.
 ```
 
 

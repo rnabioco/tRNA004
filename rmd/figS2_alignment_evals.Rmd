@@ -10,6 +10,8 @@ library(tidyverse)
 library(here)
 library(cowplot)
 library(colorblindr)
+
+here::i_am("rmd/figS2_alignment_evals.Rmd")
 ```
 
 ```{r}

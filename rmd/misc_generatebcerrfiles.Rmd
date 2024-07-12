@@ -11,8 +11,9 @@ library(cowplot)
 library(ggtext)
 library(ggrepel)
 library(here)
-here::i_am("Rmd/generatebcerrfiles.Rmd")
+here::i_am("Rmd/misc_generatebcerrfiles.Rmd")
 ```
+This Rmarkdown document pulls in the set of tsvs containing basecalling error frequency generated using the python script `get_bcerror_freqs.py`, annotates those using sequence to structure information and modification data from the MODOMICS database, and writes everything out to a combined file, `combinedbcerr.tsv`.
 
 Here's a function to read in the mappings from modified and unmodified tRNA aligned to a consensus sequence, for joining to sequence alignments.
 ```{r}
