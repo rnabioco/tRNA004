@@ -11,7 +11,7 @@ This repository contains an R project and associated R markdown documents to gen
 Raw sequencing data (pod5 and fastq files) associated with this manuscript have been uploaded to XXXXXX bioproject ID XXXXXX
 
 ## tRNA sequencing logistics
-Our manuscript also details a few methodological improvements to nanopore tRNA sequencing, including the use of tRNA-specific SPRI beads and optimized molar ratios for all ligations, and updated sequencing settings with the RNA004 chemistry and changes to Oxford Nanopore sequencing software.
+Our manuscript also details a few methodological improvements to nanopore tRNA sequencing, including the use of tRNA-specific SPRI beads and optimized molar ratios for all ligations, as well as updated sequencing settings for runs using the RNA004 chemistry.
 
 ### Nanopore tRNA sequencing protocols (RNA004 chemistry)
 * [Condensed protocol](https://docs.google.com/document/d/1SF2dGrVZLOtweABMiu8x1vZq7Yw5z260S80RhcLeO_o/edit?usp=sharing) (Google doc)
