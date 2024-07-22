@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Directory containing your BAM files
+# used to generate subsampled data for Fig S2
+
 bam_dir="$HOME/tRNAworkshop/rebasecalled/alignedbams/full_length"
 output_dir="$HOME/tRNAworkshop/alignedbams/full_length"
 
