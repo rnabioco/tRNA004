@@ -193,7 +193,7 @@ ggplot(test, aes(x = AlignmentScore, fill = filtering)) +
   )
 
 
-
+# do some upstream summarizing prior to this code
 # Reshape the data to wide format
 wide_data <- test %>%
   select(Sample, Chemistry, BCModel, Version, TotalReads, filtering)  %>% # remove 1 duplicate basecalling
