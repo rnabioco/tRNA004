@@ -14,7 +14,7 @@ Raw sequencing data (pod5 and fastq files) associated with this manuscript have 
 Our manuscript also details a few methodological improvements to nanopore tRNA sequencing, including the use of tRNA-specific SPRI beads and optimized molar ratios for all ligations, as well as updated sequencing settings for runs using the RNA004 chemistry.
 
 ### Nanopore tRNA sequencing protocols
-* [Condensed protocol](https://docs.google.com/document/d/1SF2dGrVZLOtweABMiu8x1vZq7Yw5z260S80RhcLeO_o/edit?usp=sharing) (Google doc)
+* [Condensed protocol](https://docs.google.com/document/d/1gpVMYq6TfkbFxCs395O-HhrZjDWMoeaVCyw4LQSlWLU/edit?usp=sharing) (Google doc)
 * [Long form protocol](https://benchling.com/s/prt-hGDLQuwsw0qKaWrtc70u?m=slm-kowx2TQzGlx2LAxpZwXk) with dynamic tables for calculating reactions with varying inputs (Benchling, thanks to Kezia Dobson)
 
 ### Sequencing settings
