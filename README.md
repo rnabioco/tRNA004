@@ -8,7 +8,7 @@ The accompanying manuscript describes how we have leveraged the many well charac
 This repository contains an R project and associated R markdown documents to generate the plots throughout the manuscript (in `rmd`), as well as custom scripts used for alignment, read filtering, quantification of abundance, calculation of basecalling errors and annotation of tRNA references with modification location in `src`. The subdirectory `bcerror` contains tsvs with outputs of some of these for modification induced error analysis, which are directly called by the R markdown documents to generate plots. The directory `modplots` contains additional plots for all 43 RNA modifications evaluated in the manuscript, at all sequence contexts >29X coverage in RNA004 supv5 basecalled data. These plots are not included in the manuscript, but are generated using the function `plot_modification_data` in `rmd/fig2_RNA_mods.Rmd`.
 
 ## Data access
-Raw sequencing data (pod5 and fastq files) associated with this manuscript are in the process of being uploaded to GEO; Bioproject ID will be made available for manuscript reviewers and upon final publication.
+Raw sequencing data (pod5 and fastq files) associated with this manuscript have been uploaded to SRA and Zenodo for private review and will be made publically available upon upon final publication.
 
 ## tRNA sequencing logistics
 Our manuscript also details a few methodological improvements to nanopore tRNA sequencing, including the use of tRNA-specific SPRI beads and optimized molar ratios for all ligations, as well as updated sequencing settings for runs using the RNA004 chemistry.
