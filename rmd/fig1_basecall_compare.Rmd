@@ -150,9 +150,19 @@ flcounts <- left_join(counts, stats) %>%
   ))
   
 ```
+Write out info for table S2.
+```{r}
+all %>%
+  filter(ReadsMapped != "NA") %>%
+  select(-Species) %>%
+  write.csv(here("metadata/ts2start.csv"))
+  
+```
+
 
 So now that we know just how good filtering is for improving alignment rates, we want to illustrate this for the best available models for each chemistry only (002hacv3 and 004supv5) for all our libraries.
 ```{r}
+
 all %>%
   mutate(filtering = "none") -> all
 

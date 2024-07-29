@@ -27,10 +27,10 @@ read_bcerr <- function(x, Sample, ref) {
 }
 
 # all reads
-read_bcerr(here("bcerror/yeast/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv"), "WT") -> wt
-read_bcerr(here("bcerror/yeast/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.tsv"), "Pus4del") -> pus4
-read_bcerr(here("bcerror/yeast/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv"), "Pus2del") -> pus2
-read_bcerr(here("bcerror/yeast/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv"), "Pus1del") -> pus1
+read_bcerr(here("bcerror/RNA004v5/sup/yeast/WTyeast004_20231111_1104_P2S-00519-B_PAQ47538_fa3726ec.rna004_130bps_sup@v5.0.0.tsv"), "WT") -> wt
+read_bcerr(here("bcerror/RNA004v5/sup/yeast/Pus4yeast004_20231208_1601_MN31004_FAX30455_c72fd68f.rna002_130bps_sup@v5.0.0.tsv"), "Pus4del") -> pus4
+read_bcerr(here("bcerror/RNA004v5/sup/yeast/Pus2yeast004_20240105_1330_P2S-00519-B_PAS98920_19ba906c.rna004_130bps_sup@v5.0.0.tsv"), "Pus2del") -> pus2
+read_bcerr(here("bcerror/RNA004v5/sup/yeast/Pus1yeast004_20240105_1330_P2S-00519-A_PAS92267_56de71b8.rna004_130bps_sup@v5.0.0.tsv"), "Pus1del") -> pus1
 
 bind_rows(wt, pus4, pus2, pus1) %>%
   mutate(BCerror = MismatchFreq + InsertionFreq + DeletionFreq) -> all 
