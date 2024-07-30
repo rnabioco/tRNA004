@@ -1,4 +1,7 @@
 ## Introduction
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12802127.svg)](https://doi.org/10.5281/zenodo.12802127)
+
 This project focuses on nanopore direct tRNA sequencing method refinement and benchmarking of RNA modification detection between Oxford Nanopore's previous direct RNA sequencing chemistry, RNA002, and the RNA004 chemistry released in November 2023. The majority of the data was collected during a December 2023 tRNA sequencing workshop sponsored by the Hesselberth lab at the University of Colorado, in which participants prepared matched sequencing libraries using both chemistries from tRNA isolated from six different species.
 
 ## Comparative analysis of 43 distinct RNA modifications by nanopore tRNA sequencing
